@@ -6,6 +6,8 @@ import OrganizerLayout from './layouts/UserLayout/OrganizerLayout/OrganizerLayou
 
 import Home from './Pages/User/Home/Home';
 import Organizer from './Pages/User/Organizer/Organizer';
+import AddEvent from './Pages/User/AddEvent/AddEvent';
+import MyEvent from './Pages/User/MyEvent/MyEvent';
 
 function App() {
     return (
@@ -16,6 +18,8 @@ function App() {
                 </Route>
                 <Route path="/organizer" element={<OrganizerLayout />}>
                     <Route index element={<Organizer />} />
+                    <Route path="add-event" element={<AddEvent />} />
+                    <Route path="events" element={<MyEvent />} />
                 </Route>
             </Routes>
             <ToastContainer

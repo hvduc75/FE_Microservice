@@ -11,10 +11,14 @@ const cx = classNames.bind(style);
 function OrganizerLayout(props) {
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('sidebar')}><Sidebar /></div>
+            <div className={cx('sidebar')}>
+                <Sidebar />
+            </div>
             <div className={cx('content')}>
                 <Header />
-                <Outlet />
+                <div className="mt-[64px]">
+                    <Outlet />
+                </div>
             </div>
         </div>
     );

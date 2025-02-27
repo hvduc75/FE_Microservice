@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 
 function Header(props) {
     const [showModal, setShowModal] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
     const navigate = useNavigate();
 
     const handleAddEvent = () => {
@@ -60,6 +60,14 @@ function Header(props) {
                                     </div>
                                 </div>
                             )}
+                            <div className={cx('location')}>
+                                <div className={cx('languages')}>
+                                    <div className={cx('flag-icon-container')}>
+                                        <img src={images.flag_vn} alt='flag_vn'/>
+                                    </div>
+                                    <img src={images.dropdown} style={{width: "8px", height: "8px", marginLeft: "8px"}} alt='dropdown-icon'/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

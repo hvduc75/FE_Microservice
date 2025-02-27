@@ -1,0 +1,26 @@
+.wrapper {
+    .sidebar {
+        overflow: auto;
+        height: 100vh;
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        bottom: 0px;
+        scrollbar-width: thin;
+        scrollbar-color: unset;
+        flex: 0 0 250px;
+        max-width: 250px;
+        min-width: 250px;
+        width: 250px;
+    }
+
+    .content {
+        display: flex;
+        flex: auto;
+        flex-direction: column;
+        min-height: 0;
+        background: #f5f5f5;
+        width: calc(100% - 250px);
+        margin-left: 250px;
+    }
+}

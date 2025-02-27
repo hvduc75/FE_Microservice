@@ -28,7 +28,7 @@
 
         .items {
             align-items: center;
-            gap: 9rem;
+            gap: 1rem;
             width: 100%;
             flex: 1 1 auto;
             justify-content: flex-end;
@@ -143,6 +143,37 @@
                         padding: 0.6rem 1rem;
                         border-radius: 0.5rem;
                         font-size: 1em;
+                    }
+                }
+
+                .location {
+                    position: relative;
+                    height: 4.5rem;
+                    display: flex;
+                    align-items: center;
+
+                    .languages {
+                        display: flex;
+                        -webkit-box-align: center;
+                        align-items: center;
+                        cursor: pointer;
+                        padding: 0.6rem 1rem;
+                        border-radius: 0.5rem;
+                        transition: background-color 0.4s;
+
+                        .flag-icon-container {
+                            background-color: rgb(216, 40, 38);
+                            width: 1.5rem;
+                            height: 1.5rem;
+                            border-radius: 50%;
+                            overflow: hidden;
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+                        }
                     }
                 }
             }
