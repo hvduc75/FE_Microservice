@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+
+import DefaultLayout from './layouts/UserLayout/DefaultLayout/DefaultLayout';
+import OrganizerLayout from './layouts/UserLayout/OrganizerLayout/OrganizerLayout';
+
+import Home from './Pages/User/Home/Home';
+import Organizer from './Pages/User/Organizer/Organizer';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <>
+            <Routes>
+                <Route path="/" element={<DefaultLayout />}>
+                    <Route index element={<Home />} />
+                </Route>
+                <Route path="/organizer" element={<OrganizerLayout />}>
+                    <Route index element={<Organizer />} />
+                </Route>
+            </Routes>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+        </>
+    );
 }
 
 export default App;
