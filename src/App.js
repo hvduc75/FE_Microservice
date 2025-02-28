@@ -8,6 +8,8 @@ import Home from './Pages/User/Home/Home';
 import Organizer from './Pages/User/Organizer/Organizer';
 import AddEvent from './Pages/User/AddEvent/AddEvent';
 import MyEvent from './Pages/User/MyEvent/MyEvent';
+import TermOfUse from './Pages/User/TermOfUse/TermOfUse';
+import ManageReport from './Pages/User/ManageReport/ManageReport';
 
 function App() {
     return (
@@ -20,6 +22,8 @@ function App() {
                     <Route index element={<Organizer />} />
                     <Route path="add-event" element={<AddEvent />} />
                     <Route path="events" element={<MyEvent />} />
+                    <Route path="term-of-use" element={<TermOfUse />} />
+                    <Route path="report" element={<ManageReport />} />
                 </Route>
             </Routes>
             <ToastContainer

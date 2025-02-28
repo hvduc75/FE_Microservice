@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames/bind';
+import { useSelector, useDispatch } from 'react-redux';
 
 import images from '../../../../assets/images';
 import styles from './Sidebar.module.scss';
@@ -7,15 +8,17 @@ import { PiCalendarStarFill } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import { FaFolder } from 'react-icons/fa';
 import { LuNotebookText } from 'react-icons/lu';
+import { updateItemActive } from '../../../../redux/action/eventAction';
 
 const cx = classNames.bind(styles);
 
 function Sidebar(props) {
-    const[isActive, setIsActive] = useState('event');
+    const dispatch = useDispatch();
+    const activeItem = useSelector((state) => state.event.itemActive);
 
     return (
         <div className="menu-wrapper sticky top-0 h-full flex flex-col bg-[#19261f]">
-            <Link to={'/organizer'} onClick={() => setIsActive('event')}>
+            <Link to={'/organizer'} onClick={() => dispatch(updateItemActive('event'))}>
                 <div className="flex flex-row items-center justify-center w-full cursor-pointer h-[72px]">
                     <div className="border border-gray-200 rounded-[8px] overflow-hidden mr-3">
                         <img src={images.logoOrganizer} alt="logo" className="w-[32px] h-[32px]" />
@@ -26,27 +29,31 @@ function Sidebar(props) {
             <div className={cx('list-item')}>
                 <Link to={'/organizer/events'}>
                     <div
-                        className={isActive !== 'event' ? cx('item') : cx('item', 'active')}
-                        onClick={() => setIsActive('event')}
+                        className={cx('item', { active: activeItem === 'event' })}
+                        onClick={() => dispatch(updateItemActive('event'))}
                     >
                         <PiCalendarStarFill style={{ height: '24px', width: '24px' }} />
                         <span className={cx('title')}>Sự kiện của tôi</span>
                     </div>
                 </Link>
-                <div
-                    className={isActive !== 'report' ? cx('item') : cx('item', 'active')}
-                    onClick={() => setIsActive('report')}
-                >
-                    <FaFolder style={{ height: '24px', width: '24px' }} />
-                    <span className={cx('title')}>Quản lý báo cáo</span>
-                </div>
-                <div
-                    className={isActive !== 'law' ? cx('item') : cx('item', 'active')}
-                    onClick={() => setIsActive('law')}
-                >
-                    <LuNotebookText style={{ height: '24px', width: '24px' }} />
-                    <span className={cx('title')}>Điều khoản cho ban tổ chức</span>
-                </div>
+                <Link to={'/organizer/report'}>
+                    <div
+                        className={cx('item', { active: activeItem === 'report' })}
+                        onClick={() => dispatch(updateItemActive('report'))}
+                    >
+                        <FaFolder style={{ height: '24px', width: '24px' }} />
+                        <span className={cx('title')}>Quản lý báo cáo</span>
+                    </div>
+                </Link>
+                <Link to={'/organizer/term-of-use'}>
+                    <div
+                        className={cx('item', { active: activeItem === 'law' })}
+                        onClick={() => dispatch(updateItemActive('law'))}
+                    >
+                        <LuNotebookText style={{ height: '24px', width: '24px' }} />
+                        <span className={cx('title')}>Điều khoản cho ban tổ chức</span>
+                    </div>
+                </Link>
             </div>
             <div className="flex-shrink-0 flex flex-row justify-between p-4">
                 <p className="text-[#fff]">Ngôn ngữ</p>

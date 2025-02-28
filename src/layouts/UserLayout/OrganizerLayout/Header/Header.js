@@ -1,19 +1,22 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
+import {  useDispatch } from 'react-redux';
 
 import styles from './Header.module.scss';
 import { AiOutlinePlus } from 'react-icons/ai';
 import images from '../../../../assets/images';
+import { updateItemActive } from '../../../../redux/action/eventAction';
 
 const cx = classNames.bind(styles);
 
 function Header(props) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleAddEvent = () => {
-        
-        navigate('/organizer/events/create');
+        dispatch(updateItemActive(''));
+        navigate('/organizer/add-event');
     };
 
     return (

@@ -16,10 +16,8 @@
 
     .content {
         display: flex;
-        flex: auto;
         flex-direction: column;
-        min-height: 0;
-        background: #f5f5f5;
+        background: #010101;
         width: calc(100% - 250px);
         margin-left: 250px;
     }
