@@ -1,19 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 import style from './AddEvent.module.scss';
 import StepOne from './StepOne/StepOne';
 import StepTwo from './StepTwo/StepTwo';
+import { addEvent, getEvent } from '../../../service/eventService';
 
 const cx = classNames.bind(style);
 
 function AddEvent(props) {
     const [active, setActive] = useState(1);
+    const [eventLogo, setEventLogo] = useState(null);
+    const [backgroundEvent, setBackgroundEvent] = useState(null);
+    const [eventName, setEventName] = useState('');
+    const [locationType, setLocationType] = useState('');
+    const [locationName, setLocationName] = useState('');
+    const [address, setAddress] = useState('');
+    const [eventType, setEventType] = useState('');
+    const [eventDescription, setEventDescription] = useState('');
+    const [organizerName, setOrganizerName] = useState('');
+    const [organizerDesc, setOrganizerDesc] = useState('');
+    const [organizerLogo, setOrganizerLogo] = useState(null);
+
+    const [eventStartDate, setEventStartDate] = useState('');
+    const [eventEndDate, setEventEndDate] = useState('');
+    const [eventStartTime, setEventStartTime] = useState('');
+    const [eventEndTime, setEventEndTime] = useState('');
+    const [eventTicketType, setEventTicketType] = useState('');
+    const [eventTicketPrice, setEventTicketPrice] = useState('');
+    const [eventTicketQuantity, setEventTicketQuantity] = useState('');
+    const [eventTicketDescription, setEventTicketDescription] = useState('');
+    const [eventTicketSaleStartDate, setEventTicketSaleStartDate] = useState('');
+    const [eventTicketSaleEndDate, setEventTicketSaleEndDate] = useState('');
+
+    useEffect(() => {
+        fetchEvent();
+    }, []);
+
+    const fetchEvent = async () => {
+        let eventId = '67cc5b3e56f5e8752fd3f10c';
+        let data = await getEvent(eventId);
+        if (data.EC === 0) {
+            let event = data.DT;
+            setEventName(event.eventName);
+            setLocationType(event.locationType);
+            setLocationName(event.locationName);
+            setAddress(event.address);
+            setEventType(event.eventType);
+            setEventDescription(event.eventDescription);
+            setOrganizerName(event.organizerName);
+            setOrganizerDesc(event.organizerDesc);
+            setEventLogo(event.eventLogo);
+            setBackgroundEvent(event.backgroundEvent);
+            setOrganizerLogo(event.organizerLogo);
+        }
+    };
 
     const handleContinue = () => {
         if (active < 4) {
             setActive(active + 1);
+            console.log();
         }
+    };
+
+    const handleSave = async () => {
+        const data = {
+            eventName,
+            locationType,
+            locationName,
+            address,
+            eventType,
+            eventDescription,
+            organizerName,
+            organizerDesc,
+            eventLogo,
+            backgroundEvent,
+            organizerLogo,
+        };
+
+        const res = await addEvent(data);
+        console.log(res);
     };
 
     return (
@@ -57,7 +123,7 @@ function AddEvent(props) {
                     </div>
                 </div>
                 <div className="flex flex-row gap-2 ">
-                    <button className={cx('btn', 'w-full')}>
+                    <button className={cx('btn', 'w-full')} onClick={() => handleSave()}>
                         <span>Lưu</span>
                     </button>
                     <button className={cx('btn', 'btn_continue', 'w-full')}>
@@ -65,7 +131,32 @@ function AddEvent(props) {
                     </button>
                 </div>
             </div>
-            {active === 1 && <StepOne />}
+            {active === 1 && (
+                <StepOne
+                    address={address}
+                    setAddress={setAddress}
+                    eventLogo={eventLogo}
+                    setEventLogo={setEventLogo}
+                    backgroundEvent={backgroundEvent}
+                    setBackgroundEvent={setBackgroundEvent}
+                    eventName={eventName}
+                    setEventName={setEventName}
+                    locationType={locationType}
+                    setLocationType={setLocationType}
+                    setLocationName={setLocationName}
+                    locationName={locationName}
+                    eventType={eventType}
+                    setEventType={setEventType}
+                    eventDescription={eventDescription}
+                    setEventDescription={setEventDescription}
+                    organizerName={organizerName}
+                    setOrganizerName={setOrganizerName}
+                    organizerDesc={organizerDesc}
+                    setOrganizerDesc={setOrganizerDesc}
+                    organizerLogo={organizerLogo}
+                    setOrganizerLogo={setOrganizerLogo}
+                />
+            )}
             {active === 2 && <StepTwo />}
         </>
     );

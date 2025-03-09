@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import { toast } from 'react-toastify';
-import { IoClose } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+
+import { IoClose } from 'react-icons/io5';
 import { FaGoogle } from 'react-icons/fa';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-
-import styles from './Modal.module.scss';
-import { loginUser, registerNewUser } from '../../service/authService';
+import styles from './ModalLogin.module.scss';
+import { loginUser, registerNewUser } from '../../../service/authService';
 
 const cx = classNames.bind(styles);
 

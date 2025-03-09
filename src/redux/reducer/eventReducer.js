@@ -5,7 +5,6 @@ const INITIAL_STATE = {
 };
 
 const eventReducer = (state = INITIAL_STATE, action) => {
-    console.log('action', action);
     switch (action.type) {
         case UPDATE_STATE_ACTIVE:
             console.log('action.payload', action.payload);

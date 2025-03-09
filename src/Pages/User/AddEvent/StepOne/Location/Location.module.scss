@@ -1,0 +1,37 @@
+
+.type_event {
+    display: flex;
+    gap: 12px;
+    color: #fff;
+
+    .group {
+        display: flex;
+        gap: 6px;
+        font-size: 14px;
+        align-items: center;
+        justify-content: center;
+
+        input {
+            width: 16px;
+            height: 16px;
+        }
+
+        label {
+            cursor: pointer;
+        }
+    }
+}
+
+.location {
+    margin-top: 24px;
+
+    .location_name {
+        margin-bottom: 24px;
+    }
+
+    .detail_location {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 24px;
+    }
+}

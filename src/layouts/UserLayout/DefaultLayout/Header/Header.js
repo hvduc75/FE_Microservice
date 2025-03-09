@@ -7,13 +7,13 @@ import styles from './Header.module.scss';
 import images from '../../../../assets/images';
 import { BsTicketDetailed } from 'react-icons/bs';
 import { IoSearch } from 'react-icons/io5';
-import ModalLogin from '../../../../Components/Modal/ModalLogin';
+import ModalLogin from '../../../../Components/Modal/ModalLogin/ModalLogin';
 
 const cx = classNames.bind(styles);
 
 function Header(props) {
     const [showModal, setShowModal] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const navigate = useNavigate();
 
     const handleAddEvent = () => {
@@ -21,7 +21,7 @@ function Header(props) {
     };
 
     return (
-        <p>
+        <>
             <div className={cx('wrapper')}>
                 <div className={cx('container')}>
                     <Link to={'/'} className={cx('logo')}>
@@ -73,7 +73,7 @@ function Header(props) {
                 </div>
             </div>
             {showModal && <ModalLogin setShowModal={setShowModal} />}
-        </p>
+        </>
     );
 }
 
