@@ -22,4 +22,14 @@ const getEvent = (eventId) => {
     return axios.get(`/event/getEventById?eventId=${eventId}`);
 }
 
-export { addEvent, getEvent };
+const updateEventDate = (eventId, startDate, endDate) => {
+    const formData = new FormData();
+
+    formData.append('eventId', eventId);
+    formData.append('startDate', startDate);
+    formData.append('endDate', endDate);
+
+    return axios.put('/event/updateEventDate', formData);
+};
+
+export { addEvent, getEvent, updateEventDate };

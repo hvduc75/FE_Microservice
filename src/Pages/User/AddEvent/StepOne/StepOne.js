@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './StepOne.module.scss';
 
 import { FiInbox } from 'react-icons/fi';
 import Location from './Location/Location';
-import { getEvent } from '../../../../service/eventService';
 
 const cx = classNames.bind(styles);
 
@@ -198,7 +197,7 @@ function StepOne(props) {
                                 <div className="w-full">
                                     <div className={cx('custom_title')}>Thông tin ban tổ chức</div>
                                     <textarea
-                                        style={{ height: '90px' }}
+                                        style={{ height: '95px' }}
                                         className={cx('custom_input', 'outline-none')}
                                         placeholder="Thông tin ban tổ chức"
                                         value={organizerDesc}

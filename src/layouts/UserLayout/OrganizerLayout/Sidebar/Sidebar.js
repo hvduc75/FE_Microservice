@@ -18,7 +18,7 @@ function Sidebar(props) {
 
     return (
         <div className="menu-wrapper sticky top-0 h-full flex flex-col bg-[#19261f]">
-            <Link to={'/organizer'} onClick={() => dispatch(updateItemActive('event'))}>
+            <Link to={'/organizer/events'} onClick={() => dispatch(updateItemActive('event'))}>
                 <div className="flex flex-row items-center justify-center w-full cursor-pointer h-[72px]">
                     <div className="border border-gray-200 rounded-[8px] overflow-hidden mr-3">
                         <img src={images.logoOrganizer} alt="logo" className="w-[32px] h-[32px]" />

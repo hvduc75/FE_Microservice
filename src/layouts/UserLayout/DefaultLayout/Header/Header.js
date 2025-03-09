@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 
 import styles from './Header.module.scss';
 import images from '../../../../assets/images';
@@ -14,10 +13,9 @@ const cx = classNames.bind(styles);
 function Header(props) {
     const [showModal, setShowModal] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const navigate = useNavigate();
 
     const handleAddEvent = () => {
-        navigate('/organizer');
+        window.open('/organizer/create-event', '_blank')
     };
 
     return (

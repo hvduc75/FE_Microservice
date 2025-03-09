@@ -1,13 +1,105 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames/bind';
+import { toast } from 'react-toastify';
 
 import style from './ModalAddTicket.module.scss';
+import { addTicket, updateTicket } from '../../../service/ticketService';
 import { IoClose } from 'react-icons/io5';
 import { FiInbox } from 'react-icons/fi';
 
 const cx = classNames.bind(style);
 
-function ModalAddTicket({ setShowModal }) {
+function ModalAddTicket(props) {
+    const {
+        // fetchTicketList,    
+        ticketId,
+        setShowModal,
+        eventId,
+        ticketName,
+        setTicketName,
+        ticketPrice,
+        setTicketPrice,
+        ticketAmount,
+        setTicketAmount,
+        ticketMin,
+        setTicketMin,
+        ticketMax,
+        setTicketMax,
+        ticketDesc,
+        setTicketDesc,
+        ticketImage,
+        setTicketImage,
+        eventTicketSaleStartTime,
+        setEventTicketSaleStartTime,
+        eventTicketSaleEndTime,
+        setEventTicketSaleEndTime,
+        setImagePreview,
+        imagePreview,
+    } = props;
+
+    const handleImageChange = (event, setPreview, setImage) => {
+        const file = event.target.files[0];
+        if (file) {
+            setImage(file);
+            setPreview(URL.createObjectURL(file));
+        }
+    };
+
+    const formatDateTimeLocal = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+
+        const offset = date.getTimezoneOffset() * 60000;
+        const localDate = new Date(date - offset);
+
+        return localDate.toISOString().slice(0, 16);
+    };
+
+    const getImageSrc = (image) => {
+        if (image && image.data) {
+            const binary = new Uint8Array(image.data).reduce((data, byte) => data + String.fromCharCode(byte), '');
+            return `data:image/jpeg;base64,${window.btoa(binary)}`;
+        }
+        return null;
+    };
+
+    console.log(ticketImage)
+    console.log(imagePreview)
+
+    const handleSave = async () => {
+        const data = {
+            ticketId,
+            eventId,
+            ticketName,
+            ticketPrice,
+            ticketAmount,
+            ticketMin,
+            ticketMax,
+            ticketDesc,
+            ticketImage,
+            eventTicketSaleStartTime,
+            eventTicketSaleEndTime,
+        };
+
+        if (!ticketId) {
+            let res = await addTicket(data);
+            if (res.EC === 0) {
+                toast.success('Thêm vé thành công');
+                setShowModal(false);
+            } else {
+                toast.error(res.EM);
+            }
+        } else {
+            let res = await updateTicket(data);
+            if (res.EC === 0) {
+                toast.success('Cập nhật vé thành công');
+                setShowModal(false);
+            } else {
+                toast.error(res.EM);
+            }
+        }
+    };
+
     return (
         <div className={cx('modal_overlay')}>
             <div className={cx('modal')} onClick={(e) => e.stopPropagation()}>
@@ -29,15 +121,20 @@ function ModalAddTicket({ setShowModal }) {
                                         style={{ height: '40px' }}
                                         className={cx('custom_input')}
                                         placeholder="Tên vé"
+                                        value={ticketName}
+                                        onChange={(e) => setTicketName(e.target.value)}
                                     />
                                 </div>
                                 <div className="flex md:flex-row flex-col gap-10 w-full justify-between mb-6">
                                     <div className="w-full mb-6">
                                         <div className={cx('custom_title')}>Giá vé</div>
                                         <input
+                                            type="number"
                                             style={{ height: '40px' }}
                                             className={cx('custom_input')}
                                             placeholder="Giá vé"
+                                            value={ticketPrice}
+                                            onChange={(e) => setTicketPrice(e.target.value)}
                                         />
                                     </div>
                                     <div className="w-full mb-6">
@@ -46,6 +143,8 @@ function ModalAddTicket({ setShowModal }) {
                                             style={{ height: '40px', minWidth: '230px' }}
                                             className={cx('custom_input')}
                                             placeholder="Tổng số lượng vé"
+                                            value={ticketAmount}
+                                            onChange={(e) => setTicketAmount(e.target.value)}
                                         />
                                     </div>
                                     <div className="w-full mb-6">
@@ -54,6 +153,8 @@ function ModalAddTicket({ setShowModal }) {
                                             style={{ height: '40px' }}
                                             className={cx('custom_input')}
                                             placeholder="Số vé tối thiểu trong một đơn hàng"
+                                            value={ticketMin}
+                                            onChange={(e) => setTicketMin(e.target.value)}
                                         />
                                     </div>
                                     <div className="w-full mb-6">
@@ -62,6 +163,8 @@ function ModalAddTicket({ setShowModal }) {
                                             style={{ height: '40px' }}
                                             className={cx('custom_input')}
                                             placeholder="Số vé tối đa trong một đơn hàng"
+                                            value={ticketMax}
+                                            onChange={(e) => setTicketMax(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -73,6 +176,8 @@ function ModalAddTicket({ setShowModal }) {
                                             style={{ height: '40px' }}
                                             className={cx('custom_input')}
                                             placeholder="Thời gian bắt đầu bán vé"
+                                            value={formatDateTimeLocal(eventTicketSaleStartTime)}
+                                            onChange={(e) => setEventTicketSaleStartTime(e.target.value)}
                                         />
                                     </div>
                                     <div className="w-full mb-6">
@@ -82,6 +187,8 @@ function ModalAddTicket({ setShowModal }) {
                                             style={{ height: '40px' }}
                                             className={cx('custom_input')}
                                             placeholder="Thời gian kết thúc bán vé"
+                                            value={formatDateTimeLocal(eventTicketSaleEndTime)}
+                                            onChange={(e) => setEventTicketSaleEndTime(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -93,18 +200,37 @@ function ModalAddTicket({ setShowModal }) {
                                                 style={{ height: '170px' }}
                                                 className={cx('custom_input', 'outline-none')}
                                                 placeholder="Thông tin vé"
+                                                value={ticketDesc}
+                                                onChange={(e) => setTicketDesc(e.target.value)}
                                             />
                                         </div>
                                     </div>
                                     <div className="w-[350px] h-[170px]">
                                         <div className={cx('custom_title')}>Hình ảnh vé</div>
-                                        <input type="file" id="event_logo" style={{ display: 'none' }} />
+                                        <input
+                                            type="file"
+                                            id="event_logo"
+                                            style={{ display: 'none' }}
+                                            onChange={(e) => handleImageChange(e, setImagePreview, setTicketImage)}
+                                        />
                                         <label
                                             htmlFor="event_logo"
-                                            className="border border-dashed border-[#fff] text-[#fff] rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer h-full"
+                                            className="border border-dashed border-[#fff] text-[#fff] rounded-lg p-2 flex flex-col items-center justify-center cursor-pointer h-full"
                                         >
-                                            <FiInbox style={{ width: '40px', height: '40px', color: '#2dc275' }} />
-                                            <p className="text-center">Thêm</p>
+                                            {imagePreview || ticketImage ? (
+                                                <img
+                                                    src={imagePreview || getImageSrc(ticketImage)}
+                                                    alt="ticket Preview"
+                                                    className="w-full h-full object-cover rounded-md"
+                                                />
+                                            ) : (
+                                                <>
+                                                    <FiInbox
+                                                        style={{ width: '40px', height: '40px', color: '#2dc275' }}
+                                                    />
+                                                    <p className="text-center">Thêm</p>
+                                                </>
+                                            )}
                                         </label>
                                     </div>
                                 </div>
@@ -112,8 +238,8 @@ function ModalAddTicket({ setShowModal }) {
                         </div>
                     </div>
                     <div className={cx('modal_footer')}>
-                        <div className='flex justify-center pl-3 pr-3 pb-3'>
-                            <button>
+                        <div className="flex justify-center pl-3 pr-3 pb-3">
+                            <button onClick={() => handleSave()}>
                                 <span>Lưu</span>
                             </button>
                         </div>

@@ -16,7 +16,7 @@ function Header(props) {
 
     const handleAddEvent = () => {
         dispatch(updateItemActive(''));
-        navigate('/organizer/add-event');
+        navigate('/organizer/create-event');
     };
 
     return (

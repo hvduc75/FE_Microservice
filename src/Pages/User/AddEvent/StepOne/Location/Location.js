@@ -36,13 +36,12 @@ function Location(props) {
             if (addressArr.length === 4) {
                 setStreet(addressArr[0]);
                 const province = listProvince.find((item) => item.name === addressArr[3]);
-                console.log(province);
                 if (province) {
                     setProvinceCode(province.code);
                 }
             }
         }
-    }, [address]);
+    }, [address, listProvince]);
 
     const handleProvinceChange = async (e) => {
         const selectedProvinceCode = e.target.value;

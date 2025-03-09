@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import classNames from 'classnames/bind';
+import { useParams } from 'react-router-dom';
 
+import classNames from 'classnames/bind';
 import style from './AddEvent.module.scss';
 import StepOne from './StepOne/StepOne';
 import StepTwo from './StepTwo/StepTwo';
@@ -9,6 +10,7 @@ import { addEvent, getEvent } from '../../../service/eventService';
 const cx = classNames.bind(style);
 
 function AddEvent(props) {
+    const { eventId } = useParams();
     const [active, setActive] = useState(1);
     const [eventLogo, setEventLogo] = useState(null);
     const [backgroundEvent, setBackgroundEvent] = useState(null);
@@ -24,21 +26,28 @@ function AddEvent(props) {
 
     const [eventStartDate, setEventStartDate] = useState('');
     const [eventEndDate, setEventEndDate] = useState('');
-    const [eventStartTime, setEventStartTime] = useState('');
-    const [eventEndTime, setEventEndTime] = useState('');
-    const [eventTicketType, setEventTicketType] = useState('');
-    const [eventTicketPrice, setEventTicketPrice] = useState('');
-    const [eventTicketQuantity, setEventTicketQuantity] = useState('');
-    const [eventTicketDescription, setEventTicketDescription] = useState('');
-    const [eventTicketSaleStartDate, setEventTicketSaleStartDate] = useState('');
-    const [eventTicketSaleEndDate, setEventTicketSaleEndDate] = useState('');
 
     useEffect(() => {
-        fetchEvent();
-    }, []);
+        if (eventId) {
+            fetchEvent();
+        } else {
+            setEventName('');
+            setLocationType('');
+            setLocationName('');
+            setAddress('');
+            setEventType('');
+            setEventDescription('');
+            setOrganizerName('');
+            setOrganizerDesc('');
+            setEventLogo(null);
+            setBackgroundEvent(null);
+            setOrganizerLogo(null);
+            setEventStartDate('');
+            setEventEndDate('');
+        }
+    }, [eventId]);
 
     const fetchEvent = async () => {
-        let eventId = '67cc5b3e56f5e8752fd3f10c';
         let data = await getEvent(eventId);
         if (data.EC === 0) {
             let event = data.DT;
@@ -53,6 +62,8 @@ function AddEvent(props) {
             setEventLogo(event.eventLogo);
             setBackgroundEvent(event.backgroundEvent);
             setOrganizerLogo(event.organizerLogo);
+            setEventEndDate(event.endDate);
+            setEventStartDate(event.startDate);
         }
     };
 
@@ -64,23 +75,41 @@ function AddEvent(props) {
     };
 
     const handleSave = async () => {
-        const data = {
-            eventName,
-            locationType,
-            locationName,
-            address,
-            eventType,
-            eventDescription,
-            organizerName,
-            organizerDesc,
-            eventLogo,
-            backgroundEvent,
-            organizerLogo,
-        };
+        if (active === 1) {
+            const data = {
+                eventName,
+                locationType,
+                locationName,
+                address,
+                eventType,
+                eventDescription,
+                organizerName,
+                organizerDesc,
+                eventLogo,
+                backgroundEvent,
+                organizerLogo,
+            };
+            if (!eventId) {
+                await addEvent(data);
+            }
+        } else if (active === 2) {
+            const data = {
+                eventStartDate,
+                eventEndDate,
+            };
 
-        const res = await addEvent(data);
-        console.log(res);
+            console.log(data);
+
+            // await addEvent(data);
+        }
     };
+
+    const steps = [
+        { id: 1, label: 'Thông tin sự kiện' },
+        { id: 2, label: 'Thời gian & loại vé' },
+        { id: 3, label: 'Cài đặt' },
+        { id: 4, label: 'Thông tin thanh toán' },
+    ];
 
     return (
         <>
@@ -89,45 +118,28 @@ function AddEvent(props) {
                 className="flex flex-row items-center justify-center px-1 mb-2 border-b border-[#38383D] pt-2 fixed top-[64px] z-10 bg-black-30 backdrop-blur-50 w-[calc(100%-250px)] "
             >
                 <div className={cx('group_item')}>
-                    <div className={cx('item_container')}>
-                        <div className={cx('item', 1 === active && 'item_active')}>
-                            <div className={cx('item_icon')}>
-                                <span>1</span>
+                    {steps.map((step) => (
+                        <div
+                            key={step.id}
+                            className={cx('item_container')}
+                            onClick={() => step.id <= active && setActive(step.id)}
+                            style={{ cursor: step.id <= active ? 'pointer' : 'not-allowed' }}
+                        >
+                            <div className={cx('item', step.id === active && 'item_active')}>
+                                <div className={cx('item_icon')}>
+                                    <span>{step.id}</span>
+                                </div>
+                                <div className={cx('item_content')}>{step.label}</div>
                             </div>
-                            <div className={cx('item_content')}>Thông tin sự kiện</div>
                         </div>
-                    </div>
-                    <div className={cx('item_container')}>
-                        <div className={cx('item', 2 === active && 'item_active')}>
-                            <div className={cx('item_icon')}>
-                                <span>2</span>
-                            </div>
-                            <div className={cx('item_content')}>Thời gian & loại vé</div>
-                        </div>
-                    </div>
-                    <div className={cx('item_container')}>
-                        <div className={cx('item', 3 === active && 'item_active')}>
-                            <div className={cx('item_icon')}>
-                                <span>3</span>
-                            </div>
-                            <div className={cx('item_content')}>Cài đặt</div>
-                        </div>
-                    </div>
-                    <div className={cx('item_container')}>
-                        <div className={cx('item', 4 === active && 'item_active')}>
-                            <div className={cx('item_icon')}>
-                                <span>4</span>
-                            </div>
-                            <div className={cx('item_content')}>Thông tin thanh toán</div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
                 <div className="flex flex-row gap-2 ">
                     <button className={cx('btn', 'w-full')} onClick={() => handleSave()}>
                         <span>Lưu</span>
                     </button>
-                    <button className={cx('btn', 'btn_continue', 'w-full')}>
-                        <span onClick={() => handleContinue()}>Tiếp tục</span>
+                    <button className={cx('btn', 'btn_continue', 'w-full')} onClick={() => handleContinue()}>
+                        <span>Tiếp tục</span>
                     </button>
                 </div>
             </div>
@@ -157,7 +169,15 @@ function AddEvent(props) {
                     setOrganizerLogo={setOrganizerLogo}
                 />
             )}
-            {active === 2 && <StepTwo />}
+            {active === 2 && (
+                <StepTwo
+                    eventId={eventId}
+                    eventStartDate={eventStartDate}
+                    setEventStartDate={setEventStartDate}
+                    eventEndDate={eventEndDate}
+                    setEventEndDate={setEventEndDate}
+                />
+            )}
         </>
     );
 }

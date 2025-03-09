@@ -19,8 +19,7 @@ function App() {
                     <Route index element={<Home />} />
                 </Route>
                 <Route path="/organizer" element={<OrganizerLayout />}>
-                    <Route index element={<Organizer />} />
-                    <Route path="add-event" element={<AddEvent />} />
+                    <Route path="create-event/:eventId?" element={<AddEvent />} />
                     <Route path="events" element={<MyEvent />} />
                     <Route path="term-of-use" element={<TermOfUse />} />
                     <Route path="report" element={<ManageReport />} />
