@@ -103,7 +103,7 @@ function ModalAddTicket(props) {
         let startTime = event.target.value;
         
         if (new Date(startTime) < new Date(eventStartDate)) {
-            alert('Thời gian bắt đầu bán vé phải lớn hơn thời gian bắt đầu sự kiện');
+            toast.error('Thời gian bắt đầu bán vé phải lớn hơn thời gian bắt đầu sự kiện');
             setEventTicketSaleStartTime('');
             return
         }
@@ -113,7 +113,7 @@ function ModalAddTicket(props) {
         setEventTicketSaleEndTime(event.target.value);
         let endDate = event.target.value;
         if (new Date(endDate) > new Date(eventEndDate)) {
-            alert('Thời gian kết thúc bán vé phải nhỏ hơn thời gian kết thúc sự kiện');
+            toast.error('Thời gian kết thúc bán vé phải nhỏ hơn thời gian kết thúc sự kiện');
             setEventTicketSaleEndTime('');
             return
         }

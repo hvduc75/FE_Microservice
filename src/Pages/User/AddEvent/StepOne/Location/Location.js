@@ -41,7 +41,9 @@ function Location(props) {
                 }
             }
         }else{
-            setListProvince([]);
+            setProvinceCode('');
+            setDistrictCode('');
+            setCommuneCode('');
             setStreet('');
         }
     }, [address, listProvince]);
@@ -78,7 +80,6 @@ function Location(props) {
         if (!provinceCode || listDistrict.length === 0) return;
         const addressArr = address.split(', ');
         if (addressArr.length === 4) {
-            console.log(addressArr[2]);
             const district = listDistrict.find((item) => item.name === addressArr[2]);
             if (district) {
                 setDistrictCode(district.code);

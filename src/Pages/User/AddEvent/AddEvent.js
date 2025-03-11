@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { addEvent, getEvent, editEvent, updateBankAccount, updateContentEmail } from '../../../service/eventService';
 import classNames from 'classnames/bind';
 import style from './AddEvent.module.scss';
 import StepOne from './StepOne/StepOne';
 import StepTwo from './StepTwo/StepTwo';
-import { addEvent, getEvent, editEvent } from '../../../service/eventService';
+import StepThree from './StepThree/StepThree';
+import StepFour from './StepFour/StepFour';
 
 const cx = classNames.bind(style);
 
@@ -18,8 +20,10 @@ const steps = [
 ];
 
 function AddEvent(props) {
+    const navigate = useNavigate();
     const { eventId } = useParams();
-    const [active, setActive] = useState(3);
+    const [newEventId, setNewEventId] = useState('');
+    const [active, setActive] = useState(1);
     const [eventLogo, setEventLogo] = useState(null);
     const [backgroundEvent, setBackgroundEvent] = useState(null);
     const [eventName, setEventName] = useState('');
@@ -34,16 +38,22 @@ function AddEvent(props) {
 
     const [eventStartDate, setEventStartDate] = useState('');
     const [eventEndDate, setEventEndDate] = useState('');
+    const [checkStepTwo, setCheckStepTwo] = useState(false);
+    const [contentEmail, setContentEmail] = useState('');
+    const [branch, setBranch] = useState('');
+    const [accountName, setAccountName] = useState('');
+    const [accountNumber, setAccountNumber] = useState('');
+    const [bankName, setBankName] = useState('');
 
     useEffect(() => {
-        if (eventId) {
-            fetchEvent();
+        if (eventId || newEventId) {
+            fetchEvent(eventId || newEventId);
         } else {
             setEventName('');
             setLocationType('');
             setLocationName('');
             setAddress('');
-            setEventType('');
+            setEventType(1);
             setEventDescription('');
             setOrganizerName('');
             setOrganizerDesc('');
@@ -52,10 +62,15 @@ function AddEvent(props) {
             setOrganizerLogo(null);
             setEventStartDate('');
             setEventEndDate('');
+            setContentEmail('');
+            setBranch('');
+            setAccountName('');
+            setAccountNumber('');
+            setBankName('');
         }
-    }, [eventId]);
+    }, [eventId, newEventId]);
 
-    const fetchEvent = async () => {
+    const fetchEvent = async (eventId) => {
         let data = await getEvent(eventId);
         if (data.EC === 0) {
             let event = data.DT;
@@ -72,6 +87,11 @@ function AddEvent(props) {
             setOrganizerLogo(event.organizerLogo);
             setEventEndDate(event.endDate);
             setEventStartDate(event.startDate);
+            setContentEmail(event.contentEmail);
+            setBranch(event.branch);
+            setAccountName(event.accountName);
+            setAccountNumber(event.accountNumber);
+            setBankName(event.bankName);
         }
     };
 
@@ -89,47 +109,121 @@ function AddEvent(props) {
         organizerLogo,
     };
 
+    const validateStepTwo = () => {
+        if (!eventStartDate || !eventEndDate || !checkStepTwo) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+
     const handleSave = async () => {
         if (active === 1) {
-            if (!eventId) {
+            const finalEventId = eventId || newEventId;
+
+            if (!finalEventId) {
                 let res = await addEvent(data);
                 if (res.EC === 0) {
                     toast.success('Lưu thông tin sự kiện thành công');
+                    setNewEventId(res.DT._id);
+                    navigate(`/organizer/create-event/${res.DT._id}`);
+                } else {
+                    toast.error('Lưu thông tin sự kiện thất bại');
                 }
             } else {
-                let res = await editEvent({ eventId, ...data });
+                let res = await editEvent({ eventId: finalEventId, ...data });
                 if (res.EC === 0) {
                     toast.success('Lưu thông tin sự kiện thành công');
+                } else {
+                    toast.error('Lưu thông tin sự kiện thất bại');
                 }
             }
         } else if (active === 2) {
+            if (!validateStepTwo()) {
+                toast.error('Lưu thông tin sự kiện thất bại');
+                return;
+            }
             toast.success('Lưu thông tin sự kiện thành công');
+        } else if (active === 3) {
+            if (!contentEmail) {
+                toast.error('Lưu thông tin sự kiện thất bại');
+                return;
+            }
+            let data = await updateContentEmail(eventId, contentEmail);
+            if (data.EC === 0) {
+                toast.success('Lưu thông tin sự kiện thành công');
+            }
+        } else if (active === 4) {
+            if (!branch || !accountName || !accountNumber || !bankName) {
+                toast.error('Lưu thông tin sự kiện thất bại');
+                return;
+            }
+            let data = await updateBankAccount(eventId, accountName, accountNumber, bankName, branch);
+            if (data.EC === 0) {
+                toast.success('Lưu thông tin sự kiện thành công');
+            }
         }
     };
 
     const handleContinue = async () => {
+        const finalEventId = eventId || newEventId;
+
         if (active === 1) {
-            if (!eventId) {
+            if (!finalEventId) {
                 let res = await addEvent(data);
                 if (res.EC === 0) {
                     toast.success('Lưu thông tin sự kiện thành công');
+                    setNewEventId(res.DT._id);
+                    navigate(`/organizer/create-event/${res.DT._id}`);
                     if (active < 4) {
                         setActive(active + 1);
                     }
+                } else {
+                    toast.error('Lưu thông tin sự kiện thất bại');
                 }
             } else {
-                let res = await editEvent({ eventId, ...data });
+                let res = await editEvent({ eventId: finalEventId, ...data });
                 if (res.EC === 0) {
                     toast.success('Lưu thông tin sự kiện thành công');
                     if (active < 4) {
                         setActive(active + 1);
                     }
+                } else {
+                    toast.error('Lưu thông tin sự kiện thất bại');
                 }
             }
         } else if (active === 2) {
+            if (!validateStepTwo()) {
+                toast.error('Lưu thông tin sự kiện thất bại');
+                return;
+            }
             toast.success('Lưu thông tin sự kiện thành công');
             if (active < 4) {
                 setActive(active + 1);
+            }
+        } else if (active === 3) {
+            if (!contentEmail) {
+                toast.error('Lưu thông tin sự kiện thất bại');
+                return;
+            }
+            let data = await updateContentEmail(eventId, contentEmail);
+            if (data.EC === 0) {
+                toast.success('Lưu thông tin sự kiện thành công');
+            } else {
+                toast.error('Lưu thông tin sự kiện thất bại');
+                return
+            }
+            if (active < 4) {
+                setActive(active + 1);
+            }
+        } else if (active === 4) {
+            if (!branch || !accountName || !accountNumber || !bankName) {
+                toast.error('Lưu thông tin sự kiện thất bại');
+                return;
+            }
+            let data = await updateBankAccount(eventId, accountName, accountNumber, bankName, branch);
+            if (data.EC === 0) {
+                toast.success('Lưu thông tin sự kiện thành công');
             }
         }
     };
@@ -199,6 +293,20 @@ function AddEvent(props) {
                     setEventStartDate={setEventStartDate}
                     eventEndDate={eventEndDate}
                     setEventEndDate={setEventEndDate}
+                    setCheckStepTwo={setCheckStepTwo}
+                />
+            )}
+            {active === 3 && <StepThree contentEmail={contentEmail} setContentEmail={setContentEmail} />}
+            {active === 4 && (
+                <StepFour
+                    branch={branch}
+                    setBranch={setBranch}
+                    accountName={accountName}
+                    setAccountName={setAccountName}
+                    accountNumber={accountNumber}
+                    setAccountNumber={setAccountNumber}
+                    bankName={bankName}
+                    setBankName={setBankName}
                 />
             )}
         </>

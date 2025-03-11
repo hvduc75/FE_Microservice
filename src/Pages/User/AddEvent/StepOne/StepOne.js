@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './StepOne.module.scss';
 
@@ -13,7 +13,7 @@ function StepOne(props) {
     const [logoOrganizerPreview, setLogoOrganizerPreview] = useState(null);
 
     const eventTypes = ['Nhạc sống', 'Sân Khấu & Nghệ thuật', 'Thể Thao', 'Khác'];
-
+    
     const {
         eventName,
         eventLogo,
@@ -27,7 +27,7 @@ function StepOne(props) {
         setLocationName,
         address,
         setAddress,
-        eventType,
+        eventType ,
         setEventType,
         eventDescription,
         setEventDescription,
@@ -53,7 +53,7 @@ function StepOne(props) {
             return `data:image/jpeg;base64,${window.btoa(binary)}`;
         }
         return null;
-    };    
+    };
 
     return (
         <div style={{ padding: '72px 16px' }}>

@@ -58,4 +58,25 @@ const updateEventDate = (eventId, startDate, endDate) => {
     return axios.put('/event/updateEventDate', formData);
 };
 
-export { addEvent, getEvent, updateEventDate, getEventByCondition, editEvent };
+const updateContentEmail = (eventId, contentEmail) => {
+    const formData = new FormData();
+
+    formData.append('eventId', eventId);
+    formData.append('contentEmail', contentEmail);
+
+    return axios.put('/event/updateContentEmail', formData);
+};
+
+const updateBankAccount = (eventId, accountName, accountNumber, bankName, branch) => {
+    const formData = new FormData();
+
+    formData.append('eventId', eventId);
+    formData.append('accountName', accountName);
+    formData.append('accountNumber', accountNumber);
+    formData.append('bankName', bankName);
+    formData.append('branch', branch);
+
+    return axios.put('/event/updateBankAccount', formData);
+}
+
+export { addEvent, getEvent, updateEventDate, getEventByCondition, editEvent, updateContentEmail, updateBankAccount };

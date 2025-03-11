@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './StepTwo.module.scss';
+import { toast } from 'react-toastify';
 
 import ModalAddTicket from '../../../../Components/Modal/ModalAddTicket/ModalAddTicket';
 import { getTicketByEventId } from '../../../../service/ticketService';
@@ -15,7 +16,7 @@ import { PiPencilSimpleLineLight } from 'react-icons/pi';
 const cx = classNames.bind(styles);
 
 function StepTwo(props) {
-    const { eventId, eventStartDate, setEventStartDate, eventEndDate, setEventEndDate } = props;
+    const { eventId, eventStartDate, setEventStartDate, eventEndDate, setEventEndDate, setCheckStepTwo } = props;
     const [ticketId, setTicketId] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [listTicket, setListTicket] = useState([]);
@@ -40,10 +41,17 @@ function StepTwo(props) {
         let data = await getTicketByEventId(eventId);
         if (data.EC === 0) {
             setListTicket(data.DT);
+            if (data.DT.length > 0) {
+                setCheckStepTwo(true);
+            }
         }
     };
 
     const handleAddTicket = () => {
+        if(!eventStartDate || !eventEndDate) {
+            toast.error('Vui lòng chọn thời gian bắt đầu và kết thúc');
+            return;
+        }
         setShowModal(true);
     };
 
@@ -58,12 +66,12 @@ function StepTwo(props) {
             }
         })
         if (!checkDate) {
-            alert('Thời gian bắt đầu sự kiện phải lớn hơn thời gian bắt đầu bán vé');
+            toast.error('Thời gian bắt đầu sự kiện phải lớn hơn thời gian bắt đầu bán vé');
             setEventStartDate('');
             return
         }
         if (new Date(startDate) > new Date(eventEndDate)) {
-            alert('Thời gian bắt đầu sự kiện phải nhỏ hơn thời gian kết thúc sự kiện');
+            toast.error('Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc');
             setEventStartDate('');
             setEventEndDate('');
             return
@@ -82,12 +90,12 @@ function StepTwo(props) {
             }
         })
         if (!checkDate) {
-            alert('Thời gian kết thúc bán vé phải nhỏ hơn thời gian kết thúc sự kiện');
+            toast.error('Thời gian kết thúc bán vé phải nhỏ hơn thời gian kết thúc sự kiện');
             setEventEndDate('');
             return
         }
         if (new Date(endDate) < new Date(eventStartDate)) {
-            alert('Thời gian kết thúc sự kiện phải lớn hơn thời gian bắt đầu sự kiện');
+            toast.error('Thời gian kết thúc phải lớn hơn thời gian bắt đầu');
             setEventStartDate('');
             setEventEndDate('');
             return
@@ -110,7 +118,7 @@ function StepTwo(props) {
     };
 
     const handleDeleteTicket = (ticket) => {
-        alert('Delete ticket');
+        toast.error('Delete ticket');
     };
 
     const formatDateTimeLocal = (dateString) => {
