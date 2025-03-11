@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import classNames from 'classnames/bind';
 import style from './AddEvent.module.scss';
 import StepOne from './StepOne/StepOne';
 import StepTwo from './StepTwo/StepTwo';
-import { addEvent, getEvent } from '../../../service/eventService';
+import { addEvent, getEvent, editEvent } from '../../../service/eventService';
 
 const cx = classNames.bind(style);
 
+const steps = [
+    { id: 1, label: 'Thông tin sự kiện' },
+    { id: 2, label: 'Thời gian & loại vé' },
+    { id: 3, label: 'Cài đặt' },
+    { id: 4, label: 'Thông tin thanh toán' },
+];
+
 function AddEvent(props) {
     const { eventId } = useParams();
-    const [active, setActive] = useState(1);
+    const [active, setActive] = useState(3);
     const [eventLogo, setEventLogo] = useState(null);
     const [backgroundEvent, setBackgroundEvent] = useState(null);
     const [eventName, setEventName] = useState('');
     const [locationType, setLocationType] = useState('');
     const [locationName, setLocationName] = useState('');
     const [address, setAddress] = useState('');
-    const [eventType, setEventType] = useState('');
+    const [eventType, setEventType] = useState('1');
     const [eventDescription, setEventDescription] = useState('');
     const [organizerName, setOrganizerName] = useState('');
     const [organizerDesc, setOrganizerDesc] = useState('');
@@ -67,49 +75,64 @@ function AddEvent(props) {
         }
     };
 
-    const handleContinue = () => {
-        if (active < 4) {
-            setActive(active + 1);
-            console.log();
-        }
+    const data = {
+        eventName,
+        locationType,
+        locationName,
+        address,
+        eventType,
+        eventDescription,
+        organizerName,
+        organizerDesc,
+        eventLogo,
+        backgroundEvent,
+        organizerLogo,
     };
 
     const handleSave = async () => {
         if (active === 1) {
-            const data = {
-                eventName,
-                locationType,
-                locationName,
-                address,
-                eventType,
-                eventDescription,
-                organizerName,
-                organizerDesc,
-                eventLogo,
-                backgroundEvent,
-                organizerLogo,
-            };
             if (!eventId) {
-                await addEvent(data);
+                let res = await addEvent(data);
+                if (res.EC === 0) {
+                    toast.success('Lưu thông tin sự kiện thành công');
+                }
+            } else {
+                let res = await editEvent({ eventId, ...data });
+                if (res.EC === 0) {
+                    toast.success('Lưu thông tin sự kiện thành công');
+                }
             }
         } else if (active === 2) {
-            const data = {
-                eventStartDate,
-                eventEndDate,
-            };
-
-            console.log(data);
-
-            // await addEvent(data);
+            toast.success('Lưu thông tin sự kiện thành công');
         }
     };
 
-    const steps = [
-        { id: 1, label: 'Thông tin sự kiện' },
-        { id: 2, label: 'Thời gian & loại vé' },
-        { id: 3, label: 'Cài đặt' },
-        { id: 4, label: 'Thông tin thanh toán' },
-    ];
+    const handleContinue = async () => {
+        if (active === 1) {
+            if (!eventId) {
+                let res = await addEvent(data);
+                if (res.EC === 0) {
+                    toast.success('Lưu thông tin sự kiện thành công');
+                    if (active < 4) {
+                        setActive(active + 1);
+                    }
+                }
+            } else {
+                let res = await editEvent({ eventId, ...data });
+                if (res.EC === 0) {
+                    toast.success('Lưu thông tin sự kiện thành công');
+                    if (active < 4) {
+                        setActive(active + 1);
+                    }
+                }
+            }
+        } else if (active === 2) {
+            toast.success('Lưu thông tin sự kiện thành công');
+            if (active < 4) {
+                setActive(active + 1);
+            }
+        }
+    };
 
     return (
         <>

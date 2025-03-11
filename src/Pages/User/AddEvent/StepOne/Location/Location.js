@@ -40,6 +40,9 @@ function Location(props) {
                     setProvinceCode(province.code);
                 }
             }
+        }else{
+            setListProvince([]);
+            setStreet('');
         }
     }, [address, listProvince]);
 

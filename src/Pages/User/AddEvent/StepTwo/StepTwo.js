@@ -63,8 +63,9 @@ function StepTwo(props) {
             return
         }
         if (new Date(startDate) > new Date(eventEndDate)) {
-            alert('Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc');
+            alert('Thời gian bắt đầu sự kiện phải nhỏ hơn thời gian kết thúc sự kiện');
             setEventStartDate('');
+            setEventEndDate('');
             return
         }
 
@@ -86,8 +87,9 @@ function StepTwo(props) {
             return
         }
         if (new Date(endDate) < new Date(eventStartDate)) {
-            alert('Thời gian kết thúc phải lớn hơn thời gian bắt đầu');
+            alert('Thời gian kết thúc sự kiện phải lớn hơn thời gian bắt đầu sự kiện');
             setEventStartDate('');
+            setEventEndDate('');
             return
         }
         await updateEventDate(eventId, eventStartDate, endDate);
@@ -109,7 +111,6 @@ function StepTwo(props) {
 
     const handleDeleteTicket = (ticket) => {
         alert('Delete ticket');
-        console.log(ticket);
     };
 
     const formatDateTimeLocal = (dateString) => {
@@ -244,7 +245,6 @@ function StepTwo(props) {
             </div>
             {showModal && (
                 <ModalAddTicket
-                    // fetchListTicket={fetchListTicket}
                     eventId={eventId}
                     ticketId={ticketId}
                     setShowModal={setShowModal}
@@ -268,6 +268,8 @@ function StepTwo(props) {
                     setEventTicketSaleStartTime={setEventTicketSaleStartTime}
                     eventTicketSaleEndTime={eventTicketSaleEndTime}
                     setEventTicketSaleEndTime={setEventTicketSaleEndTime}
+                    eventEndDate={eventEndDate}
+                    eventStartDate={eventStartDate}
                 />
             )}
         </>

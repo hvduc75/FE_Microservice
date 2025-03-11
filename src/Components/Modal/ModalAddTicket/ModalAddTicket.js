@@ -10,8 +10,7 @@ import { FiInbox } from 'react-icons/fi';
 const cx = classNames.bind(style);
 
 function ModalAddTicket(props) {
-    const {
-        // fetchTicketList,    
+    const {   
         ticketId,
         setShowModal,
         eventId,
@@ -35,6 +34,8 @@ function ModalAddTicket(props) {
         setEventTicketSaleEndTime,
         setImagePreview,
         imagePreview,
+        eventEndDate,
+        eventStartDate,
     } = props;
 
     const handleImageChange = (event, setPreview, setImage) => {
@@ -62,9 +63,6 @@ function ModalAddTicket(props) {
         }
         return null;
     };
-
-    console.log(ticketImage)
-    console.log(imagePreview)
 
     const handleSave = async () => {
         const data = {
@@ -97,6 +95,27 @@ function ModalAddTicket(props) {
             } else {
                 toast.error(res.EM);
             }
+        }
+    };
+
+    const handleChangeTicketSaleStartTime = async (event) => {
+        setEventTicketSaleStartTime(event.target.value);
+        let startTime = event.target.value;
+        
+        if (new Date(startTime) < new Date(eventStartDate)) {
+            alert('Thời gian bắt đầu bán vé phải lớn hơn thời gian bắt đầu sự kiện');
+            setEventTicketSaleStartTime('');
+            return
+        }
+    };
+
+    const handleChangeTicketSaleEndTime = async (event) => {
+        setEventTicketSaleEndTime(event.target.value);
+        let endDate = event.target.value;
+        if (new Date(endDate) > new Date(eventEndDate)) {
+            alert('Thời gian kết thúc bán vé phải nhỏ hơn thời gian kết thúc sự kiện');
+            setEventTicketSaleEndTime('');
+            return
         }
     };
 
@@ -177,7 +196,7 @@ function ModalAddTicket(props) {
                                             className={cx('custom_input')}
                                             placeholder="Thời gian bắt đầu bán vé"
                                             value={formatDateTimeLocal(eventTicketSaleStartTime)}
-                                            onChange={(e) => setEventTicketSaleStartTime(e.target.value)}
+                                            onChange={handleChangeTicketSaleStartTime}
                                         />
                                     </div>
                                     <div className="w-full mb-6">
@@ -188,7 +207,7 @@ function ModalAddTicket(props) {
                                             className={cx('custom_input')}
                                             placeholder="Thời gian kết thúc bán vé"
                                             value={formatDateTimeLocal(eventTicketSaleEndTime)}
-                                            onChange={(e) => setEventTicketSaleEndTime(e.target.value)}
+                                            onChange={handleChangeTicketSaleEndTime}
                                         />
                                     </div>
                                 </div>
