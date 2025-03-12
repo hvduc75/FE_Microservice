@@ -22,8 +22,8 @@ function SideBar() {
                     <SidebarItem to="/admin/dashboard" Icon={DashboardIcon} label="Dashboard" />
                     <SidebarItem to="/admin/manage-user" Icon={UserIcon} label="Manage User" />
                     <SidebarItem to="/forms" Icon={FormIcon} label="Forms" />
-                    <SidebarItem to="/cards" Icon={CardIcon} label="Cards" />
-                    <SidebarItem to="/charts" Icon={ChartIcon} label="Charts" />
+                    <SidebarItem to="/admin/manage-test" Icon={CardIcon} label="Test" />
+                    <SidebarItem to="/admin/manage-event" Icon={ChartIcon} label="Manage Event" />
                     <SidebarDropdownItem
                         label="Manage Roles"
                         Icon={PageIcon}

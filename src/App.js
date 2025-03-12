@@ -18,6 +18,8 @@ import DashBoard from './Pages/Admin/DashBoard/DashBoard';
 import ManageUser from './Pages/Admin/ManageUser/ManageUser';
 import AddRole from './Pages/Admin/ManageRoles/AddRole/AddRole';
 import AssignRole from './Pages/Admin/ManageRoles/AssignRole/AssignRole';
+import ManageEvent from './Pages/Admin/ManageEvent/ManageEvent';
+import ConfirmEvent from './Pages/Admin/ConfirmEvent/ConfirmEvent';
 
 function App() {
     const dispatch = useDispatch();
@@ -62,6 +64,8 @@ function App() {
                     <Route path="manage-user" element={<ManageUser />} />
                     <Route path="add-roles" element={<AddRole />} />
                     <Route path="assign-roles" element={<AssignRole />} />
+                    <Route path="manage-event" element={<ManageEvent />} />
+                    <Route path="confirm-event/:eventId?" element={<ConfirmEvent />} />
                 </Route>
             </Routes>
             <ToastContainer

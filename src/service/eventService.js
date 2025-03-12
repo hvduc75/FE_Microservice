@@ -79,4 +79,12 @@ const updateBankAccount = (eventId, accountName, accountNumber, bankName, branch
     return axios.put('/event/updateBankAccount', formData);
 }
 
-export { addEvent, getEvent, updateEventDate, getEventByCondition, editEvent, updateContentEmail, updateBankAccount };
+const confirmEvent = (eventId) => {
+    const formData = new FormData();
+
+    formData.append('eventId', eventId);
+
+    return axios.put('/event/confirmEvent', formData);
+};
+
+export { addEvent, getEvent, updateEventDate, getEventByCondition, editEvent, updateContentEmail, updateBankAccount, confirmEvent };
