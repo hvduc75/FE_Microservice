@@ -8,12 +8,12 @@ import { BsTicketDetailed } from 'react-icons/bs';
 import { IoSearch } from 'react-icons/io5';
 import ModalLogin from '../../../../Components/Modal/ModalLogin/ModalLogin';
 import Account from '../../../../Components/Account/Account';
+import Language from '../../../../Components/Language/Language';
 
 const cx = classNames.bind(styles);
 
 function Header(props) {
     const [showModal, setShowModal] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     const handleAddEvent = () => {
         window.open('/organizer/create-event', '_blank');
@@ -47,18 +47,7 @@ function Header(props) {
                                 </Link>
                             </div>
                             <Account setShowModal={setShowModal} />
-                            <div className={cx('location')}>
-                                <div className={cx('languages')}>
-                                    <div className={cx('flag-icon-container')}>
-                                        <img src={images.flag_vn} alt="flag_vn" />
-                                    </div>
-                                    <img
-                                        src={images.dropdown}
-                                        style={{ width: '8px', height: '8px', marginLeft: '8px' }}
-                                        alt="dropdown-icon"
-                                    />
-                                </div>
-                            </div>
+                            <Language />
                         </div>
                     </div>
                 </div>

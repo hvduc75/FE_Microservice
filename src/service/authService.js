@@ -5,7 +5,7 @@ const loginUser = (valueLogin, password) => {
 };
 
 const getAccount = () => {
-    return axios.get('/api/v1/account');
+    return axios.get('/customer/account');
 };
 
 const checkTokenLogin = (userId, tokenLogin) => {
@@ -17,7 +17,7 @@ const registerNewUser = (userData) => {
 };
 
 const logout = () => {
-    return axios.post('/api/v1/auth/logout');
+    return axios.post('/customer/logout');
 };
 
 const sendOtp = (email) => {

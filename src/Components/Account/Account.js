@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Tippy from '@tippyjs/react/headless';
@@ -15,7 +15,6 @@ import { LogOut, TicketMinus, CalendarPlus2, CircleUserRound } from 'lucide-reac
 const cx = classNames.bind(styles);
 
 function Account(props) {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const { setShowModal } = props;

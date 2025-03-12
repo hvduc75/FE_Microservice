@@ -53,6 +53,12 @@ function ModalLogin({ setShowModal }) {
         }
     };
 
+    const handlePressEnter = (event) => {
+        if (event.charCode === 13 && event.code === 'Enter') {
+            handleLogin();
+        }
+    };
+
     const handleRegister = async () => {
         if (password !== confirmPassword) {
             alert('Mật khẩu không trùng khớp');
@@ -107,6 +113,7 @@ function ModalLogin({ setShowModal }) {
                                             placeholder="Nhập mật khẩu"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
+                                            onKeyPress={handlePressEnter}
                                         />
                                         <span className={cx('eye_icon')} onClick={() => setShowPassword(!showPassword)}>
                                             {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}

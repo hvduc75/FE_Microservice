@@ -1,9 +1,13 @@
-import { Route, Routes } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { useSelector, useDispatch } from 'react-redux';
 
 import DefaultLayout from './layouts/UserLayout/DefaultLayout/DefaultLayout';
 import OrganizerLayout from './layouts/UserLayout/OrganizerLayout/OrganizerLayout';
 import AdminLayout from './layouts/AdminLayout/AdminLayout';
+import { getAccount } from './service/authService';
+import { UserLoginSuccess } from './redux/action/userAction';
 
 import Home from './Pages/User/Home/Home';
 import AddEvent from './Pages/User/AddEvent/AddEvent';
@@ -16,6 +20,30 @@ import AddRole from './Pages/Admin/ManageRoles/AddRole/AddRole';
 import AssignRole from './Pages/Admin/ManageRoles/AssignRole/AssignRole';
 
 function App() {
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const [loading, setLoading] = useState(true);
+    const user = useSelector((state) => state.user.account);
+
+    useEffect(() => {
+        if (user && !user.access_token) {
+            fetchAccount();
+        }
+    }, [location.pathname]);
+
+    const fetchAccount = async () => {
+        try {
+            const response = await getAccount();
+            if (response && +response.EC === 0) {
+                dispatch(UserLoginSuccess(response));
+            }
+        } catch (error) {
+            console.error('Failed to fetch user:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <>
             <Routes>
