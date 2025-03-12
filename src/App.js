@@ -13,6 +13,7 @@ import ManageReport from './Pages/User/ManageReport/ManageReport';
 import DashBoard from './Pages/Admin/DashBoard/DashBoard';
 import ManageUser from './Pages/Admin/ManageUser/ManageUser';
 import AddRole from './Pages/Admin/ManageRoles/AddRole/AddRole';
+import AssignRole from './Pages/Admin/ManageRoles/AssignRole/AssignRole';
 
 function App() {
     return (
@@ -32,6 +33,7 @@ function App() {
                     <Route path="dashboard" element={<DashBoard />} />
                     <Route path="manage-user" element={<ManageUser />} />
                     <Route path="add-roles" element={<AddRole />} />
+                    <Route path="assign-roles" element={<AssignRole />} />
                 </Route>
             </Routes>
             <ToastContainer

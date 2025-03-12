@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
+import { UserLoginSuccess } from '../../../redux/action/userAction';
 import { IoClose } from 'react-icons/io5';
 import { FaGoogle } from 'react-icons/fa';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
@@ -12,6 +14,7 @@ import { loginUser, registerNewUser } from '../../../service/authService';
 const cx = classNames.bind(styles);
 
 function ModalLogin({ setShowModal }) {
+    const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
@@ -41,6 +44,7 @@ function ModalLogin({ setShowModal }) {
     const handleLogin = async () => {
         const response = await loginUser(email, password);
         if (response.EC === 0) {
+            dispatch(UserLoginSuccess(response));
             toast.success('Đăng nhập thành công');
             setShowModal(false);
             resetForm();

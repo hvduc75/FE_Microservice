@@ -7,15 +7,16 @@ import images from '../../../../assets/images';
 import { BsTicketDetailed } from 'react-icons/bs';
 import { IoSearch } from 'react-icons/io5';
 import ModalLogin from '../../../../Components/Modal/ModalLogin/ModalLogin';
+import Account from '../../../../Components/Account/Account';
 
 const cx = classNames.bind(styles);
 
 function Header(props) {
     const [showModal, setShowModal] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     const handleAddEvent = () => {
-        window.open('/organizer/create-event', '_blank')
+        window.open('/organizer/create-event', '_blank');
     };
 
     return (
@@ -45,25 +46,17 @@ function Header(props) {
                                     <span>Vé đã mua</span>
                                 </Link>
                             </div>
-                            {!isAuthenticated ? (
-                                <div className={cx('auth')} onClick={() => setShowModal(true)}>
-                                    <span>Đăng nhập | Đăng ký</span>
-                                </div>
-                            ) : (
-                                <div className={cx('user')}>
-                                    <div className={cx('user_info')}>
-                                        <img src={images.avatar} style={{width: "24px", height: "24px"}} alt='avatar'/>
-                                        Tài khoản
-                                        <img src={images.dropdown} style={{width: "8px", height: "8px"}} alt='dropdown-icon'/>
-                                    </div>
-                                </div>
-                            )}
+                            <Account setShowModal={setShowModal} />
                             <div className={cx('location')}>
                                 <div className={cx('languages')}>
                                     <div className={cx('flag-icon-container')}>
-                                        <img src={images.flag_vn} alt='flag_vn'/>
+                                        <img src={images.flag_vn} alt="flag_vn" />
                                     </div>
-                                    <img src={images.dropdown} style={{width: "8px", height: "8px", marginLeft: "8px"}} alt='dropdown-icon'/>
+                                    <img
+                                        src={images.dropdown}
+                                        style={{ width: '8px', height: '8px', marginLeft: '8px' }}
+                                        alt="dropdown-icon"
+                                    />
                                 </div>
                             </div>
                         </div>

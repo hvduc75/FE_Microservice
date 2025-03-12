@@ -1,0 +1,75 @@
+.wrapper {
+    position: relative;
+
+    .auth {
+        display: flex;
+        align-items: center;
+
+        span {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+            padding-left: 8px;
+            padding-right: 8px;
+            cursor: pointer;
+            color: rgb(255, 255, 255);
+        }
+    }
+
+    .user {
+        position: relative;
+        height: 72px;
+        display: flex;
+        align-items: center;
+
+        .user_info {
+            font-style: normal;
+            line-height: 20px;
+            cursor: pointer;
+            transition: background-color 0.4s;
+            color: rgb(255, 255, 255);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 1em;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.125);
+            }
+        }
+    }
+
+    .account-content {
+        border: 1px solid rgb(239, 239, 239);
+        background: rgb(255, 255, 255);
+        width: 180px;
+        list-style: none;
+        box-shadow: rgba(0, 0, 0, 0.18) 0px 6px 12px 0px;
+        position: absolute;
+        top: -10px;
+        transform: translateX(-100%);
+        border-radius: 8px;
+
+        .menu-item {
+            cursor: pointer;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            margin: 0px;
+            padding: 8px 16px;
+            color: rgb(39, 39, 42);
+            font-size: 14px;
+            line-height: 150%;
+            font-weight: 400;
+            text-decoration: none;
+
+            &:hover {
+                background-color: rgba(39, 39, 42, 0.12);
+            }
+        }
+    }
+}

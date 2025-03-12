@@ -1,7 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { PageIcon, DashboardIcon, FormIcon, CardIcon, ChartIcon, UserIcon, DropdownIcon } from '../../../assets/icons/Icon';
+import {
+    PageIcon,
+    DashboardIcon,
+    FormIcon,
+    CardIcon,
+    ChartIcon,
+    UserIcon,
+    DropdownIcon,
+} from '../../../assets/icons/Icon';
 
 function SideBar() {
     return (
@@ -16,7 +24,14 @@ function SideBar() {
                     <SidebarItem to="/forms" Icon={FormIcon} label="Forms" />
                     <SidebarItem to="/cards" Icon={CardIcon} label="Cards" />
                     <SidebarItem to="/charts" Icon={ChartIcon} label="Charts" />
-                    <SidebarDropdownItem label="Manage Roles" Icon={PageIcon} items={[{ to: '/admin/add-roles', label: 'Add Role' }]} />
+                    <SidebarDropdownItem
+                        label="Manage Roles"
+                        Icon={PageIcon}
+                        items={[
+                            { to: '/admin/add-roles', label: 'Add Role' },
+                            { to: '/admin/assign-roles', label: 'Assign Role' },
+                        ]}
+                    />
                 </ul>
             </div>
         </aside>
@@ -64,7 +79,10 @@ const SidebarDropdownItem = ({ label, Icon, items }) => {
                     aria-label="submenu"
                 >
                     {items.map(({ to, label }) => (
-                        <li key={to} className="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                        <li
+                            key={to}
+                            className="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                        >
                             <NavLink to={to} className="w-full block">
                                 {label}
                             </NavLink>

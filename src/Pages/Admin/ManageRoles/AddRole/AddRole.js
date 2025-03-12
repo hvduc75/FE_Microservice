@@ -1,19 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import classNames from 'classnames/bind';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
 
-import styes from './AddRole.module.scss';
-import { FaPlusCircle } from 'react-icons/fa';
-import { FaRegTrashAlt } from 'react-icons/fa';
+import { FaPlusCircle, FaRegTrashAlt } from 'react-icons/fa';
 import { createAddRole, fetchAllRole } from '../../../../service/roleService';
 import TableRole from '../TableRole/TableRole';
 import ModalUpdateRole from '../EditRole/EditRole';
 
-const cx = classNames.bind(styes);
-
-function AddRole(props) {
+function AddRole() {
     const dataChildDefault = { url: '', description: '', isValidUrl: true };
     const childRef = useRef();
     const [listRoles, setListRoles] = useState([]);
@@ -97,82 +92,57 @@ function AddRole(props) {
     };
 
     return (
-        <div className={cx('wrapper')}>
-            <div className={cx('container')}>
-                <div className={cx('mt-3 adding-roles')}>
-                    <div className={cx('title-role')}>
-                        <h4>Add a new role ...</h4>
-                    </div>
-                    <div className={cx('role-parent')}>
-                        {Object.entries(listChilds).map(([key, child], index) => {
-                            return (
-                                <>
-                                    <div className={cx('row role-child')} key={`child-${key}`}>
-                                        <div className={cx('col-5 form-group')}>
-                                            <label>URL:</label>
-                                            <input
-                                                type="text"
-                                                className={
-                                                    child.isValidUrl
-                                                        ? cx('form-control')
-                                                        : cx('form-control is-invalid')
-                                                }
-                                                value={child.url}
-                                                onChange={(event) => handleOnChangInput('url', event.target.value, key)}
-                                            />
-                                        </div>
-                                        <div className={cx('col-5 form-group')}>
-                                            <label>Description:</label>
-                                            <input
-                                                type="text"
-                                                className={cx('form-control')}
-                                                value={child.description}
-                                                onChange={(event) =>
-                                                    handleOnChangInput('description', event.target.value, key)
-                                                }
-                                            />
-                                        </div>
-                                        <div className={cx('col-2', 'mt-4')}>
-                                            <FaPlusCircle
-                                                className={cx('add', 'actions')}
-                                                onClick={() => handleAddNewInput()}
-                                            />
-                                            {index >= 1 && (
-                                                <FaRegTrashAlt
-                                                    className={cx('delete', 'actions')}
-                                                    onClick={() => handleDeleteInput(key)}
-                                                />
-                                            )}
-                                        </div>
-                                    </div>
-                                </>
-                            );
-                        })}
-                        <div>
-                            <button className={cx('btn', 'btn-success', 'mt-3')} onClick={() => handleSave()}>
-                                Add
-                            </button>
+        <div className="p-4">
+            <div className="mt-3">
+                <h4 className="text-lg font-semibold">Add a new role ...</h4>
+                <div className="space-y-3">
+                    {Object.entries(listChilds).map(([key, child], index) => (
+                        <div key={key} className="flex items-center space-x-3">
+                            <div className="flex-1">
+                                <label className="block text-sm font-medium">URL:</label>
+                                <input
+                                    type="text"
+                                    className={`w-full px-3 py-2 border rounded-md ${
+                                        child.isValidUrl ? 'border-gray-300' : 'border-red-500'
+                                    }`}
+                                    value={child.url}
+                                    onChange={(event) => handleOnChangInput('url', event.target.value, key)}
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <label className="block text-sm font-medium">Description:</label>
+                                <input
+                                    type="text"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                    value={child.description}
+                                    onChange={(event) => handleOnChangInput('description', event.target.value, key)}
+                                />
+                            </div>
+                            <div className="flex space-x-2 mt-6">
+                                <FaPlusCircle className="text-green-500 text-xl cursor-pointer" onClick={handleAddNewInput} />
+                                {index >= 1 && (
+                                    <FaRegTrashAlt className="text-red-500 text-xl cursor-pointer" onClick={() => handleDeleteInput(key)} />
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    ))}
+                    <button className="px-4 py-2 mt-3 text-white bg-green-600 rounded-md" onClick={handleSave}>
+                        Add
+                    </button>
                 </div>
-                <hr />
-                <div className={cx('mt-3')}>
-                    <h4>List Current Roles</h4>
-                    <TableRole
-                        listRoles={listRoles}
-                        handleEditRole={handleEditRole}
-                        getAllRoles={getAllRoles}
-                        ref={childRef}
-                    />
-                </div>
-                <ModalUpdateRole
-                    show={showModalUpdateRole}
-                    setShow={setShowModalUpdateRole}
-                    dataUpdate={roleEdit}
-                    resetDataUpdate={resetDataUpdate}
-                    getAllRoles={getAllRoles}
-                />
             </div>
+            <hr className="my-4" />
+            <div>
+                <h4 className="text-lg font-semibold">List Current Roles</h4>
+                <TableRole listRoles={listRoles} handleEditRole={handleEditRole} getAllRoles={getAllRoles} ref={childRef} />
+            </div>
+            <ModalUpdateRole
+                show={showModalUpdateRole}
+                setShow={setShowModalUpdateRole}
+                dataUpdate={roleEdit}
+                resetDataUpdate={resetDataUpdate}
+                getAllRoles={getAllRoles}
+            />
         </div>
     );
 }

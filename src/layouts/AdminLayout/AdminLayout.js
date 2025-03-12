@@ -1,12 +1,7 @@
 import React from 'react';
-import classNames from 'classnames/bind';
-
-import styles from './AdminLayout.module.scss';
 import SideBar from './SideBar/SideBar';
 import Header from './Header/Header';
 import { Outlet } from 'react-router-dom';
-
-const cx = classNames.bind(styles);
 
 function AdminLayout(props) {
     return (

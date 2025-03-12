@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { fetchGroup } from '../../../../../service/groupApiService';
+import { fetchGroup } from '../../../../service/groupService';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
 import classNames from 'classnames/bind';
 
 import styles from './AssignRole.module.scss';
-import { fetchAllRole, fetchRolesByGroup, assignRoleToGroup } from '../../../../service/roleAService';
+import { fetchAllRole, fetchRolesByGroup, assignRoleToGroup } from '../../../../service/roleService';
 
 const cx = classNames.bind(styles);
 
@@ -98,60 +98,51 @@ function AssignRole(props) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
-                <div className={cx('container mt-3')}>
+                <div className="mt-4">
                     <h4>Group Role:</h4>
-                    <div className={cx('assign-group-role')}>
-                        <div className={cx('col-12 col-sm-6 form-group')}>
-                            <label>
-                                select Group: (<span className={cx('red')}>*</span>) :
+                    <div className="w-full max-w-lg p-4 rounded-lg">
+                        <div className="mb-4">
+                            <label className="block text-gray-700 font-bold mb-2">
+                                Select Group: <span className="text-red-500">*</span>
                             </label>
                             <select
-                                className={cx('form-select')}
+                                className="w-full p-2 border rounded-md"
                                 onChange={(event) => handleOnchangeGroup(event.target.value)}
                             >
                                 <option value="">Please select your group</option>
                                 {userGroups.length > 0 &&
-                                    userGroups.map((item, index) => {
-                                        return (
-                                            <option key={`group-${index}`} value={item.id}>
-                                                {item.name}
-                                            </option>
-                                        );
-                                    })}
+                                    userGroups.map((item, index) => (
+                                        <option key={`group-${index}`} value={item.id}>
+                                            {item.name}
+                                        </option>
+                                    ))}
                             </select>
                         </div>
-                        <hr />
+                        <hr className="my-4" />
                         {selectGroup && (
-                            <div className="roles">
-                                <div>
-                                    <h4>Assign Roles:</h4>
-                                </div>
+                            <div>
+                                <h4>Assign Roles:</h4>
                                 {assignRoleByGroup &&
                                     assignRoleByGroup.length > 0 &&
-                                    assignRoleByGroup.map((item, index) => {
-                                        return (
-                                            <div className={cx('form-check')} key={`list-role-${index}`}>
-                                                <input
-                                                    className={cx('form-check-input')} 
-                                                    type="checkbox"
-                                                    value={item.id}
-                                                    checked={item.isAssigned}
-                                                    id={`list-role-${index}`}
-                                                    onChange={(event) => handleSelectRole(event.target.value)}
-                                                />
-                                                <label
-                                                    className={cx('form-check-label')} 
-                                                    htmlFor={`list-role-${index}`}
-                                                >
-                                                    {item.description}
-                                                </label>
-                                            </div>
-                                        );
-                                    })}
+                                    assignRoleByGroup.map((item, index) => (
+                                        <div className="flex items-center my-2" key={`list-role-${index}`}>
+                                            <input
+                                                className="mr-2 h-4 w-4"
+                                                type="checkbox"
+                                                value={item.id}
+                                                checked={item.isAssigned}
+                                                id={`list-role-${index}`}
+                                                onChange={(event) => handleSelectRole(event.target.value)}
+                                            />
+                                            <label className="text-gray-700" htmlFor={`list-role-${index}`}>
+                                                {item.description}
+                                            </label>
+                                        </div>
+                                    ))}
                             </div>
                         )}
-                        <div className={cx('mt-3', 'mb-3')}>
-                            <button className={cx('btn btn-warning')} onClick={() => handleSave()}>
+                        <div className="mt-3">
+                            <button className="bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600" onClick={handleSave}>
                                 Save
                             </button>
                         </div>
