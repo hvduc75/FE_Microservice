@@ -3,13 +3,16 @@ import { ToastContainer } from 'react-toastify';
 
 import DefaultLayout from './layouts/UserLayout/DefaultLayout/DefaultLayout';
 import OrganizerLayout from './layouts/UserLayout/OrganizerLayout/OrganizerLayout';
+import AdminLayout from './layouts/AdminLayout/AdminLayout';
 
 import Home from './Pages/User/Home/Home';
-import Organizer from './Pages/User/Organizer/Organizer';
 import AddEvent from './Pages/User/AddEvent/AddEvent';
 import MyEvent from './Pages/User/MyEvent/MyEvent';
 import TermOfUse from './Pages/User/TermOfUse/TermOfUse';
 import ManageReport from './Pages/User/ManageReport/ManageReport';
+import DashBoard from './Pages/Admin/DashBoard/DashBoard';
+import ManageUser from './Pages/Admin/ManageUser/ManageUser';
+import AddRole from './Pages/Admin/ManageRoles/AddRole/AddRole';
 
 function App() {
     return (
@@ -23,6 +26,12 @@ function App() {
                     <Route path="events" element={<MyEvent />} />
                     <Route path="term-of-use" element={<TermOfUse />} />
                     <Route path="report" element={<ManageReport />} />
+                </Route>
+                <Route path="/Admin" element={<AdminLayout />}>
+                    <Route index element={<DashBoard />} />
+                    <Route path="dashboard" element={<DashBoard />} />
+                    <Route path="manage-user" element={<ManageUser />} />
+                    <Route path="add-roles" element={<AddRole />} />
                 </Route>
             </Routes>
             <ToastContainer
