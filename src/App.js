@@ -54,7 +54,8 @@ function App() {
                 </Route>
                 <Route path="/organizer" element={<OrganizerLayout />}>
                     <Route path="create-event/:eventId?" element={<AddEvent />} />
-                    <Route path="events" element={<MyEvent />} />
+                    <Route path="events/:eventId?" element={<MyEvent />} />
+                    <Route path="events/:eventId?/edit" element={<AddEvent />} />
                     <Route path="term-of-use" element={<TermOfUse />} />
                     <Route path="report" element={<ManageReport />} />
                 </Route>

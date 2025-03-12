@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 
 import style from './OrganizerLayout.module.scss';
@@ -9,15 +9,18 @@ import { Outlet } from 'react-router-dom';
 const cx = classNames.bind(style);
 
 function OrganizerLayout(props) {
+    const [changeSidebar, setChangeSidebar] = useState(false);
+    const [eventId, setEventId] = useState('');
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('sidebar')}>
-                <Sidebar />
+                <Sidebar changeSidebar={changeSidebar} eventId={eventId} />
             </div>
             <div className={cx('content')}>
                 <Header />
                 <div className="mt-[64px]">
-                    <Outlet />
+                    <Outlet context={{ setChangeSidebar, setEventId }} />
                 </div>
             </div>
         </div>

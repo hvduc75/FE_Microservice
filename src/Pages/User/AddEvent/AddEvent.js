@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useOutletContext, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { addEvent, getEvent, editEvent, updateBankAccount, updateContentEmail } from '../../../service/eventService';
@@ -21,6 +21,8 @@ const steps = [
 
 function AddEvent(props) {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { setChangeSidebar, setEventId } = useOutletContext();
     const { eventId } = useParams();
     const [newEventId, setNewEventId] = useState('');
     const [active, setActive] = useState(1);
@@ -48,6 +50,13 @@ function AddEvent(props) {
     useEffect(() => {
         if (eventId || newEventId) {
             fetchEvent(eventId || newEventId);
+            if (eventId && location.pathname.includes('edit')) {
+                setEventId(eventId);
+                setChangeSidebar(true);
+            } else {
+                setChangeSidebar(false);
+                setEventId('');
+            }
         } else {
             setEventName('');
             setLocationType('');
@@ -211,7 +220,7 @@ function AddEvent(props) {
                 toast.success('Lưu thông tin sự kiện thành công');
             } else {
                 toast.error('Lưu thông tin sự kiện thất bại');
-                return
+                return;
             }
             if (active < 4) {
                 setActive(active + 1);

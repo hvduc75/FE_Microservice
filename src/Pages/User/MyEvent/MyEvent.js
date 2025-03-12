@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useOutletContext } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { getEventByCondition } from '../../../service/eventService';
@@ -26,10 +26,22 @@ const listItem = [
 
 function MyEvent(props) {
     const LIMIT = 5;
+    const { eventId } = useParams();
+    const { setChangeSidebar, setEventId } = useOutletContext();
     const dispatch = useDispatch();
     const [active, setActive] = useState('2');
     const [page, setPage] = useState(1);
     const [listEvent, setListEvent] = useState([]);
+
+    useEffect(() => {
+        if (eventId) {
+            setChangeSidebar(true);
+            setEventId(eventId);
+        }else{
+            setChangeSidebar(false);
+            setEventId('');
+        }
+    }, [eventId]);
 
     useEffect(() => {
         fetchEventByCondition(active);
@@ -51,7 +63,7 @@ function MyEvent(props) {
     };
 
     const handleEditEvent = () => {
-        dispatch(updateItemActive(''));
+        dispatch(updateItemActive('edit'));
     };
 
     return (
@@ -159,7 +171,11 @@ function MyEvent(props) {
                                             </div>
                                             <div className={cx('action')}>
                                                 <Link
-                                                    to={`/organizer/create-event/${event._id}`}
+                                                    to={
+                                                        active === '0'
+                                                            ? `/organizer/create-event/${event._id}`
+                                                            : `/organizer/events/${event._id}/edit`
+                                                    }
                                                     onClick={handleEditEvent}
                                                     className={cx('action_item')}
                                                 >
