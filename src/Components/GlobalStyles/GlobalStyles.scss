@@ -49,3 +49,16 @@ a {
     color: #fff !important;
     font-size: 14px;
 }
+
+.slick-dots {
+
+    li {
+        button::before {
+            color: #fff !important;
+        }
+    }
+
+    .slick-active button::before {
+        color: green !important;
+    }
+}

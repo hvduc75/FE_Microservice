@@ -1,0 +1,26 @@
+.container{
+    height: 167px;
+
+    .banner {
+        position: relative;
+        margin: 0px 5px;
+        padding: 0 5px;
+        border-radius: 12px;
+        height: 100%;
+        background: rgb(81, 81, 88);
+        border: 1px solid green;
+    
+        .slider-image {
+            border-radius: 10px;
+            object-fit: contain;
+            inset: 0px;
+            overflow: hidden;
+            position: absolute;
+            user-select: none;
+            z-index: 1;
+            height: 100%;
+            width: 100%;
+        }
+    }
+    
+}

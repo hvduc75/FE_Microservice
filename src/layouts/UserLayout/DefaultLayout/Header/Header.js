@@ -12,6 +12,8 @@ import Language from '../../../../Components/Language/Language';
 
 const cx = classNames.bind(styles);
 
+const contents = ["Nhạc sống", "Sân khấu & Nghệ thuật", "Thể Thao", "Khác"];
+
 function Header(props) {
     const [showModal, setShowModal] = useState(false);
 
@@ -49,6 +51,17 @@ function Header(props) {
                             <Account setShowModal={setShowModal} />
                             <Language />
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div className={cx('event_type')}>
+                <div className={cx('tbox-container')}>
+                    <div className={cx('categories_content')}>
+                        {contents.map((content, index) => (
+                            <div className={cx('content')} key={index}>
+                                <span>{content}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
