@@ -7,7 +7,6 @@
 
     .tbox-container {
         width: 100%;
-        border: 1px solid black;
 
         .list_banner {
             position: relative;
@@ -28,9 +27,8 @@
             }
 
             .event_container {
-                height: 300px;
-                width: 100%;
                 border: 1px solid red;
+                height: 300px;
                 margin: 0 5px;
                 border-radius: 10px;
             }
@@ -39,7 +37,6 @@
         .event_hot {
             margin: 3.5rem 0px;
             position: relative;
-            overflow: hidden;
 
             .title {
                 display: flex;
@@ -54,9 +51,125 @@
                 }
             }
 
-            .list_event_hot{
-                border: 1px solid red;
-                // height: 200px;
+            .list_event_hot {
+                color: rgb(42, 45, 52);
+                position: relative;
+            }
+        }
+
+        .tabs_wrapper {
+            margin-bottom: 40px;
+            position: relative;
+
+            .tablist {
+                position: relative;
+                display: flex;
+                align-items: center;
+                margin: 0 5px 16px 5px;
+
+                .tab_container {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    flex: auto;
+                    gap: 10px;
+
+                    .tab {
+                        padding: 8px 0px;
+                        position: relative;
+                        cursor: pointer;
+
+                        .this_week,
+                        .this_month {
+                            font-size: 15px;
+                            font-weight: 600;
+                            color: rgb(235, 235, 240);
+                            text-shadow: 0 0 0.25px currentcolor;
+                            position: relative;
+                            padding-bottom: 4px;
+
+                            &::after {
+                                content: '';
+                                position: absolute;
+                                left: 0;
+                                bottom: -4px;
+                                width: 100%;
+                                height: 4px;
+                                background-color: transparent;
+                                border-radius: 2px;
+                                transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+                                transform: scaleX(0);
+                            }
+                        }
+
+                        .active::after {
+                            background-color: #2bc275;
+                            transform: scaleX(1);
+                        }
+                    }
+                }
+
+                .tab_extra {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    line-height: 21px;
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: rgb(166, 166, 176);
+                    cursor: pointer;
+                    transition: color 0.3s ease-in-out;
+                }
+
+                .tab_extra:hover {
+                    color: rgb(235, 235, 240);
+                }
+            }
+
+            .tabs_content {
+            }
+        }
+
+        .event_type_wrapper {
+            margin-bottom: 40px;
+            position: relative;
+
+            .tablist {
+                position: relative;
+                display: flex;
+                align-items: center;
+                margin: 0 5px 16px 5px;
+                justify-content: space-between;
+
+                .this_week {
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: rgb(235, 235, 240);
+                    text-shadow: 0 0 0.25px currentcolor;
+                    position: relative;
+                    padding-bottom: 4px;
+                }
+
+                .tab_extra {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    line-height: 21px;
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: rgb(166, 166, 176);
+                    cursor: pointer;
+                    transition: color 0.3s ease-in-out;
+                }
+
+                .tab_extra:hover {
+                    color: rgb(235, 235, 240);
+                }
+            }
+            
+            .tabs_content {
             }
         }
     }

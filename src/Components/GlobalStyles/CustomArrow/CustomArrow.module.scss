@@ -16,6 +16,24 @@
     transition: background 0.3s ease, color 0.3s ease, opacity 0.3s ease;
 }
 
+.custom-arrow-button{
+    position: absolute;
+    top: 30%;
+    transform: translateY(-50%);
+    z-index: 10;
+    cursor: pointer;
+    width: 35px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 20px;
+    font-weight: bold;
+    opacity: 0.6; /* Mờ ban đầu */
+    transition: background 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
 /* Nút next */
 .next-arrow {
     right: 5px;
