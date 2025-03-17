@@ -11,6 +11,7 @@ import 'slick-carousel/slick/slick-theme.css';
 const cx = classNames.bind(styles);
 
 function EventTabs(props) {
+    const { listEvent } = props;
     const settings = {
         dots: false,
         infinite: true,
@@ -19,9 +20,38 @@ function EventTabs(props) {
         nextArrow: <EventNextArrow/>,
         prevArrow: <EventPrevArrow />,
     };
+
+    const getImageSrc = (image) => {
+        if (image && image.data) {
+            const binary = new Uint8Array(image.data).reduce((data, byte) => data + String.fromCharCode(byte), '');
+            return `data:image/jpeg;base64,${window.btoa(binary)}`;
+        }
+        return null;
+    };
+
     return (
         <div className="slider-container">
             <Slider {...settings}>
+                {listEvent && listEvent.length > 0 && listEvent.map((item, index) => (
+                    <div className={cx('container')} key={index}>
+                        <div className={cx('banner')}>
+                            <img
+                                className={cx('slider-image')}
+                                src={getImageSrc(item.eventLogo)}
+                                alt="banner"
+                            />
+                        </div>
+                        <div className={cx('content')}>
+                            <div className={cx('content_container')}>
+                                <span className={cx('title')}>{item.eventName}</span>
+                                <span className={cx('price')}>Từ {item.price}đ</span>
+                                <span className={cx('calendal')}>
+                                    <Calendar /> <span className={cx('time')}>{item.startDate}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                ))}
                 <div className={cx('container')}>
                     <div className={cx('banner')}>
                         <img

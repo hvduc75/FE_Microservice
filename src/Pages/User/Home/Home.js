@@ -1,19 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import { useNavigate } from 'react-router-dom';
 
 import BannerSlider from '../../../Components/Slider/BannerSlider/BannerSlider';
 import EventHotSlider from '../../../Components/Slider/EventHotSlider/EventHotSlider';
 import EventTabs from '../../../Components/Slider/EventTabs/EventTabs';
-import EventTypeSlider from '../../../Components/Slider/EventTypeSlider/EventTypeSlider';
+import CategorySlider from '../../../Components/Slider/CategorySlider/CategorySlider';
 import styles from './Home.module.scss';
+import { search } from '../../../service/eventService';
 import { GiSmallFire } from 'react-icons/gi';
 import { ChevronRight } from 'lucide-react';
 
 const cx = classNames.bind(styles);
 
 function Home(props) {
+    const navigate = useNavigate();
     const [active, setActive] = useState(0);
+    const [listEventMusic, setListEventMusic] = useState([]);
+    const [listEventOther, setListEventOther] = useState([]);
+    const [listEventTheater, setListEventTheater] = useState([]);
 
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        let data = await search(1, 1, 20);
+        if (data.EC === 0) {
+            setListEventMusic(data.DT);
+        }
+        let data1 = await search(4, 1, 20);
+        if (data1.EC === 0) {
+            setListEventOther(data1.DT);
+        }
+        let data2 = await search(2, 1, 20);
+        if (data2.EC === 0) {
+            setListEventTheater(data2.DT);
+        }
+    };
+
+    console.log(listEventMusic);
+
+    const handleClickExtra = (category) => {
+        navigate(`search?category=${category}`);
+    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('tbox-container')}>
@@ -55,37 +85,37 @@ function Home(props) {
                 <div className={cx('event_type_wrapper')}>
                     <div className={cx('tablist')}>
                         <div className={cx('this_week')}>Nhạc sống</div>
-                        <div className={cx('tab_extra')}>
+                        <div className={cx('tab_extra')} onClick={() => handleClickExtra('music')}>
                             <span>Xem thêm</span>
                             <ChevronRight size={16} />
                         </div>
                     </div>
                     <div className={cx('tabs_content')}>
-                        <EventTabs />
+                        <CategorySlider listEvent={listEventMusic} />
                     </div>
                 </div>
                 <div className={cx('event_type_wrapper')}>
                     <div className={cx('tablist')}>
                         <div className={cx('this_week')}>Sân khấu & Nghệ thuật</div>
-                        <div className={cx('tab_extra')}>
+                        <div className={cx('tab_extra')} onClick={() => handleClickExtra('theatersandart')}>
                             <span>Xem thêm</span>
                             <ChevronRight size={16} />
                         </div>
                     </div>
                     <div className={cx('tabs_content')}>
-                        <EventTabs />
+                        <CategorySlider listEvent={listEventTheater} />
                     </div>
                 </div>
                 <div className={cx('event_type_wrapper')}>
                     <div className={cx('tablist')}>
                         <div className={cx('this_week')}>Thể loại khác</div>
-                        <div className={cx('tab_extra')}>
+                        <div className={cx('tab_extra')} onClick={() => handleClickExtra('others')}>
                             <span>Xem thêm</span>
                             <ChevronRight size={16} />
                         </div>
                     </div>
                     <div className={cx('tabs_content')}>
-                        <EventTypeSlider />
+                        <CategorySlider listEvent={listEventOther} />
                     </div>
                 </div>
             </div>

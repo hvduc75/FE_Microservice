@@ -20,6 +20,7 @@ import AddRole from './Pages/Admin/ManageRoles/AddRole/AddRole';
 import AssignRole from './Pages/Admin/ManageRoles/AssignRole/AssignRole';
 import ManageEvent from './Pages/Admin/ManageEvent/ManageEvent';
 import ConfirmEvent from './Pages/Admin/ConfirmEvent/ConfirmEvent';
+import Search from './Pages/User/Search/Search';
 
 function App() {
     const dispatch = useDispatch();
@@ -46,11 +47,14 @@ function App() {
         }
     };
 
+    console.log(loading)
+
     return (
         <>
             <Routes>
                 <Route path="/" element={<DefaultLayout />}>
                     <Route index element={<Home />} />
+                    <Route path="search" element={<Search />} />
                 </Route>
                 <Route path="/organizer" element={<OrganizerLayout />}>
                     <Route path="create-event/:eventId?" element={<AddEvent />} />

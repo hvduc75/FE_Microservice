@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 
@@ -11,10 +12,11 @@ import Account from '../../../../Components/Account/Account';
 import Language from '../../../../Components/Language/Language';
 
 const cx = classNames.bind(styles);
-
 const contents = ["Nhạc sống", "Sân khấu & Nghệ thuật", "Thể Thao", "Khác"];
 
 function Header(props) {
+    const location = useLocation();
+    const isHomePage = location.pathname === '/';
     const [showModal, setShowModal] = useState(false);
 
     const handleAddEvent = () => {
@@ -54,17 +56,19 @@ function Header(props) {
                     </div>
                 </div>
             </div>
-            <div className={cx('event_type')}>
-                <div className={cx('tbox-container')}>
-                    <div className={cx('categories_content')}>
-                        {contents.map((content, index) => (
-                            <div className={cx('content')} key={index}>
-                                <span>{content}</span>
-                            </div>
-                        ))}
+            {isHomePage && (
+                <div className={cx('event_type')}>
+                    <div className={cx('tbox-container')}>
+                        <div className={cx('categories_content')}>
+                            {contents.map((content, index) => (
+                                <div className={cx('content')} key={index}>
+                                    <span>{content}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
             {showModal && <ModalLogin setShowModal={setShowModal} />}
         </>
     );

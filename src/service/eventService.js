@@ -8,6 +8,10 @@ const getEventByCondition = (condition, page, limit) => {
     return axios.get(`/event/getEventByCondition?condition=${condition}&page=${page}&limit=${limit}`);
 };
 
+const search = (category, page, limit) => {
+    return axios.get(`/event/searchEvent?category=${category}&page=${page}&limit=${limit}`);
+};
+
 const addEvent = (data) => {
     const formData = new FormData();
 
@@ -87,4 +91,4 @@ const confirmEvent = (eventId) => {
     return axios.put('/event/confirmEvent', formData);
 };
 
-export { addEvent, getEvent, updateEventDate, getEventByCondition, editEvent, updateContentEmail, updateBankAccount, confirmEvent };
+export { addEvent, getEvent, updateEventDate, getEventByCondition, editEvent, updateContentEmail, updateBankAccount, confirmEvent, search };
