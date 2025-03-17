@@ -16,7 +16,7 @@ const contents = ["Nhạc sống", "Sân khấu & Nghệ thuật", "Thể Thao",
 
 function Header(props) {
     const location = useLocation();
-    const isHomePage = location.pathname === '/';
+    const isHomePage = location.pathname === '/' || location.pathname.startsWith('/event-detail');
     const [showModal, setShowModal] = useState(false);
 
     const handleAddEvent = () => {

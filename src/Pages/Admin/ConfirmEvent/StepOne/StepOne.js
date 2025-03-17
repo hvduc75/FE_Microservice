@@ -4,6 +4,7 @@ import styles from './StepOne.module.scss';
 
 import { FiInbox } from 'react-icons/fi';
 import Location from './Location/Location';
+import { getImageSrc } from '../../../../utils';
 
 const cx = classNames.bind(styles);
 
@@ -45,14 +46,6 @@ function StepOne(props) {
             setImage(file);
             setPreview(URL.createObjectURL(file));
         }
-    };
-
-    const getImageSrc = (image) => {
-        if (image && image.data) {
-            const binary = new Uint8Array(image.data).reduce((data, byte) => data + String.fromCharCode(byte), '');
-            return `data:image/jpeg;base64,${window.btoa(binary)}`;
-        }
-        return null;
     };
 
     return (

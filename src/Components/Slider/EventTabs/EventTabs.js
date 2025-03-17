@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import { EventNextArrow, EventPrevArrow } from '../../GlobalStyles/CustomArrow/CustomArrow';
 
 import styles from './EventTabs.module.scss';
+import { getImageSrc } from '../../../utils';
 import { Calendar } from 'lucide-react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -19,14 +20,6 @@ function EventTabs(props) {
         slidesToScroll: 4,
         nextArrow: <EventNextArrow/>,
         prevArrow: <EventPrevArrow />,
-    };
-
-    const getImageSrc = (image) => {
-        if (image && image.data) {
-            const binary = new Uint8Array(image.data).reduce((data, byte) => data + String.fromCharCode(byte), '');
-            return `data:image/jpeg;base64,${window.btoa(binary)}`;
-        }
-        return null;
     };
 
     return (

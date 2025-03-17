@@ -6,6 +6,7 @@ import style from './ModalAddTicket.module.scss';
 import { addTicket, updateTicket } from '../../../service/ticketService';
 import { IoClose } from 'react-icons/io5';
 import { FiInbox } from 'react-icons/fi';
+import { getImageSrc } from '../../../utils';
 
 const cx = classNames.bind(style);
 
@@ -54,14 +55,6 @@ function ModalAddTicket(props) {
         const localDate = new Date(date - offset);
 
         return localDate.toISOString().slice(0, 16);
-    };
-
-    const getImageSrc = (image) => {
-        if (image && image.data) {
-            const binary = new Uint8Array(image.data).reduce((data, byte) => data + String.fromCharCode(byte), '');
-            return `data:image/jpeg;base64,${window.btoa(binary)}`;
-        }
-        return null;
     };
 
     const handleSave = async () => {

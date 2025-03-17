@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { getEventByCondition } from '../../../service/eventService';
 import { updateItemActive } from '../../../redux/action/eventAction';
+import { getImageSrc } from '../../../utils';
 import styles from './ManageEvent.module.scss';
 import { IoSearch } from 'react-icons/io5';
 import { FaCalendar } from 'react-icons/fa';
@@ -32,14 +33,6 @@ function ManageEvent(props) {
         if (data.EC === 0) {
             setListEvent(data.DT);
         }
-    };
-
-    const getImageSrc = (image) => {
-        if (image && image.data) {
-            const binary = new Uint8Array(image.data).reduce((data, byte) => data + String.fromCharCode(byte), '');
-            return `data:image/jpeg;base64,${window.btoa(binary)}`;
-        }
-        return null;
     };
 
     const handleEditEvent = () => {

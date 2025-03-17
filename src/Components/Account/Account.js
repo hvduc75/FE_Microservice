@@ -11,6 +11,7 @@ import images from '../../assets/images';
 import { UserLogoutSuccess } from '../../redux/action/userAction';
 import { logout } from '../../service/authService';
 import { LogOut, TicketMinus, CalendarPlus2, CircleUserRound } from 'lucide-react';
+import { getImageSrc } from '../../utils';
 
 const cx = classNames.bind(styles);
 
@@ -18,18 +19,6 @@ function Account(props) {
     const dispatch = useDispatch();
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const { setShowModal } = props;
-
-    const getImageSrc = (image) => {
-        if (image && image.data) {
-            const byteArray = new Uint8Array(image.data);
-            let binary = '';
-            byteArray.forEach((byte) => {
-                binary += String.fromCharCode(byte);
-            });
-            return `data:image/jpeg;base64,${window.btoa(binary)}`;
-        }
-        return null;
-    };
 
     const handleLogout = async () => {
         localStorage.removeItem('isLogged');
