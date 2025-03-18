@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ import { getImageSrc, getMinPrice, formatPrice, formatDate } from '../../../util
 const cx = classNames.bind(styles);
 
 function EventDetail(props) {
+    const navigate = useNavigate();
     const { eventId } = useParams();
     const [event, setEvent] = useState(null);
     const [isTicketOpen, setIsTicketOpen] = useState(true);
@@ -26,7 +27,9 @@ function EventDetail(props) {
         }
     };
 
-    console.log(event);
+    const handleBuyTicket = async () => {
+        navigate(`/event-booking/${eventId}`);
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -54,7 +57,7 @@ function EventDetail(props) {
                                         Giá từ
                                         <span>{getMinPrice(event?.tickets)}</span>
                                     </div>
-                                    <Link>
+                                    <Link to={`/event-booking/${eventId}`}>
                                         <button className={cx('css_button')}>Mua vé ngay</button>
                                     </Link>
                                 </div>
@@ -88,7 +91,7 @@ function EventDetail(props) {
                                             {isTicketOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                                             <span>{formatDate(event?.startDate)}</span>
                                         </div>
-                                        <div>
+                                        <div onClick={() => handleBuyTicket()}>
                                             <button className={cx('css_button')}>Mua vé ngay</button>
                                         </div>
                                     </div>

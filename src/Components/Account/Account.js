@@ -11,7 +11,6 @@ import images from '../../assets/images';
 import { UserLogoutSuccess } from '../../redux/action/userAction';
 import { logout } from '../../service/authService';
 import { LogOut, TicketMinus, CalendarPlus2, CircleUserRound } from 'lucide-react';
-import { getImageSrc } from '../../utils';
 
 const cx = classNames.bind(styles);
 

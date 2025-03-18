@@ -22,6 +22,8 @@ import ManageEvent from './Pages/Admin/ManageEvent/ManageEvent';
 import ConfirmEvent from './Pages/Admin/ConfirmEvent/ConfirmEvent';
 import Search from './Pages/User/Search/Search';
 import EventDetail from './Pages/User/EventDetail/EventDetail';
+import BookingLayout from './layouts/UserLayout/BookingLayout/BookingLayout';
+import EventBooking from './Pages/User/EventBooking/EventBooking';
 
 function App() {
     const dispatch = useDispatch();
@@ -57,6 +59,10 @@ function App() {
                     <Route index element={<Home />} />
                     <Route path="search" element={<Search />} />
                     <Route path="event-detail/:eventId" element={<EventDetail />} />
+                </Route>
+                <Route path="/" element={<BookingLayout />}>
+                    <Route index element={<Home />} />
+                    <Route path="event-booking/:eventId" element={<EventBooking />} />
                 </Route>
                 <Route path="/organizer" element={<OrganizerLayout />}>
                     <Route path="create-event/:eventId?" element={<AddEvent />} />
