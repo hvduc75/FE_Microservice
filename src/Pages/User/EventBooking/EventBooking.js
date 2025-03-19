@@ -79,7 +79,7 @@ function EventBooking(props) {
         });
 
         if(data.EC === 0) {
-            navigate(`booking/${data.DT._id}`);
+            navigate(`payment/${data.DT._id}`);
         }
     };
 

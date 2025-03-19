@@ -1,13 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
+import { useParams } from 'react-router-dom';
 
 import styles from './Payment.module.scss';
 import images from '../../../assets/images';
+import { getEvent } from '../../../service/eventService';
+import { getBookingById } from '../../../service/bookingService';
+import { formatPrice, formatDate, getImageSrc } from '../../../utils';
 import { CircleCheck, Circle, Calendar, MapPin, CircleAlert } from 'lucide-react';
 
 const cx = classNames.bind(styles);
 
 function Payment(props) {
+    const { eventId, bookingId } = useParams();
+    const [event, setEvent] = useState(null);
+    const [booking, setBooking] = useState(null);
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [paymentMethod, setPaymentMethod] = useState('vn_pay');
+
+    const paymentMethods = [
+        { id: 'vn_pay', label: 'Ứng dụng ngân hàng (VNPAY)', img: images.pm_vnpay },
+        { id: 'momo', label: 'Ví momo', img: images.pm_momo },
+        { id: 'zalo_pay', label: 'Zalopay', img: images.pm_zalopay },
+    ];
+
+    useEffect(() => {
+        fetchEvent();
+    }, [eventId]);
+
+    useEffect(() => {
+        fetchBooking();
+    }, [bookingId]);
+
+    useEffect(() => {
+        booking?.tickets &&
+            booking?.tickets.length > 0 &&
+            setTotalAmount(booking.tickets.reduce((sum, ticket) => sum + ticket.ticketPrice * ticket.quantity, 0));
+    }, [booking]);
+
+    const fetchEvent = async () => {
+        let data = await getEvent(eventId);
+        if (data.EC === 0) {
+            setEvent(data.DT);
+        }
+    };
+
+    const fetchBooking = async () => {
+        let data = await getBookingById(bookingId);
+        if (data.EC === 0) {
+            setBooking(data.DT);
+        }
+    };
+
+    const handlePaymentMethodChange = (event) => {
+        setPaymentMethod(event.target.value);
+    };
+
+    const handlePayment = () => {
+        alert('vien ngu', paymentMethod);
+        console.log('vien ngu', paymentMethod);
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
@@ -36,26 +89,27 @@ function Payment(props) {
             <div
                 className={cx('event_desc')}
                 style={{
-                    backgroundImage: `url(${'https://scontent.fhan14-5.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=DIBbnYOhK2sQ7kNvgGFvlZH&_nc_oc=Adh0Aj7ZTUWqUcqMnOrw0vQy-qERNbEx0k9x09np4QerfNRWFYcr8VLG1QsMO5msgpw&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=A4NdmfzODDG5g0mWuzYa_HA&oh=00_AYH3OPzgZNcRKmXPN1kqzhxhHfgNMZvzhpiGIj5p4xENJg&oe=67F99761'})`,
+                    backgroundImage: `url(${
+                        getImageSrc(event?.backgroundEvent) ||
+                        'https://scontent.fhan14-5.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=DIBbnYOhK2sQ7kNvgGFvlZH&_nc_oc=Adh0Aj7ZTUWqUcqMnOrw0vQy-qERNbEx0k9x09np4QerfNRWFYcr8VLG1QsMO5msgpw&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=A4NdmfzODDG5g0mWuzYa_HA&oh=00_AYH3OPzgZNcRKmXPN1kqzhxhHfgNMZvzhpiGIj5p4xENJg&oe=67F99761'
+                    })`,
                 }}
             >
                 <div className={cx('banner_content')}>
                     <div className={cx('content_main')}>
                         <div className={cx('text_info')}>
-                            <p className={cx('title')}>LULULOLA SHOW LÂN NHÃ | DÙ TA VẪN YÊU</p>
+                            <p className={cx('title')}>{event?.eventName}</p>
                             <div>
                                 <hr />
                             </div>
                             <div className={cx('venue')}>
                                 <MapPin size={24} />
-                                <span>Lululola</span>
+                                <span>{event?.locationName}</span>
                             </div>
-                            <p className={cx('address')}>
-                                Đầu đèo Prenn, Số 32/2 Đường 3/4, Phường 3, Thành Phố Đà Lạt, Tỉnh Lâm Đồng
-                            </p>
+                            <p className={cx('address')}>{event?.address}</p>
                             <div className={cx('datetime')}>
                                 <Calendar size={24} />
-                                <span>17:30 - 19:30, 12 tháng 04, 2025</span>
+                                <span>{formatDate(event?.startDate)}</span>
                             </div>
                         </div>
                         <div className={cx('count_info')}>
@@ -103,27 +157,22 @@ function Payment(props) {
                                 <span>Phương thức thanh toán</span>
                             </div>
                             <div className={cx('method_container')}>
-                                <div className={cx('method')}>
-                                    <input type="radio" id="vn_pay" name="payment" value="vn_pay" />
-                                    <label htmlFor="vn_pay">
-                                        <img src={images.pm_vnpay} alt="VNPAY" />
-                                        <span>Ứng dụng ngân hàng (VNPAY)</span>
-                                    </label>
-                                </div>
-                                <div className={cx('method')}>
-                                    <input type="radio" id="momo" name="payment" value="momo" />
-                                    <label htmlFor="momo">
-                                        <img src={images.pm_momo} alt="MOMO" />
-                                        <span>Ví momo</span>
-                                    </label>
-                                </div>
-                                <div className={cx('method')}>
-                                    <input type="radio" id="zalo_pay" name="payment" value="zalo_pay" />
-                                    <label htmlFor="zalo_pay">
-                                        <img src={images.pm_zalopay} alt="ZALOPAY" />
-                                        <span>Zalopay</span>
-                                    </label>
-                                </div>
+                                {paymentMethods.map(({ id, label, img }) => (
+                                    <div key={id} className={cx('method')}>
+                                        <input
+                                            type="radio"
+                                            id={id}
+                                            name="payment"
+                                            value={id}
+                                            checked={paymentMethod === id}
+                                            onChange={handlePaymentMethodChange}
+                                        />
+                                        <label htmlFor={id}>
+                                            <img src={img} alt={label} />
+                                            <span>{label}</span>
+                                        </label>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -139,28 +188,26 @@ function Payment(props) {
                                         <div className={cx('left_node')}>Loại vé</div>
                                         <div className={cx('right_node')}>Số lượng</div>
                                     </div>
-                                    <div className={cx('ticket')}>
-                                        <div className={cx('content_top')}>
-                                            <div className={cx('left_node')}>Phụ thu Bến Thành</div>
-                                            <div className={cx('right_node')}>01</div>
-                                        </div>
-                                        <div className={cx('content_bot')}>
-                                            <div className={cx('left_node')}>1.000.000 đ</div>
-                                            <div className={cx('right_node')}>1.000.000 đ</div>
-                                        </div>
-                                        <div className={cx('separator')}></div>
-                                    </div>
-                                    <div className={cx('ticket')}>
-                                        <div className={cx('content_top')}>
-                                            <div className={cx('left_node')}>Phụ thu Bến Thành</div>
-                                            <div className={cx('right_node')}>01</div>
-                                        </div>
-                                        <div className={cx('content_bot')}>
-                                            <div className={cx('left_node')}>1.000.000 đ</div>
-                                            <div className={cx('right_node')}>1.000.000 đ</div>
-                                        </div>
-                                        <div className={cx('separator')}></div>
-                                    </div>
+                                    {booking?.tickets.length > 0 &&
+                                        booking?.tickets.map((ticket, index) => (
+                                            <div className={cx('ticket')} key={index}>
+                                                <div className={cx('content_top')}>
+                                                    <div className={cx('left_node')}>{ticket.ticketName}</div>
+                                                    <div className={cx('right_node')}>{ticket.quantity}</div>
+                                                </div>
+                                                <div className={cx('content_bot')}>
+                                                    <div className={cx('left_node')}>
+                                                        {formatPrice(ticket.ticketPrice)} đ
+                                                    </div>
+                                                    <div className={cx('right_node')}>
+                                                        {formatPrice(ticket.ticketPrice * ticket.quantity)} đ
+                                                    </div>
+                                                </div>
+                                                {index + 1 !== booking.tickets.length && (
+                                                    <div className={cx('separator')}></div>
+                                                )}
+                                            </div>
+                                        ))}
                                 </div>
                             </div>
                             <div className={cx('order_info')}>
@@ -170,18 +217,18 @@ function Payment(props) {
                                 <div className={cx('content')}>
                                     <div className={cx('header')}>
                                         <div className={cx('left_node')}>Tạm tính</div>
-                                        <div className={cx('right_node')}>2.400.000 đ</div>
+                                        <div className={cx('right_node')}>{formatPrice(totalAmount)} đ</div>
                                     </div>
                                     <div className={cx('separator')}></div>
                                     <div className={cx('total_price')}>
                                         <div className={cx('left_node')}>Tổng tiền</div>
-                                        <div className={cx('right_node')}>2.400.000 đ</div>
+                                        <div className={cx('right_node')}>{formatPrice(totalAmount)} đ</div>
                                     </div>
                                     <div className={cx('node')}>
                                         Bằng việc tiến hành đặt mua, bạn đã đồng ý với{' '}
                                         <span>Điều Kiện Giao Dịch Chung</span>
                                     </div>
-                                    <button>Thanh toán</button>
+                                    <button onClick={() => handlePayment()}>Thanh toán</button>
                                 </div>
                             </div>
                         </div>

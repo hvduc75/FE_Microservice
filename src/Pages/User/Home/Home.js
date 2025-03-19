@@ -27,19 +27,17 @@ function Home(props) {
     const fetchData = async () => {
         let data = await search(1, 1, 20);
         if (data.EC === 0) {
-            setListEventMusic(data.DT);
+            setListEventMusic(data.DT.events);
         }
         let data1 = await search(4, 1, 20);
         if (data1.EC === 0) {
-            setListEventOther(data1.DT);
+            setListEventOther(data1.DT.events);
         }
         let data2 = await search(2, 1, 20);
         if (data2.EC === 0) {
-            setListEventTheater(data2.DT);
+            setListEventTheater(data2.DT.events);
         }
     };
-
-    console.log(listEventMusic);
 
     const handleClickExtra = (category) => {
         navigate(`search?category=${category}`);

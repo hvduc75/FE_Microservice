@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 
@@ -9,6 +8,7 @@ import 'tippy.js/dist/tippy.css';
 import styles from './Account.module.scss';
 import images from '../../assets/images';
 import { UserLogoutSuccess } from '../../redux/action/userAction';
+import { updateItemActive } from '../../redux/action/eventAction';
 import { logout } from '../../service/authService';
 import { LogOut, TicketMinus, CalendarPlus2, CircleUserRound } from 'lucide-react';
 
@@ -30,6 +30,12 @@ function Account(props) {
         sessionStorage.setItem('pageItem', page);
     };
 
+    const handleClickMyEvents = () => {
+        dispatch(updateItemActive('event'));
+        sessionStorage.setItem('activeTab', 'event');
+        window.open('/organizer/events', '_blank');
+    };
+
     return (
         <div className={cx('wrapper')}>
             {!isAuthenticated ? (
@@ -39,7 +45,6 @@ function Account(props) {
             ) : (
                 <Tippy
                     interactive
-                    // delay={[0, 700]}
                     offset={[0, 1]}
                     placement="bottom-end"
                     render={(attrs) => (
@@ -49,19 +54,15 @@ function Account(props) {
                                 onClick={() => handlePageChange('account-info')}
                                 className={cx('menu-item')}
                             >
-                                <TicketMinus size={22} className='mr-2' />
+                                <TicketMinus size={22} className="mr-2" />
                                 Vé đã mua
                             </Link>
-                            <Link
-                                to="/order/history"
-                                onClick={() => handlePageChange('order-history')}
-                                className={cx('menu-item')}
-                            >
-                                <CalendarPlus2 size={22} className='mr-2'/>
+                            <div onClick={() => handleClickMyEvents()} className={cx('menu-item')}>
+                                <CalendarPlus2 size={22} className="mr-2" />
                                 Sự kiện của tôi
-                            </Link>
+                            </div>
                             <Link to="/help-center" className={cx('menu-item')}>
-                                <CircleUserRound size={22} className='mr-2'/>
+                                <CircleUserRound size={22} className="mr-2" />
                                 Tài khoản của tôi
                             </Link>
                             <div
@@ -70,7 +71,7 @@ function Account(props) {
                                 }}
                                 className={cx('menu-item')}
                             >
-                                <LogOut size={22} className='mr-2' />
+                                <LogOut size={22} className="mr-2" />
                                 Đăng xuất
                             </div>
                         </div>

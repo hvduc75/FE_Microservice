@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
@@ -9,8 +9,8 @@ import { MdChair } from 'react-icons/md';
 import { PiCalendarStarFill } from 'react-icons/pi';
 import { FaFolder } from 'react-icons/fa';
 import { LuNotebookText } from 'react-icons/lu';
-import { SiGoogleanalytics } from "react-icons/si";
-import { FaUserGroup } from "react-icons/fa6";
+import { SiGoogleanalytics } from 'react-icons/si';
+import { FaUserGroup } from 'react-icons/fa6';
 import { updateItemActive } from '../../../../redux/action/eventAction';
 import { ArrowLeft, Pencil, CircleCheck, BadgeDollarSign } from 'lucide-react';
 
@@ -21,11 +21,19 @@ function Sidebar(props) {
     const navigate = useNavigate();
     const activeItem = useSelector((state) => state.event.itemActive);
     const { changeSidebar, eventId } = props;
+    
+    useEffect(() => {
+        const activeTab = sessionStorage.getItem('activeTab');
+        if (activeTab) {
+            dispatch(updateItemActive(activeTab)); 
+            sessionStorage.removeItem('activeTab'); 
+        }
+    }, []);
 
     const handleClickItem = (item) => {
         dispatch(updateItemActive(item));
         navigate(`/organizer/events/${eventId}/edit`);
-    }
+    };
 
     return (
         <div className="menu-wrapper sticky top-0 h-full flex flex-col bg-[#19261f]">
@@ -118,7 +126,7 @@ function Sidebar(props) {
                         className={cx('item', { active: activeItem === 'member' })}
                         onClick={() => dispatch(updateItemActive('member'))}
                     >
-                        <FaUserGroup  style={{ height: '20px', width: '20px' }} />
+                        <FaUserGroup style={{ height: '20px', width: '20px' }} />
                         <span className={cx('title')}>Thành viên</span>
                     </div>
                     <div

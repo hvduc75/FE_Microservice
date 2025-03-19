@@ -4,6 +4,7 @@ import { Link, useParams, useOutletContext } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { getEventByCondition } from '../../../service/eventService';
+import Pagination from '../../../Components/Pagination/Pagination';
 import { updateItemActive } from '../../../redux/action/eventAction';
 import { getImageSrc } from '../../../utils';
 import styles from './MyEvent.module.scss';
@@ -31,14 +32,15 @@ function MyEvent(props) {
     const { setChangeSidebar, setEventId } = useOutletContext();
     const dispatch = useDispatch();
     const [active, setActive] = useState('2');
-    const [page, setPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
     const [listEvent, setListEvent] = useState([]);
 
     useEffect(() => {
         if (eventId) {
             setChangeSidebar(true);
             setEventId(eventId);
-        }else{
+        } else {
             setChangeSidebar(false);
             setEventId('');
         }
@@ -46,14 +48,15 @@ function MyEvent(props) {
 
     useEffect(() => {
         fetchEventByCondition(active);
-    }, [page, active]);
+    }, [currentPage, active]);
 
     const fetchEventByCondition = async (condition) => {
-        const data = await getEventByCondition(condition, page, LIMIT);
+        const data = await getEventByCondition(condition, currentPage, LIMIT);
         if (data.EC === 0) {
-            setListEvent(data.DT);
+            setListEvent(data.DT.events);
+            setTotalPage(data.DT.totalPages);
         }
-    };;
+    };
 
     const handleEditEvent = () => {
         dispatch(updateItemActive('edit'));
@@ -183,6 +186,11 @@ function MyEvent(props) {
                                 ))}
                         </div>
                     </div>
+                    <Pagination
+                        totalPage={totalPage}
+                        currentPage={currentPage}
+                        onPageChange={(page) => setCurrentPage(page)}
+                    />
                 </div>
                 <div className="w-[22%] hidden xl:block relative">
                     <div className={cx('sidebar')}>sidebar</div>
