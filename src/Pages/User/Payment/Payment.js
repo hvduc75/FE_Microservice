@@ -17,12 +17,33 @@ function Payment(props) {
     const [booking, setBooking] = useState(null);
     const [totalAmount, setTotalAmount] = useState(0);
     const [paymentMethod, setPaymentMethod] = useState('vn_pay');
-
+    const [countdown, setCountdown] = useState(0);
     const paymentMethods = [
         { id: 'vn_pay', label: 'Ứng dụng ngân hàng (VNPAY)', img: images.pm_vnpay },
         { id: 'momo', label: 'Ví momo', img: images.pm_momo },
         { id: 'zalo_pay', label: 'Zalopay', img: images.pm_zalopay },
     ];
+    const timeout = 15 * 60;
+
+    useEffect(() => {
+        if (booking?.bookingTime) {
+            const bookingTimestamp = new Date(booking.bookingTime).getTime();
+            const expireTimestamp = bookingTimestamp + timeout * 1000;
+            const remainingTime = Math.max((expireTimestamp - Date.now()) / 1000, 0);
+            setCountdown(Math.floor(remainingTime));
+        }
+    }, [booking]);
+
+    useEffect(() => {
+        if (countdown <= 0) return;
+        const interval = setInterval(() => {
+            setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
+       
+    const minutes = Math.floor(countdown / 60);
+    const seconds = countdown % 60;
 
     useEffect(() => {
         fetchEvent();
@@ -33,10 +54,12 @@ function Payment(props) {
     }, [bookingId]);
 
     useEffect(() => {
-        booking?.tickets &&
-            booking?.tickets.length > 0 &&
-            setTotalAmount(booking.tickets.reduce((sum, ticket) => sum + ticket.ticketPrice * ticket.quantity, 0));
-    }, [booking]);
+        if (booking && booking.tickets && booking.tickets.length > 0) {
+            setTotalAmount(
+                booking.tickets.reduce((sum, ticket) => sum + ticket.ticketPrice * ticket.quantity, 0)
+            );
+        }
+    }, [booking]);    
 
     const fetchEvent = async () => {
         let data = await getEvent(eventId);
@@ -117,11 +140,11 @@ function Payment(props) {
                                 <p>Hoàn tất đặt vé trong</p>
                                 <div className={cx('count_down')}>
                                     <span className={cx('cd_container')}>
-                                        <span className={cx('cd_number')}>14</span>
+                                        <span className={cx('cd_number')}>{String(minutes).padStart(2, '0')}</span>
                                         <span className={cx('cd_separator')}>:</span>
                                     </span>
                                     <span className={cx('cd_container')}>
-                                        <span className={cx('cd_number')}>03</span>
+                                        <span className={cx('cd_number')}>{String(seconds).padStart(2, '0')}</span>
                                     </span>
                                 </div>
                             </div>

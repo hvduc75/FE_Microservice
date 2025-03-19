@@ -31,7 +31,7 @@ function ManageEvent(props) {
     const fetchEventByCondition = async (condition) => {
         const data = await getEventByCondition(condition, page, LIMIT);
         if (data.EC === 0) {
-            setListEvent(data.DT);
+            setListEvent(data.DT.events);
         }
     };
 

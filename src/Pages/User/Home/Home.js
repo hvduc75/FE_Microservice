@@ -25,19 +25,20 @@ function Home(props) {
     }, []);
 
     const fetchData = async () => {
-        let data = await search(1, 1, 20);
-        if (data.EC === 0) {
-            setListEventMusic(data.DT.events);
+        try {
+            const [dataMusic, dataOther, dataTheater] = await Promise.all([
+                search(1, 1, 20),
+                search(4, 1, 20),
+                search(2, 1, 20)
+            ]);
+    
+            if (dataMusic.EC === 0) setListEventMusic(dataMusic.DT.events);
+            if (dataOther.EC === 0) setListEventOther(dataOther.DT.events);
+            if (dataTheater.EC === 0) setListEventTheater(dataTheater.DT.events);
+        } catch (error) {
+            console.error("Lỗi khi gọi API:", error);
         }
-        let data1 = await search(4, 1, 20);
-        if (data1.EC === 0) {
-            setListEventOther(data1.DT.events);
-        }
-        let data2 = await search(2, 1, 20);
-        if (data2.EC === 0) {
-            setListEventTheater(data2.DT.events);
-        }
-    };
+    };    
 
     const handleClickExtra = (category) => {
         navigate(`search?category=${category}`);
