@@ -24,6 +24,7 @@ import Search from './Pages/User/Search/Search';
 import EventDetail from './Pages/User/EventDetail/EventDetail';
 import BookingLayout from './layouts/UserLayout/BookingLayout/BookingLayout';
 import EventBooking from './Pages/User/EventBooking/EventBooking';
+import Payment from './Pages/User/Payment/Payment';
 
 function App() {
     const dispatch = useDispatch();
@@ -63,6 +64,7 @@ function App() {
                 <Route path="/" element={<BookingLayout />}>
                     <Route index element={<Home />} />
                     <Route path="event-booking/:eventId" element={<EventBooking />} />
+                    <Route path="event-booking/:eventId/payment/:bookingId" element={<Payment />} />
                 </Route>
                 <Route path="/organizer" element={<OrganizerLayout />}>
                     <Route path="create-event/:eventId?" element={<AddEvent />} />

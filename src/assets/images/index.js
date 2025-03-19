@@ -5,6 +5,13 @@ const images = {
     flag_vn: require('./logo/flag_vn.png'),
     flag_uk: require('./logo/flag_uk.png'),
     logoOrganizer: require('./logo/logoOrganizer.png'),
+
+    //payment
+    pm_cash: require("./Payment/cash.png"),
+    pm_viettel: require("./Payment/viettel.png"),
+    pm_zalopay: require("./Payment/zalopay.png"),
+    pm_momo: require("./Payment/momo.jpg"),
+    pm_vnpay: require("./Payment/vnpay.png")
 }
 
 export default images;
