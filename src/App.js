@@ -58,6 +58,7 @@ function App() {
                     <Route index element={<Home />} />
                     <Route path="search" element={<Search />} />
                     <Route path="event-detail/:eventId" element={<EventDetail />} />
+                    <Route path='my-account'/>
                 </Route>
                 <Route path="/" element={<BookingLayout />}>
                     <Route index element={<Home />} />

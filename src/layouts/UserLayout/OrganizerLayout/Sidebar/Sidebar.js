@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import classNames from 'classnames/bind';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
@@ -22,14 +22,6 @@ function Sidebar(props) {
     const activeItem = useSelector((state) => state.event.itemActive);
     const { changeSidebar, eventId } = props;
     
-    useEffect(() => {
-        const activeTab = sessionStorage.getItem('activeTab');
-        if (activeTab) {
-            dispatch(updateItemActive(activeTab)); 
-            sessionStorage.removeItem('activeTab'); 
-        }
-    }, []);
-
     const handleClickItem = (item) => {
         dispatch(updateItemActive(item));
         navigate(`/organizer/events/${eventId}/edit`);

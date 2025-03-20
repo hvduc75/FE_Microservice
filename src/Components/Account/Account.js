@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
@@ -16,6 +16,7 @@ const cx = classNames.bind(styles);
 
 function Account(props) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const { setShowModal } = props;
 
@@ -32,8 +33,7 @@ function Account(props) {
 
     const handleClickMyEvents = () => {
         dispatch(updateItemActive('event'));
-        sessionStorage.setItem('activeTab', 'event');
-        window.open('/organizer/events', '_blank');
+        navigate('/organizer/events');
     };
 
     return (
