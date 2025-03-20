@@ -1,0 +1,30 @@
+.wrapper {
+    background-color: #272729;
+    color: white;
+
+    .header {
+        display: flex;
+        gap: 8px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        padding-bottom: 2rem;
+        padding-top: 2rem;
+
+        span {
+            cursor: pointer;
+            color: rgb(166, 166, 176);
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 21px;
+        }
+
+        .active {
+            color: rgb(235, 235, 240);
+        }
+    }
+
+    .content{
+        display: flex;
+    }
+}

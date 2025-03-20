@@ -61,7 +61,7 @@ function Account(props) {
                                 <CalendarPlus2 size={22} className="mr-2" />
                                 Sự kiện của tôi
                             </div>
-                            <Link to="/help-center" className={cx('menu-item')}>
+                            <Link to="/my-account/my-profile" className={cx('menu-item')}>
                                 <CircleUserRound size={22} className="mr-2" />
                                 Tài khoản của tôi
                             </Link>
