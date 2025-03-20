@@ -11,6 +11,7 @@ import { UserLogoutSuccess } from '../../redux/action/userAction';
 import { updateItemActive } from '../../redux/action/eventAction';
 import { logout } from '../../service/authService';
 import { LogOut, TicketMinus, CalendarPlus2, CircleUserRound } from 'lucide-react';
+import { getImageSrc } from '../../utils';
 
 const cx = classNames.bind(styles);
 
@@ -18,6 +19,7 @@ function Account(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+    const user = useSelector((state) => state.user.account);
     const { setShowModal } = props;
 
     const handleLogout = async () => {
@@ -79,7 +81,7 @@ function Account(props) {
                 >
                     <div className={cx('user')}>
                         <div className={cx('user_info')}>
-                            <img src={images.avatar} style={{ width: '24px', height: '24px' }} alt="avatar" />
+                            <img src={getImageSrc(user.avatar) || images.avatar} style={{ width: '24px', height: '24px', borderRadius: "50%", objectFit: "cover" }} alt="avatar" />
                             Tài khoản
                             <img src={images.dropdown} style={{ width: '8px', height: '8px' }} alt="dropdown-icon" />
                         </div>

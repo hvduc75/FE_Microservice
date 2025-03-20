@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Camera, CircleCheck } from 'lucide-react';
 import styles from './Profile.module.scss';
 import images from '../../../assets/images';
+import { updateProfile } from '../../../service/userService';
+import { UserLoginSuccess } from '../../../redux/action/userAction';
+import { getImageSrc } from '../../../utils';
 
 const cx = classNames.bind(styles);
 
 function Profile(props) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const user = useSelector((state) => state.user.account);
+
     const [avatar, setAvatar] = useState('');
     const [avatarPreview, setAvatarPreview] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [birthDay, setBirthDay] = useState('');
+    const [gender, setGender] = useState();
+
+    useEffect(() => {
+        if (user) {
+            setName(user.username);
+            setPhone(user.phone);
+            setBirthDay(user.birthDay ? user.birthDay.split('T')[0] : '');
+            setGender(user.gender);
+        }
+    }, [user]);
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -20,6 +39,14 @@ function Profile(props) {
             setAvatar(file);
             setAvatarPreview(URL.createObjectURL(file));
         }
+    };
+
+    const handleUpdate = async () => {
+        let data = await updateProfile(name, phone, birthDay, avatar, gender);
+        if (data.EC === 0) {
+            dispatch(UserLoginSuccess(data));
+        }
+        navigate('/');
     };
 
     return (
@@ -36,7 +63,7 @@ function Profile(props) {
                             onChange={(e) => handleImageChange(e)}
                         />
                         <label htmlFor="user_avatar">
-                            <img src={avatarPreview || images.avatar} alt="avatar" />
+                            <img src={getImageSrc(user.avatar) || avatarPreview || images.avatar} alt="avatar" />
                             <Camera size="24" className={cx('camera')} />
                         </label>
                     </div>
@@ -86,20 +113,41 @@ function Profile(props) {
                         <div className={cx('custom_title', 'css_inline')}>Giới tính</div>
                         <div className={cx('gender')}>
                             <div className={cx('item')}>
-                                <input type="radio" name="gender" id="male" />
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    id="male"
+                                    value={1}
+                                    checked={gender === 1}
+                                    onChange={(e) => setGender(Number(e.target.value))}
+                                />
                                 <label htmlFor="male"> Nam</label>
                             </div>
                             <div className={cx('item')}>
-                                <input type="radio" name="gender" id="fe_male" />
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    id="fe_male"
+                                    value={0}
+                                    checked={gender === 0}
+                                    onChange={(e) => setGender(Number(e.target.value))}
+                                />
                                 <label htmlFor="fe_male">Nữ</label>
                             </div>
                             <div className={cx('item')}>
-                                <input type="radio" name="gender" id="other" />
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    id="other"
+                                    value={2}
+                                    checked={gender === 2}
+                                    onChange={(e) => setGender(Number(e.target.value))}
+                                />
                                 <label htmlFor="other">Khác</label>
                             </div>
                         </div>
                     </div>
-                    <button>Hoàn thành</button>
+                    <button onClick={() => handleUpdate()}>Hoàn thành</button>
                 </div>
             </div>
         </div>
