@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from './EventBooking.module.scss';
 import { getEvent } from '../../../service/eventService';
 import { createBooking } from '../../../service/bookingService';
-import { Calendar, MapPin, ArrowLeft } from 'lucide-react';
+import { Calendar, MapPin, ArrowLeft, TicketCheck } from 'lucide-react';
 import { formatPrice, formatDate } from '../../../utils';
 
 const cx = classNames.bind(styles);
@@ -78,7 +78,7 @@ function EventBooking(props) {
             tickets: selectedTickets.filter((ticket) => ticket.quantity > 0),
         });
 
-        if(data.EC === 0) {
+        if (data.EC === 0) {
             navigate(`payment/${data.DT._id}`);
         }
     };
@@ -178,7 +178,14 @@ function EventBooking(props) {
                     </div>
                     <div className={cx('bottom_booking')}>
                         <div className={cx('booking_container')}>
-                            <div className={cx('ticket_quantity')}></div>
+                            <div className={cx('ticket_quantity')}>
+                                {checkBooking && <>
+                                    <TicketCheck />
+                                    <div className={cx('total')}>
+                                        x{selectedTickets.reduce((sum, ticket) => sum + ticket.quantity, 0)}
+                                    </div>
+                                </>}
+                            </div>
                             {checkBooking ? (
                                 <button className={cx('btn_booking')} onClick={() => handleBooking()}>
                                     Tiếp tục - {formatPrice(totalAmount)} đ

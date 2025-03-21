@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import styles from './SideBar.module.scss';
 import images from '../../../../assets/images';
 import { FaUser } from 'react-icons/fa';
 import { Calendar1, Ticket } from 'lucide-react';
 import { getImageSrc } from '../../../../utils';
+import { updateProfileItemActive } from '../../../../redux/action/eventAction';
 
 const cx = classNames.bind(styles);
 
 function Sidebar(props) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.user.account);
+    const profileItemActive = useSelector((state) => state.event.profileItemActive);
     const [active, setActive] = useState('');
+
+    useEffect(() => {
+        setActive(profileItemActive);
+    }, [profileItemActive]);
+
+    const handleClickPurchasedTicket = () => {
+        dispatch(updateProfileItemActive('ticket'));
+        navigate('/my-account/tickets');
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -28,7 +40,7 @@ function Sidebar(props) {
             <div className={cx('list_item')}>
                 <div
                     className={cx('item', 'custom_item', active === 'account' && 'active')}
-                    onClick={() => setActive('account')}
+                    onClick={() => dispatch(updateProfileItemActive('account'))}
                 >
                     <div className="flex gap-[10px] items-center">
                         <FaUser size={22} />
@@ -36,7 +48,10 @@ function Sidebar(props) {
                     </div>
                     <span className={cx('account_info')}>Thông tin tài khoản</span>
                 </div>
-                <div className={cx('item', active === 'ticket' && 'active')} onClick={() => setActive('ticket')}>
+                <div
+                    className={cx('item', active === 'ticket' && 'active')}
+                    onClick={() => handleClickPurchasedTicket()}
+                >
                     <Ticket size={22} />
                     <span>Vé đã mua</span>
                 </div>

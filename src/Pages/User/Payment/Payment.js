@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import styles from './Payment.module.scss';
 import images from '../../../assets/images';
@@ -19,6 +20,7 @@ const paymentMethods = [
 const cx = classNames.bind(styles);
 
 function Payment(props) {
+    const user = useSelector((state) => state.user.account);
     const { eventId, bookingId } = useParams();
     const [event, setEvent] = useState(null);
     const [booking, setBooking] = useState(null);
@@ -86,8 +88,15 @@ function Payment(props) {
     };
 
     const handlePayment = () => {
-        alert('vien ngu', paymentMethod);
-        console.log('vien ngu', paymentMethod);
+        if (!user.email || !user.phone || !user.username) {
+            if (!user.receiverEmail || !user.receiverPhone || !user.receiverName) {
+                setShowModal(true);
+            } else {
+                alert('test');
+            }
+        } else {
+            alert('test');
+        }
     };
 
     return (
@@ -163,24 +172,27 @@ function Payment(props) {
                     <div className={cx('payment_container')}>
                         <div className={cx('content_left')}>
                             <div className={cx('title')}>Thanh toán</div>
-                            {!closeAttent && <div className={cx('attention')}>
-                                <div className={cx('text_attent')}>
-                                    <CircleAlert size={20} />
-                                    Lưu ý kiểm tra thông tin nhận vé. Nếu có thay đổi, vui lòng
-                                    <span onClick={() => handleChangeInfo()}>cập nhật tại đây</span>
+                            {!closeAttent && (
+                                <div className={cx('attention')}>
+                                    <div className={cx('text_attent')}>
+                                        <CircleAlert size={20} />
+                                        Lưu ý kiểm tra thông tin nhận vé. Nếu có thay đổi, vui lòng
+                                        <span onClick={() => handleChangeInfo()}>cập nhật tại đây</span>
+                                    </div>
+                                    <button onClick={() => setCloseAttent(true)}>X</button>
                                 </div>
-                                <button onClick={() => setCloseAttent(true)}>X</button>
-                            </div>}
+                            )}
                             <div className={cx('user_info')}>
                                 <div className={cx('title_user')}>
                                     <span>Thông tin nhận vé</span>
                                     <button onClick={() => handleChangeInfo()}>Sửa</button>
                                 </div>
                                 <div className={cx('user')}>
-                                    <span className={cx('name')}>Đức Hoàng</span>
-                                    <span>No phone</span>
+                                    <span className={cx('name')}>{user.receiverName || user.username || 'No name'}</span>
+                                    <span>{user.receiverPhone || user.phone || 'No phone'}</span>
                                 </div>
-                                <div className={cx('email')}>duch52362@gmail.com</div>
+                                <div className={cx('email')}>{user.receiverEmail || user.email || 'No email'}</div>
+                                <div className={cx('address')}>{user.address}</div>
                             </div>
                             <div className={cx('payment_method')}>
                                 <div className={cx('title_payment')}>

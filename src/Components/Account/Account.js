@@ -8,7 +8,7 @@ import 'tippy.js/dist/tippy.css';
 import styles from './Account.module.scss';
 import images from '../../assets/images';
 import { UserLogoutSuccess } from '../../redux/action/userAction';
-import { updateItemActive } from '../../redux/action/eventAction';
+import { updateItemActive, updateProfileItemActive } from '../../redux/action/eventAction';
 import { logout } from '../../service/authService';
 import { LogOut, TicketMinus, CalendarPlus2, CircleUserRound } from 'lucide-react';
 import { getImageSrc } from '../../utils';
@@ -26,11 +26,6 @@ function Account(props) {
         localStorage.removeItem('isLogged');
         dispatch(UserLogoutSuccess());
         await logout();
-    };
-
-    const handlePageChange = (page) => {
-        sessionStorage.removeItem('activeTab');
-        sessionStorage.setItem('pageItem', page);
     };
 
     const handleClickMyEvents = () => {
@@ -52,8 +47,8 @@ function Account(props) {
                     render={(attrs) => (
                         <div className={cx('account-content')} tabIndex="-1" {...attrs}>
                             <Link
-                                to="/account/info"
-                                onClick={() => handlePageChange('account-info')}
+                                to="/my-account/tickets"
+                                onClick={() => dispatch(updateProfileItemActive('ticket'))}
                                 className={cx('menu-item')}
                             >
                                 <TicketMinus size={22} className="mr-2" />
@@ -63,7 +58,11 @@ function Account(props) {
                                 <CalendarPlus2 size={22} className="mr-2" />
                                 Sự kiện của tôi
                             </div>
-                            <Link to="/my-account/my-profile" className={cx('menu-item')}>
+                            <Link
+                                to="/my-account/my-profile"
+                                onClick={() => dispatch(updateProfileItemActive('account'))}
+                                className={cx('menu-item')}
+                            >
                                 <CircleUserRound size={22} className="mr-2" />
                                 Tài khoản của tôi
                             </Link>
@@ -81,7 +80,11 @@ function Account(props) {
                 >
                     <div className={cx('user')}>
                         <div className={cx('user_info')}>
-                            <img src={getImageSrc(user.avatar) || images.avatar} style={{ width: '24px', height: '24px', borderRadius: "50%", objectFit: "cover" }} alt="avatar" />
+                            <img
+                                src={getImageSrc(user.avatar) || images.avatar}
+                                style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }}
+                                alt="avatar"
+                            />
                             Tài khoản
                             <img src={images.dropdown} style={{ width: '8px', height: '8px' }} alt="dropdown-icon" />
                         </div>

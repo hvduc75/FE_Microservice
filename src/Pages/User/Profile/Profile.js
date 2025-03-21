@@ -95,7 +95,7 @@ function Profile(props) {
                         <input
                             className={cx('custom_input', 'disabled')}
                             style={{ height: '42px' }}
-                            placeholder="test"
+                            placeholder={user.email}
                         />
                         <CircleCheck size={16} className={cx('tick')} />
                     </div>

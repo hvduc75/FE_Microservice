@@ -20,6 +20,10 @@ const INITIAL_STATE = {
         id: '',
         gender: '',
         birthDay: '',
+        receiverName: '',
+        receiverPhone: '',
+        receiverEmail: '',
+        address: '',
     },
     isAuthenticated: false,
 };
@@ -46,6 +50,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     avatar: action?.payload?.DT?.avatar,
                     gender: action?.payload?.DT?.gender,
                     birthDay: action?.payload?.DT?.birthDay,
+                    receiverName: action?.payload?.DT?.receiverName,
+                    receiverPhone: action?.payload?.DT?.receiverPhone,
+                    receiverEmail: action?.payload?.DT?.receiverEmail,
+                    address: action?.payload?.DT?.address,
                 },
                 isAuthenticated: true,
             };
@@ -69,6 +77,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     phone: '',
                     gender: '',
                     birthDay: '',
+                    receiverName: '',
+                    receiverPhone: '',
+                    receiverEmail: '',
+                    address: '',
                 },
                 isAuthenticated: false,
             };

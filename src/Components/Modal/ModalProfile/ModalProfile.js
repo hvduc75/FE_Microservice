@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './ModalProfile.module.scss';
 import { UserLoginSuccess } from '../../../redux/action/userAction';
 import { IoClose } from 'react-icons/io5';
-import { FaGoogle } from 'react-icons/fa';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { loginUser, registerNewUser } from '../../../service/authService';
+import { updateReceiverInfo } from '../../../service/userService';
 const cx = classNames.bind(styles);
 
 function ModalProfile({ setShowModal }) {
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.account);
     const [provinceCode, setProvinceCode] = useState('');
     const [districtCode, setDistrictCode] = useState('');
     const [communeCode, setCommuneCode] = useState('');
@@ -25,6 +23,13 @@ function ModalProfile({ setShowModal }) {
     const [receiverName, setReceiverName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+
+    useEffect(() => {
+        setReceiverName(user.receiverName || user.username || '');
+        setEmail(user.receiverEmail || user.email || '');
+        setPhone(user.receiverPhone || user.phone || '');
+        setFullAddress(user.address || '');
+    }, [user]);
 
     useEffect(() => {
         fetchProvinces();
@@ -40,23 +45,23 @@ function ModalProfile({ setShowModal }) {
         }
     };
 
-    // useEffect(() => {
-    //     if (address && listProvince.length > 0) {
-    //         const addressArr = address.split(', ');
-    //         if (addressArr.length === 4) {
-    //             setStreet(addressArr[0]);
-    //             const province = listProvince.find((item) => item.name === addressArr[3]);
-    //             if (province) {
-    //                 setProvinceCode(province.code);
-    //             }
-    //         }
-    //     }else{
-    //         setProvinceCode('');
-    //         setDistrictCode('');
-    //         setCommuneCode('');
-    //         setStreet('');
-    //     }
-    // }, [address, listProvince]);
+    useEffect(() => {
+        if (fullAddress && listProvince.length > 0) {
+            const addressArr = fullAddress.split(', ');
+            if (addressArr.length === 4) {
+                setStreet(addressArr[0]);
+                const province = listProvince.find((item) => item.name === addressArr[3]);
+                if (province) {
+                    setProvinceCode(province.code);
+                }
+            }
+        } else {
+            setProvinceCode('');
+            setDistrictCode('');
+            setCommuneCode('');
+            setStreet('');
+        }
+    }, [fullAddress, listProvince]);
 
     const handleProvinceChange = async (e) => {
         const selectedProvinceCode = e.target.value;
@@ -70,32 +75,32 @@ function ModalProfile({ setShowModal }) {
         }
     };
 
-    // useEffect(() => {
-    //     if (provinceCode) {
-    //         fetchDistricts(provinceCode);
-    //     }
-    // }, [provinceCode]);
+    useEffect(() => {
+        if (provinceCode) {
+            fetchDistricts(provinceCode);
+        }
+    }, [provinceCode]);
 
-    // const fetchDistricts = async (provinceCode) => {
-    //     try {
-    //         const response = await fetch(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`);
-    //         const data = await response.json();
-    //         setListDistrict(data.districts || []);
-    //     } catch (error) {
-    //         console.error('Error fetching districts:', error);
-    //     }
-    // };
+    const fetchDistricts = async (provinceCode) => {
+        try {
+            const response = await fetch(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`);
+            const data = await response.json();
+            setListDistrict(data.districts || []);
+        } catch (error) {
+            console.error('Error fetching districts:', error);
+        }
+    };
 
-    // useEffect(() => {
-    //     if (!provinceCode || listDistrict.length === 0) return;
-    //     const addressArr = address.split(', ');
-    //     if (addressArr.length === 4) {
-    //         const district = listDistrict.find((item) => item.name === addressArr[2]);
-    //         if (district) {
-    //             setDistrictCode(district.code);
-    //         }
-    //     }
-    // }, [listDistrict]);
+    useEffect(() => {
+        if (!provinceCode || listDistrict.length === 0) return;
+        const addressArr = fullAddress.split(', ');
+        if (addressArr.length === 4) {
+            const district = listDistrict.find((item) => item.name === addressArr[2]);
+            if (district) {
+                setDistrictCode(district.code);
+            }
+        }
+    }, [listDistrict]);
 
     const handleDistrictChange = async (e) => {
         const selectedDistrictCode = e.target.value;
@@ -109,33 +114,33 @@ function ModalProfile({ setShowModal }) {
         }
     };
 
-    // useEffect(() => {
-    //     if (districtCode) {
-    //         fetchCommunes(districtCode);
-    //     }
-    // }, [districtCode]);
+    useEffect(() => {
+        if (districtCode) {
+            fetchCommunes(districtCode);
+        }
+    }, [districtCode]);
 
-    // const fetchCommunes = async (districtCode) => {
-    //     try {
-    //         const response = await fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`);
-    //         const data = await response.json();
-    //         setListCommune(data.wards || []);
-    //     } catch (error) {
-    //         console.error('Error fetching communes:', error);
-    //     }
-    // };
+    const fetchCommunes = async (districtCode) => {
+        try {
+            const response = await fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`);
+            const data = await response.json();
+            setListCommune(data.wards || []);
+        } catch (error) {
+            console.error('Error fetching communes:', error);
+        }
+    };
 
-    // useEffect(() => {
-    //     if (address && listCommune.length > 0) {
-    //         const addressArr = address.split(', ');
-    //         if (addressArr.length === 4) {
-    //             const commune = listCommune.find((item) => item.name === addressArr[1]);
-    //             if (commune) {
-    //                 setCommuneCode(commune.code);
-    //             }
-    //         }
-    //     }
-    // }, [address, listCommune]);
+    useEffect(() => {
+        if (fullAddress && listCommune.length > 0) {
+            const addressArr = fullAddress.split(', ');
+            if (addressArr.length === 4) {
+                const commune = listCommune.find((item) => item.name === addressArr[1]);
+                if (commune) {
+                    setCommuneCode(commune.code);
+                }
+            }
+        }
+    }, [fullAddress, listCommune]);
 
     useEffect(() => {
         const province = listProvince.find((item) => item.code === +provinceCode)?.name || '';
@@ -150,8 +155,14 @@ function ModalProfile({ setShowModal }) {
         }
     }, [provinceCode, districtCode, communeCode, street, listProvince, listDistrict, listCommune]);
 
-    const handleConfirm = () => {
-        alert(`${fullAddress}, ${receiverName}, ${phone}, ${email}`);
+    const handleConfirm = async () => {
+        if (receiverName && phone && email) {
+            let data = await updateReceiverInfo(receiverName, phone, email, fullAddress);
+            if (data.EC === 0) {
+                dispatch(UserLoginSuccess(data));
+                setShowModal(false);
+            }
+        }
     };
 
     return (
@@ -256,7 +267,10 @@ function ModalProfile({ setShowModal }) {
                         <button className={cx('btn_cancel')} onClick={() => setShowModal(false)}>
                             Hủy bỏ
                         </button>
-                        <button className={cx('btn_cancel', 'disable')} onClick={() => handleConfirm()}>
+                        <button
+                            className={cx('btn_cancel', !receiverName || !phone || !email ? 'disable' : 'btn_confirm')}
+                            onClick={() => handleConfirm()}
+                        >
                             Xác nhận
                         </button>
                     </div>

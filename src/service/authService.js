@@ -1,7 +1,11 @@
 import axios from '../utils/axiosCustomize';
 
 const loginUser = (valueLogin, password) => {
-    return axios.post('/customer/login', { valueLogin, password });
+    const formData = new FormData();
+
+    formData.append('valueLogin', valueLogin);
+    formData.append('password', password);
+    return axios.post('/customer/login', formData);
 };
 
 const getAccount = () => {
@@ -13,7 +17,12 @@ const checkTokenLogin = (userId, tokenLogin) => {
 };
 
 const registerNewUser = (userData) => {
-    return axios.post('/customer/register', userData);
+    const formData = new FormData();
+
+    formData.append('email', userData.email);
+    formData.append('password', userData.password);
+
+    return axios.post('/customer/register', formData);
 };
 
 const logout = () => {

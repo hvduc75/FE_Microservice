@@ -119,8 +119,8 @@ function ModalLogin({ setShowModal }) {
                                             {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
                                         </span>
                                     </div>
-                                    <div className={cx('form_control', 'submit')}>
-                                        <button onClick={() => handleLogin()}>Đăng nhập</button>
+                                    <div className={cx('form_control', 'submit')} onClick={() => handleLogin()}>
+                                        <button>Đăng nhập</button>
                                     </div>
                                 </div>
                                 <div className={cx('forgot_password')}>
@@ -178,8 +178,8 @@ function ModalLogin({ setShowModal }) {
                                         {showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
                                     </span>
                                 </div>
-                                <div className={cx('form_control', 'submit')}>
-                                    <button onClick={() => handleRegister()}>Đăng ký</button>
+                                <div className={cx('form_control', 'submit')} onClick={() => handleRegister()}>
+                                    <button>Đăng ký</button>
                                 </div>
                                 <div className={cx('register')}>
                                     <div className={cx('title')}>Đã có tài khoản?</div>
