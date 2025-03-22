@@ -86,7 +86,7 @@ instance.interceptors.response.use(
                     }
                     if (res && res.data.EC !== 0) {
                         store.dispatch(UserLogoutSuccess());
-                        store.dispatch(OpenLoginModal(true));
+                        // store.dispatch(OpenLoginModal(true));    
                     }
                 } catch (err) {
                     isRefreshing = false;

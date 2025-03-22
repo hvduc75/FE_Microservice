@@ -126,11 +126,9 @@ function ConfirmEvent(props) {
                     ))}
                 </div>
                 <div className="flex flex-row gap-2 ">
-                    {active === 4 && (
-                        <button className={cx('btn', 'w-full')} onClick={() => handleConfirm()}>
-                            <span>Xác nhận</span>
-                        </button>
-                    )}
+                    <button className={cx('btn', 'w-full')} onClick={() => handleConfirm()}>
+                        <span>Xác nhận</span>
+                    </button>
                     <button className={cx('btn', 'btn_continue', 'w-full')} onClick={() => handleContinue()}>
                         <span>Tiếp tục</span>
                     </button>

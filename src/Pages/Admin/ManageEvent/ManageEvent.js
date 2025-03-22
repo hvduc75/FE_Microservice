@@ -140,7 +140,7 @@ function ManageEvent(props) {
                                                     <HiPencil
                                                         style={{ width: '20px', color: 'white', height: '20px' }}
                                                     />
-                                                    <span>Chỉnh sửa</span>
+                                                    <span>Xác nhận</span>
                                                 </Link>
                                             </div>
                                         </div>

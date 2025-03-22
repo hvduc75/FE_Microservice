@@ -21,14 +21,7 @@ function App() {
     }, [isOpenModalLogin]);
 
     useEffect(() => {
-        if (
-            user &&
-            !user.access_token &&
-            location.pathname !== '/' &&
-            !location.pathname.startsWith('/search') &&
-            !location.pathname.startsWith('/event-detail') &&
-            location.pathname !== '/not-found'
-        ) {
+        if (user && !user.access_token) {
             fetchAccount();
         }
     }, [location.pathname]);

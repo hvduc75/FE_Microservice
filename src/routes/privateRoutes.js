@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { OpenLoginModal } from '../redux/action/userAction';
 
@@ -10,10 +10,12 @@ const PrivateRoute = () => {
     const isLoginModalOpen = useSelector((state) => state.user.isLoginModalOpen);
 
     useEffect(() => {
-        if (!isAuthenticated && !isLoginModalOpen) {
-            dispatch(OpenLoginModal(true));
+        if(!isFetchingAccount){
+            if (!isAuthenticated  && !isLoginModalOpen) {
+                dispatch(OpenLoginModal(true));
+            }
         }
-    }, [isAuthenticated, isLoginModalOpen, dispatch]);
+    }, [isAuthenticated, isFetchingAccount, isLoginModalOpen, dispatch]);    
 
     if (isFetchingAccount) {
         return <div></div>;

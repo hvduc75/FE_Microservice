@@ -46,7 +46,6 @@ function ModalLogin({ setShowModal }) {
         if (response.EC === 0) {
             dispatch(UserLoginSuccess(response));
             dispatch(OpenLoginModal(false));
-            toast.success('Đăng nhập thành công');
             setShowModal(false);
             resetForm();
         } else {

@@ -241,7 +241,7 @@ function AddEvent(props) {
         <>
             <div
                 style={{ background: 'background: rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(30px)' }}
-                className="flex flex-row items-center justify-center px-1 mb-2 border-b border-[#38383D] pt-2 fixed top-[64px] z-10 bg-black-30 backdrop-blur-50 w-[calc(100%-250px)] "
+                className="flex flex-row items-center justify-center px-1 mb-2 border-b border-[#38383D] pt-2 fixed top-[64px] bg-black-30 backdrop-blur-50 w-[calc(100%-250px)] " // z-10
             >
                 <div className={cx('group_item')}>
                     {steps.map((step) => (

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import styles from './Header.module.scss';
 import images from '../../../../assets/images';
@@ -10,11 +11,13 @@ import { IoSearch } from 'react-icons/io5';
 import ModalLogin from '../../../../Components/Modal/ModalLogin/ModalLogin';
 import Account from '../../../../Components/Account/Account';
 import Language from '../../../../Components/Language/Language';
+import { updateProfileItemActive } from '../../../../redux/action/eventAction';
 
 const cx = classNames.bind(styles);
-const contents = ["Nhạc sống", "Sân khấu & Nghệ thuật", "Thể Thao", "Khác"];
+const contents = ['Nhạc sống', 'Sân khấu & Nghệ thuật', 'Thể Thao', 'Khác'];
 
 function Header(props) {
+    const dispatch = useDispatch();
     const location = useLocation();
     const isHomePage = location.pathname === '/' || location.pathname.startsWith('/event-detail');
     const [showModal, setShowModal] = useState(false);
@@ -45,7 +48,10 @@ function Header(props) {
                         </div>
                         <div className={cx('group_right')}>
                             <div className={cx('ticket_buy')}>
-                                <Link>
+                                <Link
+                                    to="/my-account/tickets"
+                                    onClick={() => dispatch(updateProfileItemActive('ticket'))}
+                                >
                                     <BsTicketDetailed style={{ width: '24px', height: '24px' }} />
                                     <span>Vé đã mua</span>
                                 </Link>

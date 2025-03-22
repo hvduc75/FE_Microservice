@@ -23,7 +23,6 @@ function Account(props) {
     const { setShowModal } = props;
 
     const handleLogout = async () => {
-        localStorage.removeItem('isLogged');
         dispatch(UserLogoutSuccess());
         await logout();
     };
