@@ -6,8 +6,9 @@ import { useSelector } from 'react-redux';
 import styles from './Payment.module.scss';
 import images from '../../../assets/images';
 import { getEvent } from '../../../service/eventService';
-import { getBookingById } from '../../../service/bookingService';
+import { getBookingById, updateReceiverInfo } from '../../../service/bookingService';
 import ModalProfile from '../../../Components/Modal/ModalProfile/ModalProfile';
+import { paymentWithVnPay } from '../../../service/paymentService';
 import { formatPrice, formatDate, getImageSrc } from '../../../utils';
 import { CircleCheck, Circle, Calendar, MapPin, CircleAlert } from 'lucide-react';
 
@@ -87,15 +88,23 @@ function Payment(props) {
         setShowModal(true);
     };
 
+    const payment = async () => {
+        await updateReceiverInfo(booking._id, user.receiverEmail || user.email, user.receiverPhone || user.phone, user.receiverName || user.username);
+        if (paymentMethod === 'vn_pay') {
+            let res = await paymentWithVnPay(booking.totalAmount, booking._id, 'NCB', 'vn');
+            window.location.href = res.paymentUrl;
+        } 
+    }
+
     const handlePayment = () => {
         if (!user.email || !user.phone || !user.username) {
             if (!user.receiverEmail || !user.receiverPhone || !user.receiverName) {
                 setShowModal(true);
             } else {
-                alert('test');
+                payment()
             }
         } else {
-            alert('test');
+            payment()
         }
     };
 

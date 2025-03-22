@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { UserLoginSuccess } from '../../../redux/action/userAction';
+import { UserLoginSuccess, OpenLoginModal } from '../../../redux/action/userAction';
 import { IoClose } from 'react-icons/io5';
 import { FaGoogle } from 'react-icons/fa';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
@@ -45,6 +45,7 @@ function ModalLogin({ setShowModal }) {
         const response = await loginUser(email, password);
         if (response.EC === 0) {
             dispatch(UserLoginSuccess(response));
+            dispatch(OpenLoginModal(false));
             toast.success('Đăng nhập thành công');
             setShowModal(false);
             resetForm();

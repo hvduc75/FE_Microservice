@@ -28,12 +28,21 @@ import Payment from './Pages/User/Payment/Payment';
 import AccountLayout from './layouts/UserLayout/AccountLayout/AccountLayout';
 import Profile from './Pages/User/Profile/Profile';
 import PurchasedTickets from './Pages/User/PurchasedTickets/PurchasedTickets';
+import ModalLogin from './Components/Modal/ModalLogin/ModalLogin';
 
 function App() {
     const dispatch = useDispatch();
+    const isOpenModalLogin = useSelector((state) => state.user.isLoginModalOpen);
     const location = useLocation();
     const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
     const user = useSelector((state) => state.user.account);
+
+    useEffect(() => {
+        if (isOpenModalLogin) {
+            setShowModal(true);
+        }
+    }, [isOpenModalLogin]);
 
     useEffect(() => {
         if (user && !user.access_token) {
@@ -56,6 +65,7 @@ function App() {
 
     return (
         <>
+            {showModal && <ModalLogin setShowModal={setShowModal} />}
             <Routes>
                 <Route path="/" element={<DefaultLayout />}>
                     <Route index element={<Home />} />

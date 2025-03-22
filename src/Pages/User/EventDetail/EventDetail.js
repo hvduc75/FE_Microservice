@@ -18,6 +18,7 @@ function EventDetail(props) {
 
     useEffect(() => {
         fetchEvent();
+        window.scrollTo(0, 0);
     }, [eventId]);
 
     const fetchEvent = async () => {
@@ -26,6 +27,8 @@ function EventDetail(props) {
             setEvent(data.DT);
         }
     };
+
+    console.log(event);
 
     const handleBuyTicket = async () => {
         navigate(`/event-booking/${eventId}`);

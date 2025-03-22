@@ -51,3 +51,10 @@ export const UpdateAccessTokenSuccess = (data) => {
         payload: data,
     };
 }
+
+export const OpenLoginModal = (data) => {
+    return {
+        type: 'OPEN_LOGIN_MODAL',
+        payload: data,
+   };
+};

@@ -4,6 +4,7 @@ import {
     USER_LOGIN_ERROR,
     USER_LOGOUT_SUCCESS,
     UPDATE_ACCESS_TOKEN_SUCCESS,
+    OPEN_LOGIN_MODAL,
 } from '../action/types';
 
 const INITIAL_STATE = {
@@ -26,6 +27,7 @@ const INITIAL_STATE = {
         address: '',
     },
     isAuthenticated: false,
+    isLoginModalOpen: false,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -91,6 +93,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     ...state.account,
                     access_token: action.payload,
                 },
+            };
+        case OPEN_LOGIN_MODAL:
+            return {
+                ...state,
+                isLoginModalOpen: action.payload,
             };
         default:
             return state;

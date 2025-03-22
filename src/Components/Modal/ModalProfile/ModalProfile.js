@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './ModalProfile.module.scss';
