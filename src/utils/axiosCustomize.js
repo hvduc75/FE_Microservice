@@ -85,7 +85,6 @@ instance.interceptors.response.use(
                         return instance(originalRequest);
                     }
                     if (res && res.data.EC !== 0) {
-                        toast.error("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại");
                         store.dispatch(UserLogoutSuccess());
                         store.dispatch(OpenLoginModal(true));
                     }

@@ -27,6 +27,7 @@ const INITIAL_STATE = {
         address: '',
     },
     isAuthenticated: false,
+    isFetchingAccount: true,
     isLoginModalOpen: false,
 };
 
@@ -58,6 +59,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     address: action?.payload?.DT?.address,
                 },
                 isAuthenticated: true,
+                isFetchingAccount: false,
             };
         case USER_LOGIN_ERROR:
             return {
@@ -85,6 +87,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     address: '',
                 },
                 isAuthenticated: false,
+                isFetchingAccount: false,
             };
         case UPDATE_ACCESS_TOKEN_SUCCESS:
             return {
