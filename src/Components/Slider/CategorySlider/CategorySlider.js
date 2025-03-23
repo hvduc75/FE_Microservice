@@ -3,20 +3,25 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 
 import styles from './CategorySlider.module.scss';
-import { Calendar } from 'lucide-react';
 import { getImageSrc, getMinPrice, formatDateHome } from '../../../utils';
+import { updateScore } from '../../../service/eventService';
+import { Calendar } from 'lucide-react';
 
 const cx = classNames.bind(styles);
 
 function CategorySlider(props) {
     const { listEvent } = props;
 
+    const handleUpdateScore = async (eventId) => {
+        await updateScore(eventId);
+    };
+
     return (
         <div className={cx('slider-container')}>
             {listEvent &&
                 listEvent.length > 0 &&
                 listEvent.slice(0, 4).map((item, index) => (
-                    <Link to={`/event-detail/${item.id}`} key={index}>
+                    <Link to={`/event-detail/${item.id}`} key={index} onClick={() => handleUpdateScore(item._id)}>
                         <div className={cx('container')}>
                             <div className={cx('banner')}>
                                 <img

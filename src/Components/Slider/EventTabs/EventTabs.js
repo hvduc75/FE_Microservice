@@ -4,10 +4,11 @@ import classNames from 'classnames/bind';
 import { EventNextArrow, EventPrevArrow } from '../../GlobalStyles/CustomArrow/CustomArrow';
 
 import styles from './EventTabs.module.scss';
-import { getImageSrc, formatDateHome, getMinPrice } from '../../../utils';
-import { Calendar } from 'lucide-react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { updateScore } from '../../../service/eventService';
+import { getImageSrc, formatDateHome, getMinPrice } from '../../../utils';
+import { Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
@@ -23,13 +24,19 @@ function EventTabs(props) {
         prevArrow: <EventPrevArrow />,
     };
 
+    console.log(listEventDate)
+
+    const handleUpdateScore = async (eventId) => {
+        await updateScore(eventId);
+    }
+
     return (
         <div className="slider-container">
             <Slider {...settings}>
                 {listEventDate &&
                     listEventDate.length > 0 &&
                     listEventDate.map((item, index) => (
-                        <Link to={`/event-detail/${item.id}`} key={index}>
+                        <Link to={`/event-detail/${item.id}`} key={index} onClick={() => handleUpdateScore(item._id)} >
                             <div className={cx('container')} >
                                 <div className={cx('banner')}>
                                     <img

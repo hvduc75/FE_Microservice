@@ -16,6 +16,19 @@ const getEventByTime = (date, page, limit) => {
     return axios.get(`/event/getEventByTime?date=${date}&page=${page}&limit=${limit}`);
 };
 
+const getEventByScore = () => {
+    return axios.get(`/event/getEventByScore`);
+};
+
+const updateScore = (eventId, score = 1) => {
+    const formData = new FormData();
+
+    formData.append('eventId', eventId);
+    formData.append('score', score);
+
+    return axios.put('/event/updateScore', formData);
+};
+
 const addEvent = (data) => {
     const formData = new FormData();
 
@@ -106,4 +119,6 @@ export {
     confirmEvent,
     search,
     getEventByTime,
+    updateScore,
+    getEventByScore,
 };

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import { search, getEventByTime } from '../../../service/eventService';
-import { getImageSrc, formatDateHome, getMinPrice } from '../../../utils';
 import styles from './Search.module.scss';
+import { search, getEventByTime , updateScore} from '../../../service/eventService';
+import { getImageSrc, formatDateHome, getMinPrice } from '../../../utils';
 import { Calendar, ChevronDown, Filter } from 'lucide-react';
 
 const cx = classNames.bind(styles);
@@ -19,7 +19,7 @@ function Search(props) {
         if (category) {
             fetchEvents(category);
         }
-        if(date) {
+        if (date) {
             fetchEventByTime(date);
         }
     }, [category, date]);
@@ -44,7 +44,11 @@ function Search(props) {
         if (data.EC === 0) {
             setEvents(data.DT.events);
         }
-    }
+    };
+
+    const handleUpdateScore = async (eventId) => {
+        await updateScore(eventId);
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -73,7 +77,7 @@ function Search(props) {
                     {events &&
                         events.length > 0 &&
                         events.map((item, index) => (
-                            <Link to={`/event-detail/${item.id}`} key={index}>
+                            <Link to={`/event-detail/${item.id}`} key={index} onClick={() => handleUpdateScore(item._id)}>
                                 <div className={cx('container')}>
                                     <div className={cx('banner')}>
                                         <img
