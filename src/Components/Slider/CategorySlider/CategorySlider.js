@@ -4,20 +4,12 @@ import { Link } from 'react-router-dom';
 
 import styles from './CategorySlider.module.scss';
 import { Calendar } from 'lucide-react';
-import { getImageSrc, getMinPrice } from '../../../utils';
+import { getImageSrc, getMinPrice, formatDateHome } from '../../../utils';
 
 const cx = classNames.bind(styles);
 
 function CategorySlider(props) {
     const { listEvent } = props;
-
-    const formatDate = (isoString) => {
-        const date = new Date(isoString);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
-        return `${day} tháng ${month}, ${year}`;
-    };
 
     return (
         <div className={cx('slider-container')}>
@@ -41,7 +33,8 @@ function CategorySlider(props) {
                                     <span className={cx('title')}>{item.eventName}</span>
                                     <span className={cx('price')}>Từ {getMinPrice(item.tickets)}</span>
                                     <span className={cx('calendal')}>
-                                        <Calendar /> <span className={cx('time')}>{formatDate(item.startDate)}</span>
+                                        <Calendar />{' '}
+                                        <span className={cx('time')}>{formatDateHome(item.startDate)}</span>
                                     </span>
                                 </div>
                             </div>

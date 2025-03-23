@@ -7,7 +7,7 @@ import EventHotSlider from '../../../Components/Slider/EventHotSlider/EventHotSl
 import EventTabs from '../../../Components/Slider/EventTabs/EventTabs';
 import CategorySlider from '../../../Components/Slider/CategorySlider/CategorySlider';
 import styles from './Home.module.scss';
-import { search } from '../../../service/eventService';
+import { search, getEventByTime } from '../../../service/eventService';
 import { GiSmallFire } from 'react-icons/gi';
 import { ChevronRight } from 'lucide-react';
 
@@ -19,30 +19,55 @@ function Home(props) {
     const [listEventMusic, setListEventMusic] = useState([]);
     const [listEventOther, setListEventOther] = useState([]);
     const [listEventTheater, setListEventTheater] = useState([]);
+    const [listEventDate, setListEventDate] = useState([]);
 
     useEffect(() => {
         fetchData();
-    }, []);
+        fetchEventByTime();
+    }, [active]);
 
     const fetchData = async () => {
         try {
             const [dataMusic, dataOther, dataTheater] = await Promise.all([
                 search(1, 1, 20),
                 search(4, 1, 20),
-                search(2, 1, 20)
+                search(2, 1, 20),
             ]);
-    
+
             if (dataMusic.EC === 0) setListEventMusic(dataMusic.DT.events);
             if (dataOther.EC === 0) setListEventOther(dataOther.DT.events);
             if (dataTheater.EC === 0) setListEventTheater(dataTheater.DT.events);
         } catch (error) {
-            console.error("Lỗi khi gọi API:", error);
+            console.error('Lỗi khi gọi API:', error);
         }
-    };    
+    };
+
+    const fetchEventByTime = async () => {
+        if (active === 0) {
+            const data = await getEventByTime('this_week', 1, 20);
+            if (data.EC === 0) setListEventDate(data.DT.events);
+        }
+        if (active === 1) {
+            const data = await getEventByTime('this_month', 1, 20);
+            if (data.EC === 0) setListEventDate(data.DT.events);
+        }
+    };
+
+    console.log('listEventDate', listEventDate);
 
     const handleClickExtra = (category) => {
-        navigate(`search?category=${category}`);
+        if (category === 'date') {
+            if (active === 0) {
+                navigate('search?date=this_week');
+            }
+            if (active === 1) {
+                navigate('search?date=this_month');
+            }
+        } else {
+            navigate(`search?category=${category}`);
+        }
     };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('tbox-container')}>
@@ -72,13 +97,13 @@ function Home(props) {
                                 <div className={cx('this_month', active === 1 ? 'active' : '')}>Tháng này</div>
                             </div>
                         </div>
-                        <div className={cx('tab_extra')}>
+                        <div className={cx('tab_extra')} onClick={() => handleClickExtra('date')}>
                             <span>Xem thêm</span>
                             <ChevronRight size={16} />
                         </div>
                     </div>
                     <div className={cx('tabs_content')}>
-                        <EventTabs />
+                        <EventTabs listEventDate={listEventDate} />
                     </div>
                 </div>
                 <div className={cx('event_type_wrapper')}>

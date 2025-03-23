@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
-import { useParams } from 'react-router-dom';
+import { useParams, useOutletContext } from 'react-router-dom';
 
 import styles from './SummaryRevenue.module.scss';
 import TicketTable from './TicketTable/TicketTable';
@@ -14,6 +14,7 @@ const cx = classNames.bind(styles);
 
 function SummaryRevenue(props) {
     const eventId = useParams().eventId;
+    const { setChangeSidebar, setEventId } = useOutletContext();
     const [event, setEvent] = useState(null);
     const [tickets, setTickets] = useState([]);
     const [booking, setBooking] = useState(null);
@@ -28,6 +29,8 @@ function SummaryRevenue(props) {
     };
 
     useEffect(() => {
+        setChangeSidebar(true);
+        setEventId(eventId);
         fetchEvent();
         fetchBooking();
     }, [eventId]);

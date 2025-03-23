@@ -8,6 +8,7 @@ const INITIAL_STATE = {
 const eventReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case UPDATE_STATE_ACTIVE:
+            console.log('UPDATE_STATE_ACTIVE', action?.payload);
             return {
                 ...state,
                 itemActive: action?.payload,

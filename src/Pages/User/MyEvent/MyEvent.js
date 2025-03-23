@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-import { Link, useParams, useOutletContext } from 'react-router-dom';
+import { Link, useParams, useOutletContext, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { getEventByCondition } from '../../../service/eventService';
@@ -29,6 +29,7 @@ const listItem = [
 function MyEvent(props) {
     const LIMIT = 5;
     const dispatch = useDispatch();
+    const location = useLocation();
     const { eventId } = useParams();
     const { setChangeSidebar, setEventId } = useOutletContext();
     const [active, setActive] = useState('2');
@@ -44,7 +45,7 @@ function MyEvent(props) {
             setChangeSidebar(false);
             setEventId('');
         }
-    }, [eventId]);
+    }, [eventId, location.pathname]);
 
     useEffect(() => {
         fetchEventByCondition(active);
@@ -58,8 +59,8 @@ function MyEvent(props) {
         }
     };
 
-    const handleEditEvent = () => {
-        dispatch(updateItemActive('edit'));
+    const handleEditEvent = (item) => {
+        dispatch(updateItemActive(item));
     };
 
     return (
@@ -97,7 +98,7 @@ function MyEvent(props) {
                             {listEvent &&
                                 listEvent.length > 0 &&
                                 listEvent.map((event, index) => (
-                                    <div className={cx('event')}>
+                                    <div className={cx('event')} key={index}>
                                         <div className={cx('event_desc')}>
                                             <div className={cx('avatar')}>
                                                 <img src={getImageSrc(event.backgroundEvent)} alt="preview-image" />
@@ -134,7 +135,11 @@ function MyEvent(props) {
                                         </div>
                                         <div className={cx('list_actions')}>
                                             <div className={cx('action')}>
-                                                <Link to="/user/event/edit" className={cx('action_item')}>
+                                                <Link
+                                                    to={`/organizer/events/${event._id}/summary-revenue`}
+                                                    className={cx('action_item')}
+                                                    onClick={() => handleEditEvent('summary')}
+                                                >
                                                     <LiaAtomSolid
                                                         style={{ width: '20px', color: 'white', height: '20px' }}
                                                     />
@@ -172,7 +177,7 @@ function MyEvent(props) {
                                                             ? `/organizer/create-event/${event._id}`
                                                             : `/organizer/events/${event._id}/edit`
                                                     }
-                                                    onClick={handleEditEvent}
+                                                    onClick={() => handleEditEvent('edit')}
                                                     className={cx('action_item')}
                                                 >
                                                     <HiPencil

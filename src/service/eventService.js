@@ -12,6 +12,10 @@ const search = (category, page, limit) => {
     return axios.get(`/event/searchEvent?category=${category}&page=${page}&limit=${limit}`);
 };
 
+const getEventByTime = (date, page, limit) => {
+    return axios.get(`/event/getEventByTime?date=${date}&page=${page}&limit=${limit}`);
+};
+
 const addEvent = (data) => {
     const formData = new FormData();
 
@@ -81,7 +85,7 @@ const updateBankAccount = (eventId, accountName, accountNumber, bankName, branch
     formData.append('branch', branch);
 
     return axios.put('/event/updateBankAccount', formData);
-}
+};
 
 const confirmEvent = (eventId) => {
     const formData = new FormData();
@@ -91,4 +95,15 @@ const confirmEvent = (eventId) => {
     return axios.put('/event/confirmEvent', formData);
 };
 
-export { addEvent, getEvent, updateEventDate, getEventByCondition, editEvent, updateContentEmail, updateBankAccount, confirmEvent, search };
+export {
+    addEvent,
+    getEvent,
+    updateEventDate,
+    getEventByCondition,
+    editEvent,
+    updateContentEmail,
+    updateBankAccount,
+    confirmEvent,
+    search,
+    getEventByTime,
+};

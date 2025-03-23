@@ -75,11 +75,11 @@ function Sidebar(props) {
                             top: '0',
                             left: '0',
                             zIndex: '1000',
-                            width: '100%',
                             marginTop: '72px',
+                            width: '250px',
                         }}
                         className={cx('item', { active: activeItem === 'event' })}
-                        onClick={() => navigate('/organizer/events')}
+                        onClick={() => handleClickItem('event', '/organizer/events')}
                     >
                         <ArrowLeft size={24} />
                         <span className={cx('title', 'font-bold', 'text-[14px]')}>Quản trị sự kiện</span>
