@@ -21,6 +21,7 @@ import AddEvent from '../Pages/User/AddEvent/AddEvent';
 import MyEvent from '../Pages/User/MyEvent/MyEvent';
 import TermOfUse from '../Pages/User/TermOfUse/TermOfUse';
 import ManageReport from '../Pages/User/ManageReport/ManageReport';
+import SummaryRevenue from '../Pages/User/SummaryRevenue/SummaryRevenue';
 
 import DashBoard from '../Pages/Admin/DashBoard/DashBoard';
 import ManageUser from '../Pages/Admin/ManageUser/ManageUser';
@@ -58,6 +59,7 @@ const AppRoutes = () => {
                     <Route path="create-event/:eventId?" element={<AddEvent />} />
                     <Route path="events/:eventId?" element={<MyEvent />} />
                     <Route path="events/:eventId?/edit" element={<AddEvent />} />
+                    <Route path="events/:eventId?/summary-revenue" element={<SummaryRevenue />} />
                     <Route path="term-of-use" element={<TermOfUse />} />
                     <Route path="report" element={<ManageReport />} />
                 </Route>

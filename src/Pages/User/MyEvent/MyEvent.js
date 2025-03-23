@@ -28,9 +28,9 @@ const listItem = [
 
 function MyEvent(props) {
     const LIMIT = 5;
+    const dispatch = useDispatch();
     const { eventId } = useParams();
     const { setChangeSidebar, setEventId } = useOutletContext();
-    const dispatch = useDispatch();
     const [active, setActive] = useState('2');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);

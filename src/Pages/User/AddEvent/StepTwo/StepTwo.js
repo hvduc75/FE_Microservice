@@ -47,11 +47,26 @@ function StepTwo(props) {
         }
     };
 
+    const resetForm = () => {
+        setTicketId('');
+        setTicketName('');
+        setTicketPrice('');
+        setTicketAmount('');
+        setTicketMin('');
+        setTicketMax('');
+        setTicketDesc('');
+        setTicketImage('');
+        setEventTicketSaleStartTime('');
+        setEventTicketSaleEndTime('');
+        setImagePreview('');
+    };
+
     const handleAddTicket = () => {
         if(!eventStartDate || !eventEndDate) {
             toast.error('Vui lòng chọn thời gian bắt đầu và kết thúc');
             return;
         }
+        resetForm();
         setShowModal(true);
     };
 

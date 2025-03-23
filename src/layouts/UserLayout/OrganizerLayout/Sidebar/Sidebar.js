@@ -22,15 +22,15 @@ function Sidebar(props) {
     const activeItem = useSelector((state) => state.event.itemActive);
     const { changeSidebar, eventId } = props;
     
-    const handleClickItem = (item) => {
+    const handleClickItem = (item, link) => {
         dispatch(updateItemActive(item));
-        navigate(`/organizer/events/${eventId}/edit`);
+        navigate(link);
     };
 
     return (
         <div className="menu-wrapper sticky top-0 h-full flex flex-col bg-[#19261f]">
             <Link to={'/organizer/events'} onClick={() => dispatch(updateItemActive('event'))}>
-                <div className="flex flex-row items-center justify-center w-full cursor-pointer h-[72px]">
+                <div className="flex flex-row items-center justify-center w-[250px] cursor-pointer h-[72px]">
                     <div className="border border-gray-200 rounded-[8px] overflow-hidden mr-3">
                         <img src={images.logoOrganizer} alt="logo" className="w-[32px] h-[32px]" />
                     </div>
@@ -87,7 +87,7 @@ function Sidebar(props) {
                     <div className={cx('custom_item')}>Báo cáo</div>
                     <div
                         className={cx('item', { active: activeItem === 'summary' })}
-                        onClick={() => dispatch(updateItemActive('summary'))}
+                        onClick={() => handleClickItem('summary', `/organizer/events/${eventId}/summary-revenue`)}
                     >
                         <PiCalendarStarFill style={{ height: '20px', width: '20px' }} />
                         <span className={cx('title')}>Tổng kết</span>
@@ -123,7 +123,7 @@ function Sidebar(props) {
                     </div>
                     <div
                         className={cx('item', { active: activeItem === 'edit' })}
-                        onClick={() => handleClickItem('edit')}
+                        onClick={() => handleClickItem('edit', `/organizer/events/${eventId}/edit`)}
                     >
                         <Pencil size={20} />
                         <span className={cx('title')}>Chỉnh sửa</span>

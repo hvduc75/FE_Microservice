@@ -28,7 +28,7 @@ function EventDetail(props) {
         }
     };
 
-    console.log(event);
+    console.log(event?.tickets);
 
     const handleBuyTicket = async () => {
         navigate(`/event-booking/${eventId}`);
@@ -97,9 +97,12 @@ function EventDetail(props) {
                                             {event?.tickets.map((ticket, index) => (
                                                 <div className={cx('ticket')} key={index}>
                                                     <span className={cx('text')}>{ticket.ticketName}</span>
-                                                    <span className={cx('price')}>
-                                                        {formatPrice(ticket?.ticketPrice)}đ
-                                                    </span>
+                                                    <div className={cx('tkt_price')}>
+                                                        <span className={cx('price', ticket?.ticketAmount === 0 && 'disable')}>
+                                                            {formatPrice(ticket?.ticketPrice)}đ
+                                                        </span>
+                                                        {ticket?.ticketAmount === 0 && <span className={cx('notice')}>Hết vé</span>}
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>

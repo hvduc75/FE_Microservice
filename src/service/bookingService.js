@@ -4,6 +4,10 @@ const getBookingById = (bookingId) => {
     return axios.get(`/booking/getBookingById/?bookingId=${bookingId}`);
 };
 
+const getAllBookingByEventId = (eventId) => {
+    return axios.get(`/booking/getAllBookingByEventId/?eventId=${eventId}`);
+};
+
 const createBooking = (data) => {
     const formData = new FormData();
 
@@ -17,12 +21,12 @@ const createBooking = (data) => {
 const updateReceiverInfo = (bookingId, receiverEmail, receiverPhone, receiverName) => {
     const formData = new FormData();
 
-    formData.append('bookingId',bookingId);
-    formData.append('receiverEmail',receiverEmail);
-    formData.append('receiverPhone',receiverPhone);
-    formData.append('receiverName',receiverName);
+    formData.append('bookingId', bookingId);
+    formData.append('receiverEmail', receiverEmail);
+    formData.append('receiverPhone', receiverPhone);
+    formData.append('receiverName', receiverName);
 
     return axios.put('/booking/update-receiverInfo', formData);
 };
 
-export { createBooking, getBookingById, updateReceiverInfo };
+export { createBooking, getBookingById, updateReceiverInfo, getAllBookingByEventId };

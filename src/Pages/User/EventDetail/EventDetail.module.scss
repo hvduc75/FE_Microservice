@@ -260,15 +260,15 @@
                                 position: relative;
                                 display: flex;
                                 flex-wrap: nowrap;
-                                align-items: center;
+                                // align-items: center;
                                 justify-content: space-between;
 
                                 &:nth-child(odd) {
-                                    background-color: #2e2f33; 
+                                    background-color: #2e2f33;
                                 }
-                        
+
                                 &:nth-child(even) {
-                                    background-color: #38373c; 
+                                    background-color: #38373c;
                                 }
 
                                 .text {
@@ -282,9 +282,30 @@
                                     font-size: 14px;
                                 }
 
-                                .price {
-                                    color: rgb(45, 194, 117);
-                                    font-size: 14px;
+                                .tkt_price {
+                                    display: flex;
+                                    flex-direction: column;
+
+
+                                    .price {
+                                        color: rgb(45, 194, 117);
+                                        font-size: 14px;
+                                    }
+
+                                    .disable{
+                                        color: rgb(166, 166, 176);
+                                        cursor: not-allowed;
+                                    }
+
+                                    .notice{
+                                        text-align: end;
+                                        color: rgb(255, 66, 79);
+                                        background-color: rgb(255, 184, 188);
+                                        border-radius: 12px;
+                                        padding: 4px 8px;
+                                        font-size: 14px;
+                                        font-weight: bold;
+                                    }
                                 }
                             }
                         }

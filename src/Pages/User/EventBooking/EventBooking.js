@@ -31,6 +31,7 @@ function EventBooking(props) {
                     ticketPrice: ticket.ticketPrice,
                     quantity: 0,
                     maxQuantity: ticket.ticketMax,
+                    ticketAmount: ticket.ticketAmount,
                 })),
             );
         }
@@ -52,7 +53,10 @@ function EventBooking(props) {
     const increaseQuantity = (index) => {
         setSelectedTickets((prevTickets) => {
             const newTickets = [...prevTickets];
-            if (newTickets[index].quantity < newTickets[index].maxQuantity) {
+            if (
+                newTickets[index].quantity < newTickets[index].maxQuantity &&
+                newTickets[index].quantity < newTickets[index].ticketAmount
+            ) {
                 newTickets[index].quantity += 1;
             }
             updateTotal(newTickets);
@@ -108,7 +112,10 @@ function EventBooking(props) {
                                     {selectedTickets.map((ticket, index) => (
                                         <div className={cx('item')} key={index}>
                                             <div className={cx('event')}>
-                                                <div className={cx('name')}>{ticket?.ticketName}</div>
+                                                <div className={cx('name')}>
+                                                    {ticket?.ticketName}
+                                                    {ticket?.ticketAmount === 0 && <span className={cx('notice')}>Hết vé</span>}
+                                                </div>
                                                 <div className={cx('price')}>{formatPrice(ticket?.ticketPrice)} đ</div>
                                             </div>
                                             <div className={cx('wrapper_quantity')}>
@@ -132,7 +139,9 @@ function EventBooking(props) {
                                                     <button
                                                         className={
                                                             selectedTickets[index].quantity ===
-                                                            selectedTickets[index].maxQuantity
+                                                                selectedTickets[index].maxQuantity ||
+                                                            selectedTickets[index].quantity ===
+                                                                selectedTickets[index].ticketAmount
                                                                 ? cx('btn', 'disabled')
                                                                 : cx('btn', 'btn_plus')
                                                         }
@@ -179,12 +188,14 @@ function EventBooking(props) {
                     <div className={cx('bottom_booking')}>
                         <div className={cx('booking_container')}>
                             <div className={cx('ticket_quantity')}>
-                                {checkBooking && <>
-                                    <TicketCheck />
-                                    <div className={cx('total')}>
-                                        x{selectedTickets.reduce((sum, ticket) => sum + ticket.quantity, 0)}
-                                    </div>
-                                </>}
+                                {checkBooking && (
+                                    <>
+                                        <TicketCheck />
+                                        <div className={cx('total')}>
+                                            x{selectedTickets.reduce((sum, ticket) => sum + ticket.quantity, 0)}
+                                        </div>
+                                    </>
+                                )}
                             </div>
                             {checkBooking ? (
                                 <button className={cx('btn_booking')} onClick={() => handleBooking()}>

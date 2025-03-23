@@ -1,0 +1,84 @@
+.container {
+    width: 100%;
+
+    .table {
+        width: 100%;
+        border-collapse: separate; 
+        border-spacing: 0; 
+    }
+
+    .tb_header,
+    .tb_body {
+        cursor: pointer;
+        background: #515257;
+        color: white;
+
+        .tb_row {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #444;
+        }
+
+        .col-first {
+            min-width: 150px;
+        }
+
+        .col-last {
+            min-width: 250px;
+        }
+
+        .bold-text {
+            font-weight: bold;
+        }
+
+        .progress-cell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: none;
+            border-bottom: 2px solid #444;
+
+            .progress-container {
+                width: 100%;
+                height: 10px;
+                background: orange;
+                overflow: hidden;
+                position: relative;
+
+                .progress-bar {
+                    height: 100%;
+                    background: #30c05e;
+                }
+            }
+
+            .progress-text {
+                color: white;
+                margin-left: 15px;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .tb_body {
+        tr {
+            &:hover {
+                background: #39383d;
+            }
+        }
+    }
+
+    .tb_header {
+        background: #39383d;
+        th:first-child {
+            border-top-left-radius: 8px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 8px;
+        }
+
+        th {
+            border: none; /* Xóa border để bo góc dễ hơn */
+        }
+    }
+}
