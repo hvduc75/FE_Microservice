@@ -1,7 +1,7 @@
 import axios from '../utils/axiosCustomize';
 
-const paymentWithVnPay = (amount, orderId,  bankCode, language) => {
-    return axios.post('/payment/vnpay', {amount, orderId, bankCode, language});
+const paymentWithVnPay = (amount, orderId,  bankCode, language, expireDate) => {
+    return axios.post('/payment/vnpay', {amount, orderId, bankCode, language, expireDate});
 };
 
 const vnpay_return = (paymentParams) => {

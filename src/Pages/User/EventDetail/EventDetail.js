@@ -98,10 +98,17 @@ function EventDetail(props) {
                                                 <div className={cx('ticket')} key={index}>
                                                     <span className={cx('text')}>{ticket.ticketName}</span>
                                                     <div className={cx('tkt_price')}>
-                                                        <span className={cx('price', ticket?.ticketAmount === 0 && 'disable')}>
+                                                        <span
+                                                            className={cx(
+                                                                'price',
+                                                                ticket?.ticketAmount === 0 && 'disable',
+                                                            )}
+                                                        >
                                                             {formatPrice(ticket?.ticketPrice)}đ
                                                         </span>
-                                                        {ticket?.ticketAmount === 0 && <span className={cx('notice')}>Hết vé</span>}
+                                                        {ticket?.ticketAmount === 0 && (
+                                                            <span className={cx('notice')}>Hết vé</span>
+                                                        )}
                                                     </div>
                                                 </div>
                                             ))}

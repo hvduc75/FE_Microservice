@@ -6,8 +6,9 @@ import { useSelector } from 'react-redux';
 import styles from './Payment.module.scss';
 import images from '../../../assets/images';
 import { getEvent } from '../../../service/eventService';
-import { getBookingById, updateReceiverInfo } from '../../../service/bookingService';
+import { getBookingById, updateReceiverInfo, deleteBooking } from '../../../service/bookingService';
 import ModalProfile from '../../../Components/Modal/ModalProfile/ModalProfile';
+import ModalConfirmBooking from '../../../Components/Modal/ModalConfirmBooking/ModalConfirmBooking';
 import { paymentWithVnPay } from '../../../service/paymentService';
 import { formatPrice, formatDate, getImageSrc } from '../../../utils';
 import { CircleCheck, Circle, Calendar, MapPin, CircleAlert } from 'lucide-react';
@@ -29,7 +30,8 @@ function Payment(props) {
     const [paymentMethod, setPaymentMethod] = useState('vn_pay');
     const [showModal, setShowModal] = useState(false);
     const [closeAttent, setCloseAttent] = useState(false);
-    const [countdown, setCountdown] = useState(0);
+    const [countdown, setCountdown] = useState(null);
+    const [showModalConfirm, setShowModalConfirm] = useState(false);
     const timeout = 15 * 60;
 
     useEffect(() => {
@@ -42,12 +44,23 @@ function Payment(props) {
     }, [booking]);
 
     useEffect(() => {
-        if (countdown <= 0) return;
+        if (countdown <= 0) {
+            if (booking?.bookingTime) {
+                handleDeleteBooking();
+            }
+        }
         const interval = setInterval(() => {
             setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
         }, 1000);
         return () => clearInterval(interval);
     }, [countdown]);
+
+    const handleDeleteBooking = async () => {
+        let data = await deleteBooking(bookingId);
+        if (data.EC === 0) {
+            setShowModalConfirm(true);
+        }
+    };
 
     const minutes = Math.floor(countdown / 60);
     const seconds = countdown % 60;
@@ -89,22 +102,27 @@ function Payment(props) {
     };
 
     const payment = async () => {
-        await updateReceiverInfo(booking._id, user.receiverEmail || user.email, user.receiverPhone || user.phone, user.receiverName || user.username);
+        await updateReceiverInfo(
+            booking._id,
+            user.receiverEmail || user.email,
+            user.receiverPhone || user.phone,
+            user.receiverName || user.username,
+        );
         if (paymentMethod === 'vn_pay') {
-            let res = await paymentWithVnPay(booking.totalAmount, booking._id, 'NCB', 'vn');
+            let res = await paymentWithVnPay(booking.totalAmount, booking._id, 'NCB', 'vn', countdown);
             window.location.href = res.paymentUrl;
-        } 
-    }
+        }
+    };
 
     const handlePayment = () => {
         if (!user.email || !user.phone || !user.username) {
             if (!user.receiverEmail || !user.receiverPhone || !user.receiverName) {
                 setShowModal(true);
             } else {
-                payment()
+                payment();
             }
         } else {
-            payment()
+            payment();
         }
     };
 
@@ -197,7 +215,9 @@ function Payment(props) {
                                     <button onClick={() => handleChangeInfo()}>Sửa</button>
                                 </div>
                                 <div className={cx('user')}>
-                                    <span className={cx('name')}>{user.receiverName || user.username || 'No name'}</span>
+                                    <span className={cx('name')}>
+                                        {user.receiverName || user.username || 'No name'}
+                                    </span>
                                     <span>{user.receiverPhone || user.phone || 'No phone'}</span>
                                 </div>
                                 <div className={cx('email')}>{user.receiverEmail || user.email || 'No email'}</div>
@@ -288,6 +308,7 @@ function Payment(props) {
                 </div>
             </div>
             {showModal && <ModalProfile setShowModal={setShowModal} />}
+            {showModalConfirm && <ModalConfirmBooking setShowModal={setShowModalConfirm} eventId={eventId} />}
         </>
     );
 }

@@ -17,14 +17,12 @@ function EventTabs(props) {
     const { listEventDate } = props;
     const settings = {
         dots: false,
-        infinite: true,
-        slidesToShow: 4,
-        slidesToScroll: 4,
+        infinite: listEventDate?.length > 1,
+        slidesToShow: listEventDate?.length < 4 ? listEventDate?.length : 4,
+        slidesToScroll: listEventDate?.length < 4 ? listEventDate?.length : 4,
         nextArrow: <EventNextArrow />,
         prevArrow: <EventPrevArrow />,
     };
-
-    console.log(listEventDate)
 
     const handleUpdateScore = async (eventId) => {
         await updateScore(eventId);
@@ -32,7 +30,7 @@ function EventTabs(props) {
 
     return (
         <div className="slider-container">
-            <Slider {...settings}>
+            <Slider className={cx('customize-css')} {...settings}>
                 {listEventDate &&
                     listEventDate.length > 0 &&
                     listEventDate.map((item, index) => (

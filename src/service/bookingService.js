@@ -4,6 +4,10 @@ const getBookingById = (bookingId) => {
     return axios.get(`/booking/getBookingById/?bookingId=${bookingId}`);
 };
 
+const getBookingByEventId = (eventId) => {
+    return axios.get(`/booking/getBookingByEventId/?eventId=${eventId}`);
+};
+
 const getAllBookingByEventId = (eventId) => {
     return axios.get(`/booking/getAllBookingByEventId/?eventId=${eventId}`);
 };
@@ -29,4 +33,14 @@ const updateReceiverInfo = (bookingId, receiverEmail, receiverPhone, receiverNam
     return axios.put('/booking/update-receiverInfo', formData);
 };
 
-export { createBooking, getBookingById, updateReceiverInfo, getAllBookingByEventId };
+const deleteBooking = (bookingId) => {
+    console.log(bookingId);
+    const formData = new FormData();
+
+    formData.append('bookingId', bookingId);
+
+    return axios.post('/booking/deleteBooking', formData);
+};
+
+
+export { createBooking, getBookingById, updateReceiverInfo, getAllBookingByEventId, deleteBooking, getBookingByEventId };

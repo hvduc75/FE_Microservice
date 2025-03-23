@@ -25,6 +25,11 @@ function Home(props) {
 
     useEffect(() => {
         fetchData();
+        fetchEventByTime();
+    }, []);
+
+    useEffect(() => {
+        fetchEventByTime()
     }, [active]);
 
     const fetchData = async () => {
@@ -41,21 +46,23 @@ function Home(props) {
             if (dataOther.EC === 0) setListEventOther(dataOther.DT.events);
             if (dataTheater.EC === 0) setListEventTheater(dataTheater.DT.events);
             if (dataHot.EC === 0) setListEventHot(dataHot.DT);
-
-            let dataDate;
-            if (active === 0) {
-                dataDate = await getEventByTime('this_week', 1, 20);
-            } else if (active === 1) {
-                dataDate = await getEventByTime('this_month', 1, 20);
-            }
-
-            if (dataDate && dataDate.EC === 0) {
-                setListEventDate(dataDate.DT.events);
-            }
         } catch (error) {
             console.error('Lỗi khi gọi API:', error);
         }
-        setLoading(false); // Hoàn tất tải dữ liệu
+        setLoading(false); 
+    };
+
+    const fetchEventByTime = async () => {
+        let dataDate;
+        if (active === 0) {
+            dataDate = await getEventByTime('this_week', 1, 20);
+        } else if (active === 1) {
+            dataDate = await getEventByTime('this_month', 1, 20);
+        }
+
+        if (dataDate && dataDate.EC === 0) {
+            setListEventDate(dataDate.DT.events);
+        }
     };
 
     const handleClickExtra = (category) => {

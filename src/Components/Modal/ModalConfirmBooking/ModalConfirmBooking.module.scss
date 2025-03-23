@@ -1,0 +1,89 @@
+.modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); // Mờ nền
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    .modal, .modal_booking {
+        border-radius: 8px;
+        width: 312px;
+        position: relative;
+        background-color: #ffffff;
+        background-clip: padding-box;
+        box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+            0 9px 28px 8px rgba(0, 0, 0, 0.05);
+        pointer-events: auto;
+        padding: 16px 24px;
+
+        .header {
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            color: rgb(42, 45, 52);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: auto;
+            width: 100%;
+
+            .notice {
+                padding: 8px 0px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                gap: 12px;
+
+                p {
+                    padding-inline: 1.25rem;
+                }
+            }
+
+            .btn_confirm, .btn_cancel {
+                background: rgb(45, 194, 117);
+                color: rgb(255, 255, 255);
+                border-radius: 4px;
+                height: 40px;
+                font-weight: bold;
+                font-size: 16px;
+                line-height: 24px;
+                min-width: 88px;
+                padding: 0px 24px;
+            }
+        }
+    }
+
+    .modal_booking {
+        width: 360px;
+
+        .header {
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            color: rgb(42, 45, 52);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .content {
+            
+            .btn_cancel {
+                background: transparent;
+                border: none;
+                color: rgb(35, 168, 100);
+            }
+        }
+    }
+}

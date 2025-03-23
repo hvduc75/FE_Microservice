@@ -76,7 +76,7 @@ function StepTwo(props) {
         let checkDate = true;
         listTicket.map((ticket) => {
             console.log(new Date(ticket.eventTicketSaleStartTime), new Date(startDate));
-            if (new Date(ticket.eventTicketSaleStartTime) < new Date(startDate)) {
+            if (new Date(ticket.eventTicketSaleStartTime) > new Date(startDate)) {
                 checkDate = false;
             }
         })
