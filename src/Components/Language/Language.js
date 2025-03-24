@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames/bind';
+import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippyjs/react/headless';
 
 import styles from './Language.module.scss';
+import { ChangeLanguage } from '../../redux/action/userAction';
 import images from '../../assets/images';
 import 'tippy.js/dist/tippy.css';
 
 const cx = classNames.bind(styles);
 
 function Language(props) {
-    const [language, setLanguage] = useState('vn'); // State lưu ngôn ngữ hiện tại
+    const language = useSelector((state) => state.user.language);
+    const dispatch = useDispatch();
 
     const handleLanguageChange = (lang) => {
-        setLanguage(lang);
         // Nếu cần lưu vào localStorage để nhớ sau khi reload
+        dispatch(ChangeLanguage(lang));
         localStorage.setItem('language', lang);
     };
 
@@ -26,9 +29,9 @@ function Language(props) {
                 render={(attrs) => (
                     <div className={cx('account-content')} tabIndex="-1" {...attrs}>
                         <div
-                            onClick={() => handleLanguageChange('vn')}
+                            onClick={() => handleLanguageChange('vi')}
                             className={`flex items-center gap-2 cursor-pointer p-2 hover:bg-gray-100 rounded ${
-                                language === 'vn' ? 'bg-gray-200' : ''
+                                language === 'vi' ? 'bg-gray-200' : ''
                             }`}
                         >
                             <div className="w-6 h-6 bg-red-600 rounded-full overflow-hidden flex items-center justify-center">
@@ -53,7 +56,7 @@ function Language(props) {
                 <div className={cx('location')}>
                     <div className={cx('languages')}>
                         <div className={cx('flag-icon-container')}>
-                            <img src={language === "vn" ? images.flag_vn : images.flag_uk} alt="flag_vn" />
+                            <img src={language === "vi" ? images.flag_vn : images.flag_uk} alt="flag_vn" />
                         </div>
                         <img
                             src={images.dropdown}

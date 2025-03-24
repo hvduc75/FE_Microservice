@@ -1,0 +1,27 @@
+{
+    "header": {
+        "search": {
+            "placeholder": "What are you looking for today?",
+            "button": "Search"
+        },
+        "event": "Create Event",
+        "ticket": "My Tickets",
+        "account": "My Account",
+        "login": "Login",
+        "logout": "Log out",
+        "myEvents": "My Events",
+        "myAccount": "My Account",
+        "contents": ["Music", "Theaters & Art", "Sport", "Others"]
+    },
+    "specialEvents": "Special Events",
+    "trendingEvents": "Trending Events",
+    "category": {
+        "music": "Music",
+        "art": "Theaters & Art",
+        "sport": "Sport",
+        "others": "Others"
+    },
+    "viewMore": "View more",
+    "thisWeek": "This Weekend",
+    "thisMonth": "This month"
+}

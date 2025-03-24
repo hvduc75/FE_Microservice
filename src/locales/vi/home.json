@@ -1,0 +1,27 @@
+{
+    "header": {
+        "search": {
+            "placeholder": "Bạn tìm gì hôm nay?",
+            "button": "Tìm kiếm"
+        },
+        "event": "Tạo sự kiện",
+        "ticket": "Vé đã mua",
+        "account": "Tài khoản",
+        "login": "Đăng nhập",
+        "logout": "Đăng xuất",
+        "myEvents": "Sự kiện của tôi",
+        "myAccount": "Tài khoản của tôi",
+        "contents": ["Nhạc sống", "Sân khấu & Nghệ thuật", "Thể Thao", "Khác"]
+    },
+    "specialEvents": "Sự kiện đặc biệt",
+    "trendingEvents": "Sự kiện xu hướng",
+    "category": {
+        "music": "Nhạc sống",
+        "art": "Sân khấu & Nghệ thuật",
+        "sport": "Thể thao",
+        "others": "Khác"
+    },
+    "viewMore": "Xem thêm",
+    "thisWeek": "Cuối tuần này",
+    "thisMonth": "Tháng này"
+}

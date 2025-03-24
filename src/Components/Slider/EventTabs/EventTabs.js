@@ -17,7 +17,7 @@ function EventTabs(props) {
     const { listEventDate } = props;
     const settings = {
         dots: false,
-        infinite: listEventDate?.length > 1,
+        infinite: listEventDate?.length > 4,
         slidesToShow: listEventDate?.length < 4 ? listEventDate?.length : 4,
         slidesToScroll: listEventDate?.length < 4 ? listEventDate?.length : 4,
         nextArrow: <EventNextArrow />,

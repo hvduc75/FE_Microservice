@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
+import { useTranslation } from 'react-i18next';
 
 import 'tippy.js/dist/tippy.css';
 import styles from './Account.module.scss';
@@ -18,6 +19,7 @@ const cx = classNames.bind(styles);
 function Account(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { t } = useTranslation('home');
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const user = useSelector((state) => state.user.account);
     const { setShowModal } = props;
@@ -51,11 +53,11 @@ function Account(props) {
                                 className={cx('menu-item')}
                             >
                                 <TicketMinus size={22} className="mr-2" />
-                                Vé đã mua
+                                {t('header.ticket')}
                             </Link>
                             <div onClick={() => handleClickMyEvents()} className={cx('menu-item')}>
                                 <CalendarPlus2 size={22} className="mr-2" />
-                                Sự kiện của tôi
+                                {t('header.myEvents')}
                             </div>
                             <Link
                                 to="/my-account/my-profile"
@@ -63,7 +65,7 @@ function Account(props) {
                                 className={cx('menu-item')}
                             >
                                 <CircleUserRound size={22} className="mr-2" />
-                                Tài khoản của tôi
+                                {t('header.myAccount')}
                             </Link>
                             <div
                                 onClick={() => {
@@ -72,7 +74,7 @@ function Account(props) {
                                 className={cx('menu-item')}
                             >
                                 <LogOut size={22} className="mr-2" />
-                                Đăng xuất
+                                {t('header.logout')}
                             </div>
                         </div>
                     )}
@@ -84,7 +86,7 @@ function Account(props) {
                                 style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }}
                                 alt="avatar"
                             />
-                            Tài khoản
+                            {t('header.account')}
                             <img src={images.dropdown} style={{ width: '8px', height: '8px' }} alt="dropdown-icon" />
                         </div>
                     </div>

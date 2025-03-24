@@ -6,6 +6,7 @@ import {
     USER_LOGOUT_SUCCESS,
     USER_LOGOUT_ERROR,
     UPDATE_ACCESS_TOKEN_SUCCESS,
+    CHANGE_LANGUAGE
 } from './types';
 
 export const UserLoginRequest = () => {
@@ -58,3 +59,10 @@ export const OpenLoginModal = (data) => {
         payload: data,
    };
 };
+
+export const ChangeLanguage = (data) => {
+    return {
+        type: CHANGE_LANGUAGE,
+        payload: data,
+    };
+}   

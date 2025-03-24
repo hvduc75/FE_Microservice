@@ -6,13 +6,20 @@ import { getAccount } from './service/authService';
 import { UserLoginSuccess } from './redux/action/userAction';
 import ModalLogin from './Components/Modal/ModalLogin/ModalLogin';
 import AppRoutes from './routes';
+import i18n from "./i18n";
 
 function App() {
     const dispatch = useDispatch();
     const location = useLocation();
     const user = useSelector((state) => state.user.account);
     const isOpenModalLogin = useSelector((state) => state.user.isLoginModalOpen);
+    const reduxLanguage = useSelector((state) => state.user.language);
     const [showModal, setShowModal] = useState(false);
+    const language = localStorage.getItem("language") || reduxLanguage || "vi";
+
+    useEffect(() => {
+        i18n.changeLanguage(language);
+    }, [language]);
 
     useEffect(() => {
         if (isOpenModalLogin) {

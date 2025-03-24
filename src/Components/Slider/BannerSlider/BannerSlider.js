@@ -15,9 +15,9 @@ const cx = classNames.bind(styles);
 function BannerSlider({ listEventHot }) {
     const settings = {
         dots: true,
-        infinite: true,
-        slidesToShow: 2,
-        slidesToScroll: 2,
+        infinite: listEventHot?.length > 2,
+        slidesToShow: listEventHot.length > 2 ? 2 : listEventHot.length,
+        slidesToScroll: listEventHot.length > 2 ? 2 : listEventHot.length,
         nextArrow: <SampleNextArrow />,
         prevArrow: <SamplePrevArrow />,
     };

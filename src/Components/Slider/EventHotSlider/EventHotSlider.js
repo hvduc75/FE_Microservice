@@ -16,9 +16,9 @@ function EventHotSlider({ listEventHot }) {
     console.log(listEventHot);
     const settings = {
         dots: false,
-        infinite: true,
-        slidesToShow: 4,
-        slidesToScroll: 4,
+        infinite: listEventHot?.length > 4,
+        slidesToShow: listEventHot.length > 4 ? 4 : listEventHot.length,
+        slidesToScroll: listEventHot.length > 4 ? 4 : listEventHot.length,
         nextArrow: <SampleNextArrow />,
         prevArrow: <SamplePrevArrow />,
     };

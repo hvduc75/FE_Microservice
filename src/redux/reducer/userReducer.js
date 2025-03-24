@@ -5,6 +5,7 @@ import {
     USER_LOGOUT_SUCCESS,
     UPDATE_ACCESS_TOKEN_SUCCESS,
     OPEN_LOGIN_MODAL,
+    CHANGE_LANGUAGE,
 } from '../action/types';
 
 const INITIAL_STATE = {
@@ -29,6 +30,7 @@ const INITIAL_STATE = {
     isAuthenticated: false,
     isFetchingAccount: true,
     isLoginModalOpen: false,
+    language: 'vi',
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -60,6 +62,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 },
                 isAuthenticated: true,
                 isFetchingAccount: false,
+                language: state.language,
             };
         case USER_LOGIN_ERROR:
             return {
@@ -101,6 +104,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLoginModalOpen: action.payload,
+            };
+        case CHANGE_LANGUAGE:
+            return {
+                ...state,
+                language: action.payload,
             };
         default:
             return state;

@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from "react-i18next";
 
 import styles from './Header.module.scss';
 import images from '../../../../assets/images';
@@ -14,11 +15,13 @@ import Language from '../../../../Components/Language/Language';
 import { updateProfileItemActive } from '../../../../redux/action/eventAction';
 
 const cx = classNames.bind(styles);
-const contents = ['Nhạc sống', 'Sân khấu & Nghệ thuật', 'Thể Thao', 'Khác'];
+// const contents = ['Nhạc sống', 'Sân khấu & Nghệ thuật', 'Thể Thao', 'Khác'];
 
 function Header(props) {
     const dispatch = useDispatch();
     const location = useLocation();
+    const { t } = useTranslation("home");
+    const contents = t("header.contents", { returnObjects: true });
     const isHomePage = location.pathname === '/' || location.pathname.startsWith('/event-detail');
     const [showModal, setShowModal] = useState(false);
 
@@ -39,11 +42,11 @@ function Header(props) {
                                 <span style={{ color: '#868e99' }}>
                                     <IoSearch style={{ width: '24px', height: '24px' }} />
                                 </span>
-                                <input type="text" placeholder="Bạn tìm gì hôm nay?" />
-                                <button>Tìm kiếm</button>
+                                <input type="text" placeholder={t("header.search.placeholder")} />
+                                <button>{t("header.search.button")}</button>
                             </div>
                             <div className={cx('add_event')} onClick={() => handleAddEvent()}>
-                                Tạo sự kiện
+                                {t("header.event")}
                             </div>
                         </div>
                         <div className={cx('group_right')}>
@@ -53,7 +56,7 @@ function Header(props) {
                                     onClick={() => dispatch(updateProfileItemActive('ticket'))}
                                 >
                                     <BsTicketDetailed style={{ width: '24px', height: '24px' }} />
-                                    <span>Vé đã mua</span>
+                                    <span>{t('header.ticket')}</span>
                                 </Link>
                             </div>
                             <Account setShowModal={setShowModal} />
