@@ -3,6 +3,7 @@ import { useParams, useNavigate, useOutletContext, useLocation } from 'react-rou
 import { toast } from 'react-toastify';
 
 import { addEvent, getEvent, editEvent, updateBankAccount, updateContentEmail } from '../../../service/eventService';
+import { RefreshCcw } from 'lucide-react';
 import classNames from 'classnames/bind';
 import style from './AddEvent.module.scss';
 import StepOne from './StepOne/StepOne';
@@ -46,6 +47,7 @@ function AddEvent(props) {
     const [accountName, setAccountName] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [bankName, setBankName] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (eventId || newEventId) {
@@ -127,6 +129,8 @@ function AddEvent(props) {
     };
 
     const handleSave = async () => {
+        if (loading) return;
+        setLoading(true);
         if (active === 1) {
             const finalEventId = eventId || newEventId;
 
@@ -150,12 +154,14 @@ function AddEvent(props) {
         } else if (active === 2) {
             if (!validateStepTwo()) {
                 toast.error('Lưu thông tin sự kiện thất bại');
+                setLoading(false);
                 return;
             }
             toast.success('Lưu thông tin sự kiện thành công');
         } else if (active === 3) {
             if (!contentEmail) {
                 toast.error('Lưu thông tin sự kiện thất bại');
+                setLoading(false);
                 return;
             }
             let data = await updateContentEmail(eventId, contentEmail);
@@ -165,6 +171,7 @@ function AddEvent(props) {
         } else if (active === 4) {
             if (!branch || !accountName || !accountNumber || !bankName) {
                 toast.error('Lưu thông tin sự kiện thất bại');
+                setLoading(false);
                 return;
             }
             let data = await updateBankAccount(eventId, accountName, accountNumber, bankName, branch);
@@ -172,9 +179,12 @@ function AddEvent(props) {
                 toast.success('Lưu thông tin sự kiện thành công');
             }
         }
+        setLoading(false);
     };
 
     const handleContinue = async () => {
+        if (loading) return;
+        setLoading(true);
         const finalEventId = eventId || newEventId;
 
         if (active === 1) {
@@ -204,6 +214,7 @@ function AddEvent(props) {
         } else if (active === 2) {
             if (!validateStepTwo()) {
                 toast.error('Lưu thông tin sự kiện thất bại');
+                setLoading(false);
                 return;
             }
             toast.success('Lưu thông tin sự kiện thành công');
@@ -213,6 +224,7 @@ function AddEvent(props) {
         } else if (active === 3) {
             if (!contentEmail) {
                 toast.error('Lưu thông tin sự kiện thất bại');
+                setLoading(false);
                 return;
             }
             let data = await updateContentEmail(eventId, contentEmail);
@@ -220,6 +232,7 @@ function AddEvent(props) {
                 toast.success('Lưu thông tin sự kiện thành công');
             } else {
                 toast.error('Lưu thông tin sự kiện thất bại');
+                setLoading(false);
                 return;
             }
             if (active < 4) {
@@ -228,6 +241,7 @@ function AddEvent(props) {
         } else if (active === 4) {
             if (!branch || !accountName || !accountNumber || !bankName) {
                 toast.error('Lưu thông tin sự kiện thất bại');
+                setLoading(false);
                 return;
             }
             let data = await updateBankAccount(eventId, accountName, accountNumber, bankName, branch);
@@ -235,6 +249,7 @@ function AddEvent(props) {
                 toast.success('Lưu thông tin sự kiện thành công');
             }
         }
+        setLoading(false);
     };
 
     return (
@@ -261,11 +276,29 @@ function AddEvent(props) {
                     ))}
                 </div>
                 <div className="flex flex-row gap-2 ">
-                    <button className={cx('btn', 'w-full')} onClick={() => handleSave()}>
+                    {/* <button className={cx('btn', 'w-full')} onClick={() => handleSave()}>
                         <span>Lưu</span>
+                        <RefreshCcw className="w-4 h-4 ml-1" />
                     </button>
                     <button className={cx('btn', 'btn_continue', 'w-full')} onClick={() => handleContinue()}>
                         <span>Tiếp tục</span>
+                        <RefreshCcw className="w-4 h-4 ml-1" />
+                    </button> */}
+                    <button className={cx('btn', 'w-full')} onClick={handleSave} disabled={loading}>
+                        <span>
+                            Lưu
+                            {loading && (
+                                <RefreshCcw className={classNames('w-4 h-4 ml-1', { 'animate-spin': loading })} />
+                            )}
+                        </span>
+                    </button>
+                    <button className={cx('btn', 'btn_continue', 'w-full')} onClick={handleContinue} disabled={loading}>
+                        <span>
+                            Tiếp tục
+                            {loading && (
+                                <RefreshCcw className={classNames('w-4 h-4 ml-1', { 'animate-spin': loading })} />
+                            )}
+                        </span>
                     </button>
                 </div>
             </div>

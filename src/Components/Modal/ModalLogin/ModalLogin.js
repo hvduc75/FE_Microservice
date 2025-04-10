@@ -18,6 +18,7 @@ function ModalLogin({ setShowModal }) {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -42,6 +43,8 @@ function ModalLogin({ setShowModal }) {
     };
 
     const handleLogin = async () => {
+        if(isLoading) return;
+        setIsLoading(true);
         const response = await loginUser(email, password);
         if (response.EC === 0) {
             dispatch(UserLoginSuccess(response));
@@ -51,6 +54,7 @@ function ModalLogin({ setShowModal }) {
         } else {
             toast.error(response.EM);
         }
+        setIsLoading(false);
     };
 
     const handlePressEnter = (event) => {
@@ -60,8 +64,10 @@ function ModalLogin({ setShowModal }) {
     };
 
     const handleRegister = async () => {
+        if(isLoading) return;
+        setIsLoading(true);
         if (password !== confirmPassword) {
-            alert('Mật khẩu không trùng khớp');
+            toast.error('Mật khẩu không trùng khớp');
             return;
         }
 
@@ -77,6 +83,7 @@ function ModalLogin({ setShowModal }) {
         } else {
             toast.error(response.EM);
         }
+        setIsLoading(false);
     };
 
     return (

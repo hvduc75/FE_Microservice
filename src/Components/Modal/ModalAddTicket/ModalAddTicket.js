@@ -241,7 +241,7 @@ function ModalAddTicket(props) {
                                         >
                                             {imagePreview || ticketImage ? (
                                                 <img
-                                                    src={imagePreview || getImageSrc(ticketImage)}
+                                                    src={imagePreview || ticketImage}
                                                     alt="ticket Preview"
                                                     className="w-full h-full object-cover rounded-md"
                                                 />

@@ -23,9 +23,9 @@ function Sidebar(props) {
         setActive(profileItemActive);
     }, [profileItemActive]);
 
-    const handleClickPurchasedTicket = () => {
-        dispatch(updateProfileItemActive('ticket'));
-        navigate('/my-account/tickets');
+    const handleClickSideBar = (item, link) => {
+        dispatch(updateProfileItemActive(item));
+        navigate(link);
     };
 
     return (
@@ -40,7 +40,7 @@ function Sidebar(props) {
             <div className={cx('list_item')}>
                 <div
                     className={cx('item', 'custom_item', active === 'account' && 'active')}
-                    onClick={() => dispatch(updateProfileItemActive('account'))}
+                    onClick={() => handleClickSideBar('account', '/my-account/my-profile')}
                 >
                     <div className="flex gap-[10px] items-center">
                         <FaUser size={22} />
@@ -50,7 +50,7 @@ function Sidebar(props) {
                 </div>
                 <div
                     className={cx('item', active === 'ticket' && 'active')}
-                    onClick={() => handleClickPurchasedTicket()}
+                    onClick={() => handleClickSideBar('ticket', '/my-account/tickets')}
                 >
                     <Ticket size={22} />
                     <span>Vé đã mua</span>

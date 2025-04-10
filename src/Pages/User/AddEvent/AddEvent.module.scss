@@ -95,11 +95,16 @@
     border: 1px solid transparent;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+    span {
+        min-width: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 .btn_continue {
     color: #fff;
     background: #2dc275;
 }
-
-
