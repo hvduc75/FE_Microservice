@@ -13,7 +13,7 @@ const getAccount = () => {
 };
 
 const checkTokenLogin = (userId, tokenLogin) => {
-    return axios.get(`/checkTokenLogin?userId=${userId}&tokenLogin=${tokenLogin}`);
+    return axios.get(`/customer/checkTokenLogin?userId=${userId}&tokenLogin=${tokenLogin}`);
 };
 
 const registerNewUser = (userData) => {

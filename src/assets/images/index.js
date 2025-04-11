@@ -5,6 +5,7 @@ const images = {
     flag_vn: require('./logo/flag_vn.png'),
     flag_uk: require('./logo/flag_uk.png'),
     logoOrganizer: require('./logo/logoOrganizer.png'),
+    logoGoogle: require('./logo/google.jpg'),
 
     //payment
     pm_cash: require("./Payment/cash.png"),

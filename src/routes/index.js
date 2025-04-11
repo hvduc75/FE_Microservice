@@ -12,6 +12,7 @@ import OrganizerLayout from '../layouts/UserLayout/OrganizerLayout/OrganizerLayo
 import Home from '../Pages/User/Home/Home';
 import Search from '../Pages/User/Search/Search';
 import EventDetail from '../Pages/User/EventDetail/EventDetail';
+import CodePage from '../Pages/Auth/CodePage';
 
 import EventBooking from '../Pages/User/EventBooking/EventBooking';
 import Payment from '../Pages/User/Payment/Payment';
@@ -64,6 +65,7 @@ const AppRoutes = () => {
                     <Route path="report" element={<ManageReport />} />
                 </Route>
             </Route>
+            <Route path="/code/:userId/:tokenLogin" element={<CodePage />} />
 
             {/* Admin Routes */}
             <Route element={<AdminRoutes />}>

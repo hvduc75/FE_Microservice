@@ -4,11 +4,12 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { UserLoginSuccess, OpenLoginModal } from '../../../redux/action/userAction';
 import { IoClose } from 'react-icons/io5';
 import { FaGoogle } from 'react-icons/fa';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import styles from './ModalLogin.module.scss';
+import images from '../../../assets/images';
+import { UserLoginSuccess, OpenLoginModal } from '../../../redux/action/userAction';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { loginUser, registerNewUser } from '../../../service/authService';
 
 const cx = classNames.bind(styles);
@@ -43,7 +44,7 @@ function ModalLogin({ setShowModal }) {
     };
 
     const handleLogin = async () => {
-        if(isLoading) return;
+        if (isLoading) return;
         setIsLoading(true);
         const response = await loginUser(email, password);
         if (response.EC === 0) {
@@ -57,6 +58,10 @@ function ModalLogin({ setShowModal }) {
         setIsLoading(false);
     };
 
+    const handleLoginWithGoogle = () => {
+        window.open(`http://localhost:8080/customer/auth/google`, '_self');
+    };
+
     const handlePressEnter = (event) => {
         if (event.charCode === 13 && event.code === 'Enter') {
             handleLogin();
@@ -64,7 +69,7 @@ function ModalLogin({ setShowModal }) {
     };
 
     const handleRegister = async () => {
-        if(isLoading) return;
+        if (isLoading) return;
         setIsLoading(true);
         if (password !== confirmPassword) {
             toast.error('Mật khẩu không trùng khớp');
@@ -140,9 +145,9 @@ function ModalLogin({ setShowModal }) {
                                     </div>
                                 </div>
                                 <div className={cx('or-text')}>Hoặc</div>
-                                <div className={cx('oauth')}>
+                                <div className={cx('oauth')} onClick={() => handleLoginWithGoogle()}>
                                     <div className={cx('google')}>
-                                        <FaGoogle style={{ height: '18px', width: '18px', color: 'red' }} />
+                                        <img src={images.logoGoogle} alt="logoGoogle" style={{ height: '18px', width: '18px', color: 'red' }} />
                                     </div>
                                 </div>
                                 <div className={cx('commitment')}>
