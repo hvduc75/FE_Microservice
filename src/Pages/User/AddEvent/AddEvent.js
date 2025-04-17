@@ -287,7 +287,7 @@ function AddEvent(props) {
                     <button className={cx('btn', 'w-full')} onClick={handleSave} disabled={loading}>
                         <span>
                             Lưu
-                            {loading && (
+                            {loading && active === 1 && (
                                 <RefreshCcw className={classNames('w-4 h-4 ml-1', { 'animate-spin': loading })} />
                             )}
                         </span>
@@ -295,7 +295,7 @@ function AddEvent(props) {
                     <button className={cx('btn', 'btn_continue', 'w-full')} onClick={handleContinue} disabled={loading}>
                         <span>
                             Tiếp tục
-                            {loading && (
+                            {loading && active === 1 && (
                                 <RefreshCcw className={classNames('w-4 h-4 ml-1', { 'animate-spin': loading })} />
                             )}
                         </span>

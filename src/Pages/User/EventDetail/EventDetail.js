@@ -67,7 +67,7 @@ function EventDetail(props) {
                             </div>
                         </div>
                         <div className={cx('img_wrapper')}>
-                            <img src={getImageSrc(event?.backgroundEvent)} alt="background Event" />
+                            <img src={event?.backgroundEvent} alt="background Event" />
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@ function EventDetail(props) {
                                     <div className={cx('img_organizer')}>
                                         <img
                                             src={
-                                                getImageSrc(event?.organizerLogo) ||
+                                                event?.organizerLogo ||
                                                 'https://scontent.fhan14-5.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=DIBbnYOhK2sQ7kNvgGFvlZH&_nc_oc=Adh0Aj7ZTUWqUcqMnOrw0vQy-qERNbEx0k9x09np4QerfNRWFYcr8VLG1QsMO5msgpw&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=A4NdmfzODDG5g0mWuzYa_HA&oh=00_AYH3OPzgZNcRKmXPN1kqzhxhHfgNMZvzhpiGIj5p4xENJg&oe=67F99761'
                                             }
                                             alt="OrganizerImage"

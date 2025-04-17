@@ -66,7 +66,7 @@ function ManageEvent(props) {
                                     <div className={cx('event')}>
                                         <div className={cx('event_desc')}>
                                             <div className={cx('avatar')}>
-                                                <img src={getImageSrc(event.backgroundEvent)} alt="preview-image" />
+                                                <img src={event.backgroundEvent} alt="preview-image" />
                                             </div>
                                             <div className={cx('content')}>
                                                 <p className="text-white text-base font-medium mb-4">

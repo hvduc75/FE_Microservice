@@ -4,7 +4,6 @@ import styles from './StepOne.module.scss';
 
 import { FiInbox } from 'react-icons/fi';
 import Location from './Location/Location';
-import { getImageSrc } from '../../../../utils';
 
 const cx = classNames.bind(styles);
 

@@ -65,7 +65,7 @@ function StepOne(props) {
                                 <label htmlFor="event_logo" className={cx('upload_event_logo')}>
                                     {logoPreview || eventLogo ? (
                                         <img
-                                            src={logoPreview || getImageSrc(eventLogo)}
+                                            src={logoPreview || eventLogo}
                                             alt="Logo Preview"
                                             className="w-full h-full object-cover rounded-md"
                                         />
@@ -87,7 +87,7 @@ function StepOne(props) {
                                 <label htmlFor="event_image" className={cx('upload_event_image')}>
                                     {backgroundPreview || backgroundEvent ? (
                                         <img
-                                            src={backgroundPreview || getImageSrc(backgroundEvent)}
+                                            src={backgroundPreview || backgroundEvent}
                                             alt="Background Preview"
                                             className="w-full h-full object-cover rounded-md"
                                         />
@@ -164,7 +164,7 @@ function StepOne(props) {
                                 >
                                     {logoOrganizerPreview || organizerLogo ? (
                                         <img
-                                            src={logoOrganizerPreview || getImageSrc(organizerLogo)}
+                                            src={logoOrganizerPreview || organizerLogo}
                                             alt="logo organizer Preview"
                                             className="w-full h-full object-cover rounded-md"
                                         />

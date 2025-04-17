@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import { toast } from 'react-toastify';
 
@@ -6,12 +6,13 @@ import style from './ModalAddTicket.module.scss';
 import { addTicket, updateTicket } from '../../../service/ticketService';
 import { IoClose } from 'react-icons/io5';
 import { FiInbox } from 'react-icons/fi';
-import { getImageSrc } from '../../../utils';
+import { RefreshCcw } from 'lucide-react';
 
 const cx = classNames.bind(style);
 
 function ModalAddTicket(props) {
-    const {   
+    const [loading, setLoading] = useState(false);
+    const {
         ticketId,
         setShowModal,
         eventId,
@@ -58,6 +59,8 @@ function ModalAddTicket(props) {
     };
 
     const handleSave = async () => {
+        if (loading) return;
+        setLoading(true);
         const data = {
             ticketId,
             eventId,
@@ -89,21 +92,22 @@ function ModalAddTicket(props) {
                 toast.error(res.EM);
             }
         }
+        setLoading(false);
     };
 
     const handleChangeTicketSaleStartTime = async (event) => {
         setEventTicketSaleStartTime(event.target.value);
         let startTime = event.target.value;
-        
+
         if (new Date(startTime) > new Date(eventStartDate)) {
             toast.error('Thời gian bắt đầu bán vé phải nhỏ hơn thời gian bắt đầu sự kiện');
             setEventTicketSaleStartTime('');
-            return
+            return;
         }
         if (new Date(startTime) > new Date(eventTicketSaleEndTime)) {
             toast.error('Thời gian bắt đầu bán vé phải nhỏ hơn thời gian kết thúc bán vé');
             setEventTicketSaleStartTime('');
-            return
+            return;
         }
     };
 
@@ -113,12 +117,12 @@ function ModalAddTicket(props) {
         if (new Date(endDate) > new Date(eventEndDate)) {
             toast.error('Thời gian kết thúc bán vé phải nhỏ hơn thời gian kết thúc sự kiện');
             setEventTicketSaleEndTime('');
-            return
+            return;
         }
         if (new Date(endDate) < new Date(eventTicketSaleStartTime)) {
             toast.error('Thời gian kết thúc bán vé phải lớn hơn thời gian bắt đầu bán vé');
             setEventTicketSaleEndTime('');
-            return
+            return;
         }
     };
 
@@ -261,8 +265,15 @@ function ModalAddTicket(props) {
                     </div>
                     <div className={cx('modal_footer')}>
                         <div className="flex justify-center pl-3 pr-3 pb-3">
-                            <button onClick={() => handleSave()}>
-                                <span>Lưu</span>
+                            <button onClick={() => handleSave()} disabled={loading}>
+                                Lưu
+                                <span>
+                                    {loading && (
+                                        <RefreshCcw
+                                            className={classNames('w-4 mt-[3px] h-4 ml-1', { 'animate-spin': loading })}
+                                        />
+                                    )}
+                                </span>
                             </button>
                         </div>
                     </div>
