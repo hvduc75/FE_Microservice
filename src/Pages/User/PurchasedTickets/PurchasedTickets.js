@@ -1,15 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import images from '../../../assets/images';
 
+import images from '../../../assets/images';
 import styles from './PurchasedTickets.module.scss';
+import TicketInfo from '../../../Components/TicketInfo/TicketInfo';
+import { getBookingByCondition } from '../../../service/bookingService';
 
 const cx = classNames.bind(styles);
 
 function PurchasedTickets(props) {
-    const [active, setActive] = useState(0);
-    const [condition, setCondition] = useState(0);
+    const [active, setActive] = useState('ALL');
+    const [condition, setCondition] = useState('START');
+    const [bookings, setBookings] = useState([]);
+    const [ticketEmpty, setTicketEmpty] = useState(false);
+
+    useEffect(() => {
+        fetchBookings();
+    }, [active, condition]);
+
+    const fetchBookings = async () => {
+        try {
+            const response = await getBookingByCondition(active, condition);
+            console.log(response);
+            setBookings(response.DT?.bookings);
+            // setTicketEmpty(response.data.length === 0);
+        } catch (error) {
+            console.error('Error fetching bookings:', error);
+        }
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -17,33 +36,56 @@ function PurchasedTickets(props) {
             <div className={cx('divider')}></div>
             <div className={cx('container')}>
                 <div className={cx('list_item')}>
-                    <div className={cx('item', active === 0 && 'active')} onClick={() => setActive(0)}>
+                    <div className={cx('item', active === 'ALL' && 'active')} onClick={() => setActive('ALL')}>
                         Tất cả
                     </div>
-                    <div className={cx('item', { active: active === 1 })} onClick={() => setActive(1)}>
+                    <div className={cx('item', { active: active === 'SUCCESS' })} onClick={() => setActive('SUCCESS')}>
                         Thành công
                     </div>
-                    <div className={cx('item', { active: active === 2 })} onClick={() => setActive(2)}>
+                    <div className={cx('item', { active: active === 'PENDING' })} onClick={() => setActive('PENDING')}>
                         Đang xử lý
                     </div>
-                    <div className={cx('item', { active: active === 3 })} onClick={() => setActive(3)}>
+                    <div
+                        className={cx('item', { active: active === 'CANCELED' })}
+                        onClick={() => setActive('CANCELED')}
+                    >
                         Đã hủy
                     </div>
                 </div>
                 <div className={cx('list_condition')}>
-                    <div className={cx('condition', {active: condition === 0})} onClick={() => setCondition(0)}>Sắp diễn ra</div>
-                    <div className={cx('condition', {active: condition === 1})} onClick={() => setCondition(1)}>Đã kết thúc</div>
+                    <div
+                        className={cx('condition', { active: condition === 'START' })}
+                        onClick={() => setCondition('START')}
+                    >
+                        Sắp diễn ra
+                    </div>
+                    <div
+                        className={cx('condition', { active: condition === 'END' })}
+                        onClick={() => setCondition('END')}
+                    >
+                        Đã kết thúc
+                    </div>
                 </div>
                 <div className={cx('content')}>
-                    <div className={cx('content_empty')}>
-                        <img src={images.avatar} alt="image_none" />
-                        <span>Bạn chưa có vé nào</span>
-                    </div>
-                    <div className="mt-[80px]">
-                        <Link to="/">
-                            <button className={cx('btn')}>Mua vé ngay</button>
-                        </Link>
-                    </div>
+                    {bookings.length < 0 ? (
+                        <>
+                            <div className={cx('content_empty')}>
+                                <img src={images.avatar} alt="image_none" />
+                                <span>Bạn chưa có vé nào</span>
+                            </div>
+                            <div className="mt-[80px]">
+                                <Link to="/">
+                                    <button className={cx('btn')}>Mua vé ngay</button>
+                                </Link>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            {bookings?.map((item, index) => (
+                                <TicketInfo key={index} item={item} />
+                            ))}
+                        </>
+                    )}
                 </div>
             </div>
         </div>

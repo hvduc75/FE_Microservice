@@ -8,6 +8,10 @@ const getBookingByEventId = (eventId) => {
     return axios.get(`/booking/getBookingByEventId/?eventId=${eventId}`);
 };
 
+const getBookingByCondition = (condition, time) => {
+    return axios.get(`/booking/getBookingByCondition/?condition=${condition}&time=${time}`);
+}
+
 const getAllBookingByEventId = (eventId) => {
     return axios.get(`/booking/getAllBookingByEventId/?eventId=${eventId}`);
 };
@@ -43,4 +47,4 @@ const deleteBooking = (bookingId) => {
 };
 
 
-export { createBooking, getBookingById, updateReceiverInfo, getAllBookingByEventId, deleteBooking, getBookingByEventId };
+export { createBooking, getBookingById, updateReceiverInfo, getAllBookingByEventId, deleteBooking, getBookingByEventId, getBookingByCondition };

@@ -47,7 +47,8 @@ function AddEvent(props) {
     const [accountName, setAccountName] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [bankName, setBankName] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [save, setSave] = useState(false);
+    const [next, setNext] = useState(false);
 
     useEffect(() => {
         if (eventId || newEventId) {
@@ -129,8 +130,8 @@ function AddEvent(props) {
     };
 
     const handleSave = async () => {
-        if (loading) return;
-        setLoading(true);
+        if (save || next) return;
+        setSave(true);
         if (active === 1) {
             const finalEventId = eventId || newEventId;
 
@@ -154,14 +155,14 @@ function AddEvent(props) {
         } else if (active === 2) {
             if (!validateStepTwo()) {
                 toast.error('Lưu thông tin sự kiện thất bại');
-                setLoading(false);
+                setSave(false);
                 return;
             }
             toast.success('Lưu thông tin sự kiện thành công');
         } else if (active === 3) {
             if (!contentEmail) {
                 toast.error('Lưu thông tin sự kiện thất bại');
-                setLoading(false);
+                setSave(false);
                 return;
             }
             let data = await updateContentEmail(eventId, contentEmail);
@@ -171,7 +172,7 @@ function AddEvent(props) {
         } else if (active === 4) {
             if (!branch || !accountName || !accountNumber || !bankName) {
                 toast.error('Lưu thông tin sự kiện thất bại');
-                setLoading(false);
+                setSave(false);
                 return;
             }
             let data = await updateBankAccount(eventId, accountName, accountNumber, bankName, branch);
@@ -179,12 +180,12 @@ function AddEvent(props) {
                 toast.success('Lưu thông tin sự kiện thành công');
             }
         }
-        setLoading(false);
+        setSave(false);
     };
 
     const handleContinue = async () => {
-        if (loading) return;
-        setLoading(true);
+        if (save || next) return;
+        setNext(true);
         const finalEventId = eventId || newEventId;
 
         if (active === 1) {
@@ -214,17 +215,17 @@ function AddEvent(props) {
         } else if (active === 2) {
             if (!validateStepTwo()) {
                 toast.error('Lưu thông tin sự kiện thất bại');
-                setLoading(false);
+                setNext(false);
                 return;
             }
-            toast.success('Lưu thông tin sự kiện thành công');
+            toast.success('Lưu thông tin sự kiện thành công');  
             if (active < 4) {
                 setActive(active + 1);
             }
         } else if (active === 3) {
             if (!contentEmail) {
                 toast.error('Lưu thông tin sự kiện thất bại');
-                setLoading(false);
+                setNext(false);
                 return;
             }
             let data = await updateContentEmail(eventId, contentEmail);
@@ -232,7 +233,7 @@ function AddEvent(props) {
                 toast.success('Lưu thông tin sự kiện thành công');
             } else {
                 toast.error('Lưu thông tin sự kiện thất bại');
-                setLoading(false);
+                setNext(false);
                 return;
             }
             if (active < 4) {
@@ -241,7 +242,7 @@ function AddEvent(props) {
         } else if (active === 4) {
             if (!branch || !accountName || !accountNumber || !bankName) {
                 toast.error('Lưu thông tin sự kiện thất bại');
-                setLoading(false);
+                setNext(false);
                 return;
             }
             let data = await updateBankAccount(eventId, accountName, accountNumber, bankName, branch);
@@ -249,7 +250,7 @@ function AddEvent(props) {
                 toast.success('Lưu thông tin sự kiện thành công');
             }
         }
-        setLoading(false);
+        setNext(false);
     };
 
     return (
@@ -276,30 +277,36 @@ function AddEvent(props) {
                     ))}
                 </div>
                 <div className="flex flex-row gap-2 ">
-                    {/* <button className={cx('btn', 'w-full')} onClick={() => handleSave()}>
-                        <span>Lưu</span>
-                        <RefreshCcw className="w-4 h-4 ml-1" />
-                    </button>
-                    <button className={cx('btn', 'btn_continue', 'w-full')} onClick={() => handleContinue()}>
-                        <span>Tiếp tục</span>
-                        <RefreshCcw className="w-4 h-4 ml-1" />
-                    </button> */}
-                    <button className={cx('btn', 'w-full')} onClick={handleSave} disabled={loading}>
-                        <span>
-                            Lưu
-                            {loading && active === 1 && (
-                                <RefreshCcw className={classNames('w-4 h-4 ml-1', { 'animate-spin': loading })} />
+                    {active === 1 ? (
+                        <button className={cx('btn', 'w-full')} onClick={handleSave} disabled={save}>
+                            {save ? (
+                                <RefreshCcw className={classNames('w-4 h-4 ml-1 animate-spin')} />
+                            ) : (
+                                <span>Lưu</span>
                             )}
-                        </span>
-                    </button>
-                    <button className={cx('btn', 'btn_continue', 'w-full')} onClick={handleContinue} disabled={loading}>
-                        <span>
-                            Tiếp tục
-                            {loading && active === 1 && (
-                                <RefreshCcw className={classNames('w-4 h-4 ml-1', { 'animate-spin': loading })} />
+                        </button>
+                    ) : (
+                        <button className={cx('btn', 'w-full')} onClick={handleSave} disabled={save}>
+                            <span>Lưu</span>
+                        </button>
+                    )}
+                    {active === 1 ? (
+                        <button
+                            className={cx('btn', 'btn_continue', 'w-full')}
+                            onClick={handleContinue}
+                            disabled={save}
+                        >
+                            {next ? (
+                                <RefreshCcw className={classNames('w-4 h-4 ml-1 animate-spin')} />
+                            ) : (
+                                <span>Tiếp tục</span>
                             )}
-                        </span>
-                    </button>
+                        </button>
+                    ) : (
+                        <button className={cx('btn', 'btn_continue', 'w-full')} onClick={handleContinue} disabled={save}>
+                            <span>Tiếp tục</span>
+                        </button>
+                    )}
                 </div>
             </div>
             {active === 1 && (

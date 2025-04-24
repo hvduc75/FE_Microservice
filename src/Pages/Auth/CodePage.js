@@ -13,6 +13,7 @@ function CodePage() {
     useEffect(() => {
         const fetchData = async () => {
             let response = await checkTokenLogin(userId, tokenLogin);
+            console.log('response', response);
             if (response && +response.EC === 0) {
                 dispatch(UserLoginSuccess(response));
                 dispatch(OpenLoginModal(false));

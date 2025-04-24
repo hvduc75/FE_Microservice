@@ -6,11 +6,12 @@ import { Link } from 'react-router-dom';
 import styles from './EventDetail.module.scss';
 import { getEvent } from '../../../service/eventService';
 import { Calendar, MapPin, ChevronDown, ChevronRight } from 'lucide-react';
-import { getImageSrc, getMinPrice, formatPrice, formatDate } from '../../../utils';
+import { getMinPrice, formatPrice, formatDate } from '../../../utils';
 
 const cx = classNames.bind(styles);
 
 function EventDetail(props) {
+    const now = new Date();
     const navigate = useNavigate();
     const { eventId } = useParams();
     const [event, setEvent] = useState(null);
@@ -28,9 +29,14 @@ function EventDetail(props) {
         }
     };
 
-    console.log(event?.tickets);
+    const isSaleNotStarted =
+        event?.tickets?.length > 0
+            ? Math.min(...event.tickets.map((ticket) => new Date(ticket.eventTicketSaleStartTime).getTime())) >
+              now.getTime()
+            : false;
 
     const handleBuyTicket = async () => {
+        if (isSaleNotStarted) return;
         navigate(`/event-booking/${eventId}`);
     };
 
@@ -60,9 +66,15 @@ function EventDetail(props) {
                                         Giá từ
                                         <span>{getMinPrice(event?.tickets)}</span>
                                     </div>
-                                    <Link to={`/event-booking/${eventId}`}>
-                                        <button className={cx('css_button')}>Mua vé ngay</button>
-                                    </Link>
+                                    {isSaleNotStarted ? (
+                                        <button className={cx('css_button_disabled')} disabled>
+                                            Vé chưa được bán
+                                        </button>
+                                    ) : (
+                                        <Link to={`/event-booking/${eventId}`}>
+                                            <button className={cx('css_button')}>Mua vé ngay</button>
+                                        </Link>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -89,7 +101,9 @@ function EventDetail(props) {
                                             <span>{formatDate(event?.startDate)}</span>
                                         </div>
                                         <div onClick={() => handleBuyTicket()}>
-                                            <button className={cx('css_button')}>Mua vé ngay</button>
+                                            <button className={cx('css_button_disabled')}>
+                                                {isSaleNotStarted ? 'Vé chưa được bán' : 'Mua vé ngay'}
+                                            </button>
                                         </div>
                                     </div>
                                     {isTicketOpen && (
