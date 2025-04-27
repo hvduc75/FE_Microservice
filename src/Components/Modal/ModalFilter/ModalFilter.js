@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ModalSearch(props) {
+function ModalFilter(props) {
     return (
         <div>
             
@@ -8,4 +8,4 @@ function ModalSearch(props) {
     );
 }
 
-export default ModalSearch;
+export default ModalFilter;

@@ -1,0 +1,102 @@
+.group_search {
+    display: flex;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    min-width: max-content;
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
+    position: relative;
+
+    input {
+        flex: 1 1 0%;
+        margin-inline: 1rem;
+        border: none;
+        min-width: 120px;
+        outline: none;
+    }
+
+    button {
+        margin-left: auto;
+        min-width: max-content;
+        border-left: 1px solid rgb(230, 235, 245);
+        padding-left: 1rem;
+        color: #2a2d34;
+    }
+
+    .modal-search {
+        position: absolute;
+        top: 45px;
+        left: 0;
+        width: 830px;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+        backdrop-filter: blur(12px);
+        background: rgba(79, 79, 79, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        z-index: 1000;
+        color: white;
+        font-size: 14px;
+
+        .search-history {
+            margin-top: 1rem;
+
+            .item {
+                font-weight: 400;
+                cursor: pointer;
+                padding: 0.7rem 16px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .title{
+                    display: flex;
+                    align-items: center;
+
+                    span{
+                        margin-left: 10px;
+                    }
+                }
+
+                &:hover {
+                    font-weight: 700;
+                    background: rgba(255, 255, 255, 0.05);
+                }
+            }
+        }
+
+        .categories {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            margin-top: 20px;
+            padding: 0 16px;
+
+            .categories-list{
+                display: flex;
+                gap: 10px;
+
+                .category {
+                    padding: 0.6rem 1rem;
+                    border-radius: 8px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    border: 1px solid rgba(255, 255, 255, 0.15);
+                }
+            }
+        }
+
+        .recommendation {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            margin-top: 10px;
+            padding: 0 16px;
+
+            .cards {
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
+    }
+}

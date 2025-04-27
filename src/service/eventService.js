@@ -8,8 +8,8 @@ const getEventByCondition = (condition, page, limit) => {
     return axios.get(`/event/getEventByCondition?condition=${condition}&page=${page}&limit=${limit}`);
 };
 
-const search = (category, page, limit) => {
-    return axios.get(`/event/searchEvent?category=${category}&page=${page}&limit=${limit}`);
+const search = (category, q, page, limit) => {
+    return axios.get(`/event/searchEvent?category=${category}&q=${q}&page=${page}&limit=${limit}`);
 };
 
 const getEventByTime = (date, page, limit) => {

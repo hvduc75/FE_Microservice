@@ -40,31 +40,31 @@
                 width: max-content;
                 display: flex;
 
-                .group_search {
-                    display: flex;
-                    align-items: center;
-                    background-color: rgb(255, 255, 255);
-                    min-width: max-content;
-                    padding: 0.5rem 1rem;
-                    border-radius: 0.4rem;
-                    position: relative;
+                // .group_search {
+                //     display: flex;
+                //     align-items: center;
+                //     background-color: rgb(255, 255, 255);
+                //     min-width: max-content;
+                //     padding: 0.5rem 1rem;
+                //     border-radius: 0.4rem;
+                //     position: relative;
 
-                    input {
-                        flex: 1 1 0%;
-                        margin-inline: 1rem;
-                        border: none;
-                        min-width: 120px;
-                        outline: none;
-                    }
+                //     input {
+                //         flex: 1 1 0%;
+                //         margin-inline: 1rem;
+                //         border: none;
+                //         min-width: 120px;
+                //         outline: none;
+                //     }
 
-                    button {
-                        margin-left: auto;
-                        min-width: max-content;
-                        border-left: 1px solid rgb(230, 235, 245);
-                        padding-left: 1rem;
-                        color: #2a2d34;
-                    }
-                }
+                //     button {
+                //         margin-left: auto;
+                //         min-width: max-content;
+                //         border-left: 1px solid rgb(230, 235, 245);
+                //         padding-left: 1rem;
+                //         color: #2a2d34;
+                //     }
+                // }
 
                 .add_event {
                     color: rgb(255, 255, 255);

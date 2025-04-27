@@ -13,6 +13,7 @@ import ModalLogin from '../../../../Components/Modal/ModalLogin/ModalLogin';
 import Account from '../../../../Components/Account/Account';
 import Language from '../../../../Components/Language/Language';
 import { updateProfileItemActive } from '../../../../redux/action/eventAction';
+import Search from '../../../../Components/Search/Search';
 
 const cx = classNames.bind(styles);
 // const contents = ['Nhạc sống', 'Sân khấu & Nghệ thuật', 'Thể Thao', 'Khác'];
@@ -38,13 +39,14 @@ function Header(props) {
                     </Link>
                     <div className={cx('items')}>
                         <div className={cx('group_left')}>
-                            <div className={cx('group_search')}>
+                            {/* <div className={cx('group_search')}>
                                 <span style={{ color: '#868e99' }}>
                                     <IoSearch style={{ width: '24px', height: '24px' }} />
                                 </span>
                                 <input type="text" placeholder={t("header.search.placeholder")} />
                                 <button>{t("header.search.button")}</button>
-                            </div>
+                            </div> */}
+                            <Search />
                             <div className={cx('add_event')} onClick={() => handleAddEvent()}>
                                 {t("header.event")}
                             </div>

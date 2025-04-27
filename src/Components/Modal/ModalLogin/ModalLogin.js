@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { IoClose } from 'react-icons/io5';
-import { FaGoogle } from 'react-icons/fa';
 import styles from './ModalLogin.module.scss';
 import images from '../../../assets/images';
 import { UserLoginSuccess, OpenLoginModal } from '../../../redux/action/userAction';
@@ -16,6 +15,7 @@ const cx = classNames.bind(styles);
 
 function ModalLogin({ setShowModal }) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLogin, setIsLogin] = useState(true);
@@ -51,6 +51,9 @@ function ModalLogin({ setShowModal }) {
             dispatch(UserLoginSuccess(response));
             dispatch(OpenLoginModal(false));
             setShowModal(false);
+            if (response.DT.role === 'Admin') {
+                navigate('/admin');
+            }
             resetForm();
         } else {
             toast.error(response.EM);

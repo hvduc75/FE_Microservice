@@ -47,6 +47,17 @@
                     }
                 }
             }
+
+            .active {
+                background: rgb(45, 194, 117);
+                color: rgb(255, 255, 255);
+
+                &:hover {
+                    span {
+                        color: rgb(255, 255, 255);
+                    }
+                }
+            }
         }
     }
 
@@ -62,20 +73,16 @@
             margin-bottom: 1rem;
 
             .banner {
-                position: relative;
                 margin: 0px 5px;
-                padding: 0 5px;
                 border-radius: 12px;
                 height: 167px;
                 background: rgb(81, 81, 88);
+                overflow: hidden;
 
                 .slider-image {
                     border-radius: 10px;
                     object-fit: contain;
                     inset: 0px;
-                    overflow: hidden;
-                    position: absolute;
-                    user-select: none;
                     z-index: 1;
                     width: 100%;
                 }
