@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 import styles from './Home.module.scss';
 import BannerSlider from '../../../Components/Slider/BannerSlider/BannerSlider';
@@ -16,7 +16,7 @@ const cx = classNames.bind(styles);
 
 function Home(props) {
     const navigate = useNavigate();
-    const { t } = useTranslation("home");
+    const { t } = useTranslation('home');
     const [active, setActive] = useState(0);
     const [loading, setLoading] = useState(true);
     const [listEventMusic, setListEventMusic] = useState([]);
@@ -31,16 +31,16 @@ function Home(props) {
     }, []);
 
     useEffect(() => {
-        fetchEventByTime()
+        fetchEventByTime();
     }, [active]);
 
     const fetchData = async () => {
-        setLoading(true); // Bắt đầu tải dữ liệu
+        setLoading(true); 
         try {
             const [dataMusic, dataOther, dataTheater, dataHot] = await Promise.all([
-                search(1, 1, 20),
-                search(4, 1, 20),
-                search(2, 1, 20),
+                search(1, '', 1, 20),
+                search(4, '', 1, 20),
+                search(2, '', 1, 20),
                 getEventByScore(),
             ]);
 
@@ -51,7 +51,7 @@ function Home(props) {
         } catch (error) {
             console.error('Lỗi khi gọi API:', error);
         }
-        setLoading(false); 
+        setLoading(false);
     };
 
     const fetchEventByTime = async () => {
@@ -92,13 +92,13 @@ function Home(props) {
                         <BannerSlider listEventHot={listEventHot} />
                     </div>
                     <div className={cx('event_special')}>
-                        <div className={cx('title')}>{t("specialEvents")}</div>
+                        <div className={cx('title')}>{t('specialEvents')}</div>
                         <div className={cx('event_container')}></div>
                     </div>
                     <div className={cx('event_hot')}>
                         <div className={cx('title')}>
                             <GiSmallFire fill="#ffbe40" size={24} />
-                            <span className={cx('label')}>{t("trendingEvents")}</span>
+                            <span className={cx('label')}>{t('trendingEvents')}</span>
                         </div>
                         <div className={cx('list_event_hot')}>
                             <EventHotSlider listEventHot={listEventHot} />
@@ -111,7 +111,9 @@ function Home(props) {
                                     <div className={cx('this_week', active === 0 ? 'active' : '')}>{t('thisWeek')}</div>
                                 </div>
                                 <div className={cx('tab')} onClick={() => setActive(1)}>
-                                    <div className={cx('this_month', active === 1 ? 'active' : '')}>{t('thisMonth')}</div>
+                                    <div className={cx('this_month', active === 1 ? 'active' : '')}>
+                                        {t('thisMonth')}
+                                    </div>
                                 </div>
                             </div>
                             <div className={cx('tab_extra')} onClick={() => handleClickExtra('date')}>

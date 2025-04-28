@@ -38,6 +38,7 @@ function MyEvent(props) {
     const [listEvent, setListEvent] = useState([]);
 
     useEffect(() => {
+        console.log(eventId)
         if (eventId) {
             setChangeSidebar(true);
             setEventId(eventId);

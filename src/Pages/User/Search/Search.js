@@ -1,33 +1,99 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import styles from './Search.module.scss';
-import { search, getEventByTime, updateScore } from '../../../service/eventService';
+import { search, updateScore } from '../../../service/eventService';
 import { formatDateHome, getMinPrice } from '../../../utils';
-import { Calendar, ChevronDown, Filter, X } from 'lucide-react';
+import { Calendar, ChevronDown, Filter, X, CircleX } from 'lucide-react';
+import ModalFilter from '../../../Components/Filter/ModalFilter/ModalFilter';
+import ModalFilterTime from '../../../Components/Filter/ModalFilterTime/ModalFilterTime';
 
 const cx = classNames.bind(styles);
 
 function Search(props) {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const modalRef = useRef();
+    const modalTimeRef = useRef();
+
     const [modalFilter, setModalFilter] = useState(false);
     const [modalFilterTime, setModalFilterTime] = useState(false);
-    const category = searchParams.get('category');
-    const date = searchParams.get('date');
+
+    const [location, setLocation] = useState('');
+    const [isFree, setIsFree] = useState(false);
+    const [category, setCategory] = useState('');
+    const [date, setDate] = useState('');
+    const [selectedDateLabel, setSelectedDateLabel] = useState('Tất cả các ngày');
+
+    const [selectedFilters, setSelectedFilters] = useState([]);
+
+    const dateParam = searchParams.get('date');
     const q = searchParams.get('q');
+    const categoryParam = searchParams.get('category');
+    const locationParam = searchParams.get('location');
+    const isFreeParam = searchParams.get('isFree');
+
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        if (category || q) {
-            fetchEvents(category, q);
-        }
-        if (date) {
-            fetchEventByTime(date);
-        }
-    }, [category, date, q]);
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                setModalFilter(false);
+            }
+            if (modalTimeRef.current && !modalTimeRef.current.contains(event.target)) {
+                setModalFilterTime(false);
+            }
+        };
 
-    const fetchEvents = async (category, q) => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    useEffect(() => {
+        setDate(dateParam || '');
+        updateSelectedDateLabel();
+        const initialFilters = [];
+        if (locationParam) {
+            initialFilters.push({
+                type: 'location',
+                value:
+                    locationParam === 'hcm'
+                        ? 'Hồ Chí Minh'
+                        : locationParam === 'hn'
+                        ? 'Hà Nội'
+                        : locationParam === 'dl'
+                        ? 'Đà Lạt'
+                        : '',
+            });
+        }
+        if (isFreeParam === 'true') {
+            initialFilters.push({ type: 'isFree', value: 'Miễn phí' });
+        }
+        if (categoryParam) {
+            let categoryLabel = '';
+            if (categoryParam === 'music') categoryLabel = 'Nhạc sống';
+            else if (categoryParam === 'theatersandart') categoryLabel = 'Sân khấu & Nghệ thuật';
+            else if (categoryParam === 'sport') categoryLabel = 'Thể thao khác';
+            else if (categoryParam === 'others') categoryLabel = 'Khác';
+            initialFilters.push({ type: 'category', value: categoryLabel });
+        }
+        setSelectedFilters(initialFilters);
+    }, [locationParam, isFreeParam, categoryParam, dateParam]);
+
+    useEffect(() => {
+        let initialCategory = categoryParam || '';
+        let initialLocation = locationParam || '';
+        let initialIsFree = isFreeParam === 'true';
+        setCategory(initialCategory);
+        setLocation(initialLocation);
+        setIsFree(initialIsFree);
+
+        fetchEvents(categoryParam, q, dateParam, locationParam, isFreeParam);
+    }, [searchParams]);
+
+    const fetchEvents = async (category, q, date, location, isFree) => {
         let categorySearch = undefined;
         if (category === 'music') {
             categorySearch = 1;
@@ -36,17 +102,27 @@ function Search(props) {
         } else if (category === 'theatersandart') {
             categorySearch = 2;
         }
-        let data = await search(categorySearch, q, 1, 20);
+        let data = await search(categorySearch, q, 1, 20, date, location, isFree);
         if (data.EC === 0) {
             setEvents(data.DT.events);
         }
     };
 
-    const fetchEventByTime = async (date) => {
-        let data = await getEventByTime(date, 1, 20);
-        if (data.EC === 0) {
-            setEvents(data.DT.events);
-        }
+    const updateSelectedDateLabel = () => {
+        setSelectedDateLabel(() => {
+            switch (dateParam) {
+                case 'today':
+                    return 'Hôm nay';
+                case 'tomorrow':
+                    return 'Ngày mai';
+                case 'this_week':
+                    return 'Cuối tuần này';
+                case 'this_month':
+                    return 'Tháng này';
+                default:
+                    return 'Tất cả các ngày';
+            }
+        });
     };
 
     const handleUpdateScore = async (eventId) => {
@@ -54,11 +130,79 @@ function Search(props) {
     };
 
     const handleFilter = () => {
+        setModalFilterTime(false);
         setModalFilter(!modalFilter);
     };
 
     const handleFilterTime = () => {
+        setModalFilter(false);
         setModalFilterTime(!modalFilterTime);
+    };
+
+    const handleToggle = () => {
+        setIsFree(!isFree);
+    };
+
+    const handleApplyFilter = () => {
+        const params = {};
+
+        if (category) params.category = category;
+        if (location) params.location = location;
+        if (isFree) params.isFree = true;
+        if (date) params.date = date;
+        if (q) params.q = q;
+
+        setSearchParams(params);
+        updateSelectedDateLabel();
+        const filters = [];
+        if (location)
+            filters.push({
+                type: 'location',
+                value:
+                    location === 'hcm'
+                        ? 'Hồ Chí Minh'
+                        : location === 'hn'
+                        ? 'Hà Nội'
+                        : location === 'dl'
+                        ? 'Đà Lạt'
+                        : '',
+            });
+        if (isFree) filters.push({ type: 'isFree', value: 'Miễn phí' });
+        if (category) {
+            let categoryLabel = '';
+            if (category === 'music') categoryLabel = 'Nhạc sống';
+            else if (category === 'theatersandart') categoryLabel = 'Sân khấu & Nghệ thuật';
+            else if (category === 'sport') categoryLabel = 'Thể thao khác';
+            else if (category === 'others') categoryLabel = 'Khác';
+            filters.push({ type: 'category', value: categoryLabel });
+        }
+        setSelectedFilters(filters);
+        setModalFilter(false);
+        setModalFilterTime(false);
+    };
+
+    const handleRemoveFilter = (filter) => {
+        const updatedFilters = selectedFilters.filter((f) => f.type !== filter.type);
+        setSelectedFilters(updatedFilters);
+
+        const params = Object.fromEntries([...searchParams]);
+
+        if (filter.type === 'location') {
+            delete params.location;
+            setLocation('');
+        } else if (filter.type === 'isFree') {
+            delete params.isFree;
+            setIsFree(false);
+        } else if (filter.type === 'category') {
+            delete params.category;
+            setCategory('');
+        }
+
+        setSearchParams(params);
+    };
+
+    const handleDateSelection = (selectedDate) => {
+        setDate(selectedDate);
     };
 
     return (
@@ -66,19 +210,60 @@ function Search(props) {
             <div className={cx('tbox-container')}>
                 <div className={cx('header')}>
                     <div className={cx('title')}>Kết quả tìm kiếm:</div>
-                    <div className={cx('filter')}>
-                        <button className={cx('filter-button', modalFilterTime && 'active')} onClick={() => handleFilterTime()}>
-                            <Calendar size={20} fill='white'/>
-                            <span>Tất cả các ngày</span>
-                            {modalFilterTime ? <X size={20} /> : <ChevronDown size={20} />}
-                        </button>
-                        <button className={cx('filter-button', modalFilter && 'active')} onClick={() => handleFilter()}>
-                            <Filter size={20} fill="white" />
-                            <span>Bộ lọc</span>
-                            {modalFilter ? <X size={20} /> : <ChevronDown size={20} />}
-                        </button>
+                    <div className={cx('filter-container')}>
+                        <div className={cx('filter')}>
+                            <button
+                                className={cx('filter-button', (modalFilterTime || date !== '') && 'active')}
+                                onClick={() => handleFilterTime()}
+                            >
+                                <Calendar size={20} fill="white" />
+                                <span>{selectedDateLabel}</span>
+                                {modalFilterTime ? <X size={20} /> : <ChevronDown size={20} />}
+                            </button>
+                            {modalFilterTime && (
+                                <ModalFilterTime
+                                    modalTimeRef={modalTimeRef}
+                                    handleApplyFilter={handleApplyFilter}
+                                    date={date}
+                                    setDate={setDate}
+                                    handleDateSelection={handleDateSelection}
+                                />
+                            )}
+                        </div>
+                        <div className={cx('filter')}>
+                            <button
+                                className={cx('filter-button', (modalFilter || selectedFilters.length > 0) && 'active')}
+                                onClick={() => handleFilter()}
+                            >
+                                <Filter size={20} fill="white" />
+                                <span>Bộ lọc</span>
+                                {modalFilter ? <X size={20} /> : <ChevronDown size={20} />}
+                            </button>
+                            {modalFilter && (
+                                <ModalFilter
+                                    modalRef={modalRef}
+                                    location={location}
+                                    setLocation={setLocation}
+                                    isFree={isFree}
+                                    setIsFree={setIsFree}
+                                    category={category}
+                                    setCategory={setCategory}
+                                    handleApplyFilter={handleApplyFilter}
+                                    handleToggle={handleToggle}
+                                />
+                            )}
+                        </div>
                         <div className={cx('list_condition')}>
-                            <div className={cx('item_condition')}></div>
+                            {selectedFilters.map((filter, idx) => (
+                                <div
+                                    key={idx}
+                                    className={cx('item_condition')}
+                                    onClick={() => handleRemoveFilter(filter)}
+                                >
+                                    <CircleX size={16} />
+                                    <span>{filter.value}</span>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

@@ -5,7 +5,6 @@ import {  useDispatch } from 'react-redux';
 
 import styles from './Header.module.scss';
 import { AiOutlinePlus } from 'react-icons/ai';
-import images from '../../../../assets/images';
 import { updateItemActive } from '../../../../redux/action/eventAction';
 import Account from '../../../../Components/Account/Account';
 
@@ -17,7 +16,7 @@ function Header(props) {
 
     const handleAddEvent = () => {
         dispatch(updateItemActive(''));
-        navigate('/organizer/create-event');
+        navigate('/organizer/create-event', { state: { key: Date.now() } });
     };
 
     return (

@@ -56,7 +56,7 @@ const AppRoutes = () => {
                     <Route path="event-booking/:eventId" element={<EventBooking />} />
                     <Route path="event-booking/:eventId/payment/:bookingId" element={<Payment />} />
                 </Route>
-                <Route path="/organizer" element={<OrganizerLayout />}>
+                <Route path="/organizer" element={<OrganizerLayout key={Date.now()}/>}>
                     <Route path="create-event/:eventId?" element={<AddEvent />} />
                     <Route path="events/:eventId?" element={<MyEvent />} />
                     <Route path="events/:eventId?/edit" element={<AddEvent />} />

@@ -8,7 +8,7 @@
         padding: 0 6px;
         justify-content: space-between;
         width: 100%;
-        overflow: hidden;
+        // overflow: hidden;
         padding-top: 3rem;
 
         .title {
@@ -19,42 +19,171 @@
             flex: 1 1 0%;
         }
 
-        .filter {
+        .filter-container {
             display: flex;
             justify-content: flex-end;
             gap: 0.5rem;
+            position: relative;
 
-            .filter-button {
-                padding: 0 12px;
-                background: rgb(81, 81, 88);
-                border: none;
-                color: rgb(255, 255, 255);
-                border-radius: 16px;
-                height: 32px;
-                font-weight: bold;
-                font-size: 14px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-                outline: none;
-                white-space: nowrap;
-                min-width: unset;
+            .filter {
+                position: relative;
 
-                &:hover {
-                    span {
-                        color: rgb(45, 194, 117);
+                .filter-button {
+                    padding: 0 12px;
+                    background: rgb(81, 81, 88);
+                    border: none;
+                    color: rgb(255, 255, 255);
+                    border-radius: 16px;
+                    height: 32px;
+                    font-weight: bold;
+                    font-size: 14px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    outline: none;
+                    white-space: normal;
+                    min-width: unset;
+
+                    &:hover {
+                        span {
+                            color: rgb(45, 194, 117);
+                        }
+                    }
+                }
+
+                .group-filter {
+                    position: absolute;
+                    right: 0;
+                    top: 35px;
+                    background-color: #ffffff;
+                    background-clip: padding-box;
+                    border-radius: 8px;
+                    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+                        0 9px 28px 8px rgba(0, 0, 0, 0.05);
+                    padding: 12px;
+                    font-size: 14px;
+                    color: rgba(0, 0, 0, 0.88);
+                    min-width: 580px;
+
+                    .divide {
+                        margin: 12px 0;
+                        border-top: 1px dashed rgba(0, 0, 0, 0.12);
+                    }
+
+                    .header-filter {
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                        margin-top: 16px;
+
+                        .header-item {
+                            display: flex;
+                            height: 32px;
+                            padding: 4px 14px;
+                            align-items: center;
+                            font-weight: 400;
+                            line-height: 21px;
+                            cursor: pointer;
+                            border-radius: 4px;
+                            border: 1px solid rgb(221, 221, 227);
+                            background: rgb(255, 255, 255);
+                            color: rgb(128, 128, 137);
+                            font-weight: 500;
+
+                            &:hover {
+                                border: 1px solid rgb(183, 239, 195);
+                                color: rgb(45, 194, 117);
+                            }
+
+                            &.checked {
+                                border: 1px solid rgb(183, 239, 195);
+                                color: rgb(45, 194, 117);
+
+                                &:hover {
+                                    border: 1px solid rgb(183, 239, 195);
+                                    color: rgb(45, 194, 117);
+                                }
+                            }
+                        }
+                    }
+
+                    .list-action {
+                        display: flex;
+                        gap: 10px;
+                        margin-top: 16px;
+
+                        .btn {
+                            border-radius: 4px;
+                            font-weight: 400;
+                            font-family: Inter;
+                            font-size: 16px;
+                            line-height: 24px;
+                            min-width: 88px;
+                            padding: 0px 24px;
+                            height: 40px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border: none;
+                            width: 100%;
+                            outline: none;
+                            cursor: pointer;
+                            white-space: nowrap;
+                        }
+
+                        .btn_reset {
+                            background: transparent;
+                            color: rgb(45, 194, 117);
+                            border: 1px solid rgb(45, 194, 117);
+                        }
+
+                        .btn_apply {
+                            background: rgb(45, 194, 117);
+                            color: rgb(255, 255, 255);
+
+                            &:hover {
+                                background: rgb(35, 168, 100);
+                            }
+                        }
+                    }
+                }
+
+                .active {
+                    background: rgb(45, 194, 117);
+                    color: rgb(255, 255, 255);
+
+                    &:hover {
+                        span {
+                            color: rgb(255, 255, 255);
+                        }
                     }
                 }
             }
 
-            .active {
-                background: rgb(45, 194, 117);
-                color: rgb(255, 255, 255);
+            .list_condition {
+                display: flex;
+                max-width: 25vw;
+                flex-wrap: nowrap;
+                gap: 5px;
 
-                &:hover {
+                .item_condition {
+                    padding: 4px 12px;
+                    border-radius: 16px;
+                    height: 32px;
+                    font-size: 14px;
+                    line-height: 21px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: rgb(45, 194, 117);
+                    color: rgb(255, 255, 255);
+                    border: 1px solid rgb(81, 81, 88);
+                    cursor: pointer;
+                    flex-shrink: 0;
+
                     span {
-                        color: rgb(255, 255, 255);
+                        margin-left: 5px;
                     }
                 }
             }
