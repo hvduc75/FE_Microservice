@@ -43,7 +43,7 @@ const SidebarItem = ({ to, Icon, label }) => (
         <NavLink
             to={to}
             className={({ isActive }) =>
-                `relative flex items-center px-6 py-3 text-sm font-semibold transition-colors duration-150 rounded-lg ${
+                `relative flex items-center px-6 py-3 text-sm transition-colors duration-150 rounded-lg ${
                     isActive
                         ? 'text-gray-800 dark:text-gray-200 before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-purple-600 before:rounded-tr-lg before:rounded-br-lg'
                         : 'text-gray-500'
@@ -63,7 +63,7 @@ const SidebarDropdownItem = ({ label, Icon, items }) => {
     return (
         <li className="relative px-6 py-3">
             <button
-                className="flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                className="flex items-center justify-between w-full text-sm transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                 onClick={toggleMenu}
                 aria-haspopup="true"
             >
