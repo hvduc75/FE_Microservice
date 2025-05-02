@@ -74,6 +74,10 @@ a {
     margin: 0 auto;
 }
 
+.shadow-xs{
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .05);
+}
+
 @media only screen and (min-width: 1024px) {
     .tbox-container {
         max-width: 100vw;
