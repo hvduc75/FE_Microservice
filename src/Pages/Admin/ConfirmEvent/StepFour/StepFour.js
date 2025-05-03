@@ -1,10 +1,11 @@
 import React from 'react';
 
 function StepFour(props) {
-    const { accountName, setAccountName, accountNumber, setAccountNumber, bankName, setBankName, branch, setBranch } = props;
+    const { accountName, setAccountName, accountNumber, setAccountNumber, bankName, setBankName, branch, setBranch } =
+        props;
 
     return (
-        <div class="pt-[72px] pb-[230px]">
+        <div className="pt-[72px] pb-[230px]">
             <div className="max-w-screen-2xl mx-auto rounded-lg py-6">
                 <div className="p-4 bg-[#23252C] rounded-lg w-full mb-2">
                     <div className="mb-2">

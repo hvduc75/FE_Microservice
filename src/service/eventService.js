@@ -8,8 +8,14 @@ const getEventByCondition = (condition, page, limit) => {
     return axios.get(`/event/getEventByCondition?condition=${condition}&page=${page}&limit=${limit}`);
 };
 
+const getEventByAdminId = (page, limit) => {
+    return axios.get(`/event/getEventByAdminId?&page=${page}&limit=${limit}`);
+};
+
 const search = (category, q, page, limit, date, location, isFree) => {
-    return axios.get(`/event/searchEvent?category=${category}&q=${q}&page=${page}&limit=${limit}&date=${date}&location=${location}&isFree=${isFree}`);
+    return axios.get(
+        `/event/searchEvent?category=${category}&q=${q}&page=${page}&limit=${limit}&date=${date}&location=${location}&isFree=${isFree}`,
+    );
 };
 
 const getEventByTime = (date, page, limit) => {
@@ -121,4 +127,5 @@ export {
     getEventByTime,
     updateScore,
     getEventByScore,
+    getEventByAdminId,
 };

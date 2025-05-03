@@ -137,7 +137,7 @@ function ModalAddTicket(props) {
                     </button>
                     <div className={cx('modal_body')}>
                         <div className="pb-2 pl-6 pr-4">
-                            <p class="text-center text-lg font-semibold text-white pt-4 pb-2 pl-6 pr-4 ">
+                            <p className="text-center text-lg font-semibold text-white pt-4 pb-2 pl-6 pr-4 ">
                                 Tạo loại thẻ mới
                             </p>
                             <form className={cx('form')}>

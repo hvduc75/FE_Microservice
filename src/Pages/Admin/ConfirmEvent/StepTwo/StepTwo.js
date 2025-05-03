@@ -68,7 +68,7 @@ function StepTwo(props) {
 
     return (
         <>
-            <div class="pt-[72px] pb-[280px]">
+            <div className="pt-[72px] pb-[280px]">
                 <div className="max-w-screen-2xl mx-auto rounded-lg py-6">
                     <div className={cx('dynamic_form')}>
                         <div className={cx('header')}>
@@ -76,8 +76,8 @@ function StepTwo(props) {
                                 <div className={cx('icon')}>
                                     <FaAngleUp style={{ width: '24px', height: '24px' }} />
                                 </div>
-                                <span class="text-white 1px solid #FF424E">
-                                    <p class="text-base font-semibold">Ngày sự kiện</p>
+                                <span className="text-white 1px solid #FF424E">
+                                    <p className="text-base font-semibold">Ngày sự kiện</p>
                                 </span>
                             </div>
                             <div className={cx('action')}>

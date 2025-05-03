@@ -62,7 +62,7 @@ function StepTwo(props) {
     };
 
     const handleAddTicket = () => {
-        if(!eventStartDate || !eventEndDate) {
+        if (!eventStartDate || !eventEndDate) {
             toast.error('Vui lòng chọn thời gian bắt đầu và kết thúc');
             return;
         }
@@ -79,17 +79,17 @@ function StepTwo(props) {
             if (new Date(ticket.eventTicketSaleStartTime) > new Date(startDate)) {
                 checkDate = false;
             }
-        })
+        });
         if (!checkDate) {
             toast.error('Thời gian bắt đầu sự kiện phải lớn hơn thời gian bắt đầu bán vé');
             setEventStartDate('');
-            return
+            return;
         }
         if (new Date(startDate) > new Date(eventEndDate)) {
             toast.error('Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc');
             setEventStartDate('');
             setEventEndDate('');
-            return
+            return;
         }
 
         await updateEventDate(eventId, startDate, eventEndDate);
@@ -103,17 +103,17 @@ function StepTwo(props) {
             if (new Date(ticket.eventTicketSaleEndTime) > new Date(endDate)) {
                 checkDate = false;
             }
-        })
+        });
         if (!checkDate) {
             toast.error('Thời gian kết thúc bán vé phải nhỏ hơn thời gian kết thúc sự kiện');
             setEventEndDate('');
-            return
+            return;
         }
         if (new Date(endDate) < new Date(eventStartDate)) {
             toast.error('Thời gian kết thúc phải lớn hơn thời gian bắt đầu');
             setEventStartDate('');
             setEventEndDate('');
-            return
+            return;
         }
         await updateEventDate(eventId, eventStartDate, endDate);
     };
@@ -156,8 +156,8 @@ function StepTwo(props) {
                                 <div className={cx('icon')}>
                                     <FaAngleUp style={{ width: '24px', height: '24px' }} />
                                 </div>
-                                <span class="text-white 1px solid #FF424E">
-                                    <p class="text-base font-semibold">Ngày sự kiện</p>
+                                <span className="text-white 1px solid #FF424E">
+                                    <p className="text-base font-semibold">Ngày sự kiện</p>
                                 </span>
                             </div>
                             <div className={cx('action')}>

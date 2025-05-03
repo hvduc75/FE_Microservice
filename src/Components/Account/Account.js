@@ -25,8 +25,8 @@ function Account(props) {
     const { setShowModal } = props;
 
     const handleLogout = async () => {
-        dispatch(UserLogoutSuccess());
         await logout();
+        dispatch(UserLogoutSuccess());
     };
 
     const handleClickMyEvents = () => {

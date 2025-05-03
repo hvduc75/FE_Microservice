@@ -1,24 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import images from '../../../assets/images';
 import { getImageSrc } from '../../../utils';
 import { logout } from '../../../service/authService';
 import { UserLogoutSuccess } from '../../../redux/action/userAction';
+import { onNotification } from '../../../utils/socket';
+import { getNotifications } from '../../../service/notificationService';
 
 const Header = ({ isSideMenuOpen, setIsSideMenuOpen }) => {
     const user = useSelector((state) => state.user.account);
     const dispatch = useDispatch();
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            try {
+                const res = await getNotifications();
+                if (res && res.DT) {
+                    setNotifications(res.DT);
+                }
+            } catch (err) {
+                console.error('Failed to fetch notifications', err);
+            }
+        };
+
+        fetchNotifications();
+
+        onNotification((newNotification) => {
+            setNotifications((prev) => [newNotification, ...prev]);
+        });
+    }, []);
 
     const handleOpenMenu = () => {
         setIsSideMenuOpen(!isSideMenuOpen);
     };
 
     const handleLogout = async () => {
-        dispatch(UserLogoutSuccess());
         await logout();
+        dispatch(UserLogoutSuccess());
+    };
+
+    const hasUnreadNotifications = () => {
+        return notifications.some((notification) => notification.status === 'unread');
     };
 
     return (
@@ -41,9 +67,9 @@ const Header = ({ isSideMenuOpen, setIsSideMenuOpen }) => {
                         <div className="absolute inset-y-0 flex items-center pl-2">
                             <svg className="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                 <path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                    clip-rule="evenodd"
+                                    clipRule="evenodd"
                                 ></path>
                             </svg>
                         </div>
@@ -65,8 +91,48 @@ const Header = ({ isSideMenuOpen, setIsSideMenuOpen }) => {
                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
                             </svg>
-                            <span className="absolute top-0 right-0 w-3 h-3 bg-red-600 rounded-full"></span>
+                            {hasUnreadNotifications() && (
+                                <span className="absolute top-0 right-0 w-2 h-2 bg-red-600 rounded-full"></span>
+                            )}
                         </button>
+                        {isNotificationsOpen && (
+                            <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                                <div className="p-4">
+                                    <h3 className="text-lg font-semibold text-gray-800">Thông báo mới nhận</h3>
+                                </div>
+                                <ul className="max-h-64 overflow-y-auto">
+                                    {notifications.map((notification, index) => (
+                                        <li
+                                            key={index}
+                                            className={`flex items-start gap-4 p-4 border-b ${
+                                                notification.status === 'unread' ? 'bg-gray-100' : ''
+                                            }`}
+                                        >
+                                            <img
+                                                src={notification.eventImage}
+                                                alt="Event"
+                                                className="w-12 h-12 rounded-md object-cover"
+                                            />
+                                            <div className="flex-1">
+                                                <h4 className="text-sm font-semibold text-gray-800">
+                                                    {notification.title}
+                                                </h4>
+                                                <p className="text-xs text-gray-600 line-clamp-2">{notification.message}</p>
+                                                <p className="text-xs text-gray-400 mt-1">
+                                                    {new Date(notification.createdAt).toLocaleString('vi-VN', {
+                                                        day: '2-digit',
+                                                        month: '2-digit',
+                                                        year: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit',
+                                                    })}
+                                                </p>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </li>
 
                     <li className="relative">
@@ -82,15 +148,15 @@ const Header = ({ isSideMenuOpen, setIsSideMenuOpen }) => {
                         </button>
                         {isProfileMenuOpen && (
                             <ul className="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700">
-                                <li class="flex cursor-pointer">
-                                    <div class="inline-flex items-center w-full px-2 py-1 text-sm transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200">
+                                <li className="flex cursor-pointer">
+                                    <div className="inline-flex items-center w-full px-2 py-1 text-sm transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200">
                                         <svg
-                                            class="w-4 h-4 mr-3"
+                                            className="w-4 h-4 mr-3"
                                             aria-hidden="true"
                                             fill="none"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
                                         >
@@ -99,15 +165,15 @@ const Header = ({ isSideMenuOpen, setIsSideMenuOpen }) => {
                                         <span>Profile</span>
                                     </div>
                                 </li>
-                                <li class="flex cursor-pointer">
-                                    <div class="inline-flex items-center w-full px-2 py-1 text-sm transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200">
+                                <li className="flex cursor-pointer">
+                                    <div className="inline-flex items-center w-full px-2 py-1 text-sm transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200">
                                         <svg
-                                            class="w-4 h-4 mr-3"
+                                            className="w-4 h-4 mr-3"
                                             aria-hidden="true"
                                             fill="none"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
                                         >
@@ -117,15 +183,15 @@ const Header = ({ isSideMenuOpen, setIsSideMenuOpen }) => {
                                         <span>Settings</span>
                                     </div>
                                 </li>
-                                <li class="flex cursor-pointer" onClick={() => handleLogout()}>
-                                    <div class="inline-flex items-center w-full px-2 py-1 text-sm transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200">
+                                <li className="flex cursor-pointer" onClick={() => handleLogout()}>
+                                    <div className="inline-flex items-center w-full px-2 py-1 text-sm transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200">
                                         <svg
-                                            class="w-4 h-4 mr-3"
+                                            className="w-4 h-4 mr-3"
                                             aria-hidden="true"
                                             fill="none"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
                                         >

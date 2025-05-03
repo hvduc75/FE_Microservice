@@ -3,9 +3,8 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { getEventByCondition } from '../../../service/eventService';
+import { getEventByAdminId } from '../../../service/eventService';
 import { updateItemActive } from '../../../redux/action/eventAction';
-import { getImageSrc } from '../../../utils';
 import styles from './ManageEvent.module.scss';
 import { IoSearch } from 'react-icons/io5';
 import { FaCalendar } from 'react-icons/fa';
@@ -25,15 +24,17 @@ function ManageEvent(props) {
     const [listEvent, setListEvent] = useState([]);
 
     useEffect(() => {
-        fetchEventByCondition(1);
+        fetchEventByAdminId(1);
     }, [page]);
 
-    const fetchEventByCondition = async (condition) => {
-        const data = await getEventByCondition(condition, page, LIMIT);
+    const fetchEventByAdminId = async () => {
+        const data = await getEventByAdminId(page, LIMIT);
         if (data.EC === 0) {
             setListEvent(data.DT.events);
         }
     };
+
+    console.log('listEvent', listEvent);
 
     const handleEditEvent = () => {
         dispatch(updateItemActive(''));
