@@ -16,6 +16,7 @@ import { HiPencil } from 'react-icons/hi2';
 import { MdChair } from 'react-icons/md';
 import { LiaAtomSolid } from 'react-icons/lia';
 import { CgNotes } from 'react-icons/cg';
+import images from '../../../assets/images';
 
 const cx = classNames.bind(styles);
 
@@ -199,7 +200,9 @@ function MyEvent(props) {
                     />
                 </div>
                 <div className="w-[22%] hidden xl:block relative">
-                    <div className={cx('sidebar')}>sidebar</div>
+                    <div className={cx('sidebar')}>
+                        <img src={images.ad} alt='advertisement'/>
+                    </div>
                 </div>
             </div>
         </div>

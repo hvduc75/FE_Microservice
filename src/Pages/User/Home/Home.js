@@ -8,6 +8,7 @@ import BannerSlider from '../../../Components/Slider/BannerSlider/BannerSlider';
 import EventHotSlider from '../../../Components/Slider/EventHotSlider/EventHotSlider';
 import EventTabs from '../../../Components/Slider/EventTabs/EventTabs';
 import CategorySlider from '../../../Components/Slider/CategorySlider/CategorySlider';
+import SpecialEvent from '../../../Components/Slider/SpecialEvent/SpecialEvent';
 import { search, getEventByTime, getEventByScore } from '../../../service/eventService';
 import { GiSmallFire } from 'react-icons/gi';
 import { ChevronRight } from 'lucide-react';
@@ -35,7 +36,7 @@ function Home(props) {
     }, [active]);
 
     const fetchData = async () => {
-        setLoading(true); 
+        setLoading(true);
         try {
             const [dataMusic, dataOther, dataTheater, dataHot] = await Promise.all([
                 search(1, '', 1, 20),
@@ -47,7 +48,22 @@ function Home(props) {
             if (dataMusic.EC === 0) setListEventMusic(dataMusic.DT.events);
             if (dataOther.EC === 0) setListEventOther(dataOther.DT.events);
             if (dataTheater.EC === 0) setListEventTheater(dataTheater.DT.events);
-            if (dataHot.EC === 0) setListEventHot(dataHot.DT);
+            // if (dataHot.EC === 0) setListEventHot(dataHot.DT);
+            if (dataHot.EC === 0) {
+                const originalEvents = dataHot.DT;
+                const multipliedEvents = [];
+
+                for (let i = 0; i < 6; i++) {
+                    const duplicated = originalEvents.map((event, index) => ({
+                        ...event,
+                        _id: `${event._id}_${i}`, // Tạo id giả để không bị trùng
+                        eventName: `${event.eventName} (Fake ${i + 1})`, // Đổi tên nếu muốn
+                    }));
+                    multipliedEvents.push(...duplicated);
+                }
+
+                setListEventHot(multipliedEvents);
+            }
         } catch (error) {
             console.error('Lỗi khi gọi API:', error);
         }
@@ -93,7 +109,9 @@ function Home(props) {
                     </div>
                     <div className={cx('event_special')}>
                         <div className={cx('title')}>{t('specialEvents')}</div>
-                        <div className={cx('event_container')}></div>
+                        <div className={cx('event_container')}>
+                            <SpecialEvent listEventHot={listEventHot} />
+                        </div>
                     </div>
                     <div className={cx('event_hot')}>
                         <div className={cx('title')}>

@@ -3,20 +3,22 @@ import classNames from 'classnames/bind';
 import { SampleNextArrow, SamplePrevArrow } from '../../GlobalStyles/CustomArrow/CustomArrow';
 import { Link } from 'react-router-dom';
 
-import styles from './EventHotSlider.module.scss';
+import styles from './SpecialEvent.module.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { updateScore } from '../../../service/eventService';
 
 const cx = classNames.bind(styles);
 
-function EventHotSlider({ listEventHot }) {
+function SpecialEvent({ listEventHot }) {
     console.log(listEventHot);
     const settings = {
         dots: false,
         infinite: listEventHot?.length > 4,
-        slidesToShow: listEventHot.length > 4 ? 4 : listEventHot.length,
+        slidesToShow: listEventHot.length > 4 ? 3.5 : listEventHot.length,
         slidesToScroll: listEventHot.length > 4 ? 4 : listEventHot.length,
+        centerMode: true,
+        centerPadding: '137px',
         nextArrow: <SampleNextArrow />,
         prevArrow: <SamplePrevArrow />,
     };
@@ -51,4 +53,4 @@ function EventHotSlider({ listEventHot }) {
     );
 }
 
-export default EventHotSlider;
+export default SpecialEvent;

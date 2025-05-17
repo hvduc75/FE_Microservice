@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import images from '../../../assets/images';
@@ -11,6 +11,8 @@ import { getNotifications } from '../../../service/notificationService';
 const Header = ({ isSideMenuOpen, setIsSideMenuOpen }) => {
     const user = useSelector((state) => state.user.account);
     const dispatch = useDispatch();
+    const notificationRef = useRef(null);
+    const profileRef = useRef(null);
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [notifications, setNotifications] = useState([]);
@@ -33,6 +35,29 @@ const Header = ({ isSideMenuOpen, setIsSideMenuOpen }) => {
             setNotifications((prev) => [newNotification, ...prev]);
         });
     }, []);
+
+    useEffect(() => {
+    const handleClickOutside = (event) => {
+        if (
+            notificationRef.current &&
+            !notificationRef.current.contains(event.target)
+        ) {
+            setIsNotificationsOpen(false);
+        }
+        if (
+            profileRef.current &&
+            !profileRef.current.contains(event.target)
+        ) {
+            setIsProfileMenuOpen(false);
+        }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+    };
+}, []);
+
 
     const handleOpenMenu = () => {
         setIsSideMenuOpen(!isSideMenuOpen);
@@ -83,7 +108,7 @@ const Header = ({ isSideMenuOpen, setIsSideMenuOpen }) => {
                 </div>
 
                 <ul className="flex items-center space-x-6">
-                    <li className="relative">
+                    <li className="relative" ref={notificationRef}>
                         <button
                             className="relative rounded-md focus:outline-none"
                             onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
@@ -117,7 +142,9 @@ const Header = ({ isSideMenuOpen, setIsSideMenuOpen }) => {
                                                 <h4 className="text-sm font-semibold text-gray-800">
                                                     {notification.title}
                                                 </h4>
-                                                <p className="text-xs text-gray-600 line-clamp-2">{notification.message}</p>
+                                                <p className="text-xs text-gray-600 line-clamp-2">
+                                                    {notification.message}
+                                                </p>
                                                 <p className="text-xs text-gray-400 mt-1">
                                                     {new Date(notification.createdAt).toLocaleString('vi-VN', {
                                                         day: '2-digit',
@@ -135,7 +162,7 @@ const Header = ({ isSideMenuOpen, setIsSideMenuOpen }) => {
                         )}
                     </li>
 
-                    <li className="relative">
+                    <li className="relative" ref={profileRef}>
                         <button
                             className="rounded-full focus:outline-none"
                             onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}

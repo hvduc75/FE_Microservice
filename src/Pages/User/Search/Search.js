@@ -75,7 +75,7 @@ function Search(props) {
             let categoryLabel = '';
             if (categoryParam === 'music') categoryLabel = 'Nhạc sống';
             else if (categoryParam === 'theatersandart') categoryLabel = 'Sân khấu & Nghệ thuật';
-            else if (categoryParam === 'sport') categoryLabel = 'Thể thao khác';
+            else if (categoryParam === 'sport') categoryLabel = 'Thể thao';
             else if (categoryParam === 'others') categoryLabel = 'Khác';
             initialFilters.push({ type: 'category', value: categoryLabel });
         }
@@ -99,6 +99,8 @@ function Search(props) {
             categorySearch = 1;
         } else if (category === 'others') {
             categorySearch = 4;
+        }else if (category === 'sport') {
+            categorySearch = 3;
         } else if (category === 'theatersandart') {
             categorySearch = 2;
         }

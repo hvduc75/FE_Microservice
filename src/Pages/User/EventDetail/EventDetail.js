@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import styles from './EventDetail.module.scss';
 import { getEvent } from '../../../service/eventService';
 import { Calendar, MapPin, ChevronDown, ChevronRight } from 'lucide-react';
 import { getMinPrice, formatPrice, formatDate } from '../../../utils';
+import images from '../../../assets/images';
 
 const cx = classNames.bind(styles);
 
@@ -101,7 +102,7 @@ function EventDetail(props) {
                                             <span>{formatDate(event?.startDate)}</span>
                                         </div>
                                         <div onClick={() => handleBuyTicket()}>
-                                            <button className={cx('css_button_disabled')}>
+                                            <button className={cx('css_button', isSaleNotStarted && 'css_button_disabled')}>
                                                 {isSaleNotStarted ? 'Vé chưa được bán' : 'Mua vé ngay'}
                                             </button>
                                         </div>
@@ -151,7 +152,9 @@ function EventDetail(props) {
                         </div>
                     </div>
                     <div className={cx('tbox-col-lg-3', 'desktop')}>
-                        <div className={cx('advert')}></div>
+                        <div className={cx('advert')}>
+                            <img src={images.ad} alt="advertisement" />
+                        </div>
                     </div>
                 </div>
             </div>

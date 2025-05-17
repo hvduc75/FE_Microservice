@@ -56,7 +56,7 @@ function ModalFilter({ modalRef, location, setLocation, isFree, setIsFree, categ
                     >
                         {cate === 'music' && 'Nhạc sống'}
                         {cate === 'theatersandart' && 'Sân khấu & Nghệ thuật'}
-                        {cate === 'sport' && 'Thể thao khác'}
+                        {cate === 'sport' && 'Thể thao'}
                         {cate === 'others' && 'Khác'}
                     </div>
                 ))}

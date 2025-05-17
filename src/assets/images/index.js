@@ -12,7 +12,10 @@ const images = {
     pm_viettel: require("./Payment/viettel.png"),
     pm_zalopay: require("./Payment/zalopay.png"),
     pm_momo: require("./Payment/momo.jpg"),
-    pm_vnpay: require("./Payment/vnpay.png")
+    pm_vnpay: require("./Payment/vnpay.png"),
+
+    //advertisement
+    ad: require("./advertisement/advertisement.webp"),
 }
 
 export default images;

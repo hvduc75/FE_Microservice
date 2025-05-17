@@ -110,6 +110,7 @@ function Payment(props) {
         );
         if (paymentMethod === 'vn_pay') {
             let res = await paymentWithVnPay(booking.totalAmount, booking._id, 'NCB', 'vn', countdown);
+            console.log(res)
             window.location.href = res.paymentUrl;
         }
     };

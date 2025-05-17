@@ -414,7 +414,6 @@
                 width: 100%;
                 position: relative;
                 height: 550px;
-                border: 1px solid red;
             }
         }
     }
@@ -440,5 +439,11 @@
         max-width: 25%;
         padding-left: 12px;
         padding-right: 12px;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .desktop {
+        display: none;
     }
 }

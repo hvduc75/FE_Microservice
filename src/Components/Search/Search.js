@@ -42,7 +42,8 @@ function Search(props) {
             id: '1',
             _id: '1',
             eventName: 'Workshop "TERRARIUM"',
-            backgroundEvent: 'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
+            backgroundEvent:
+                'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
             tickets: [{ price: 200000 }],
             startDate: '2025-05-01',
         },
@@ -50,7 +51,8 @@ function Search(props) {
             id: '2',
             _id: '2',
             eventName: 'Workshop "GỐM TIÊN"',
-            backgroundEvent: 'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
+            backgroundEvent:
+                'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
             tickets: [{ price: 250000 }],
             startDate: '2025-05-10',
         },
@@ -58,7 +60,8 @@ function Search(props) {
             id: '3',
             _id: '3',
             eventName: 'Workshop "VẼ TRANH"',
-            backgroundEvent: 'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
+            backgroundEvent:
+                'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
             tickets: [{ price: 180000 }],
             startDate: '2025-05-15',
         },
@@ -66,7 +69,8 @@ function Search(props) {
             id: '4',
             _id: '4',
             eventName: 'Workshop "TERRARIUM"',
-            backgroundEvent: 'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
+            backgroundEvent:
+                'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
             tickets: [{ price: 200000 }],
             startDate: '2025-05-01',
         },
@@ -74,7 +78,8 @@ function Search(props) {
             id: '5',
             _id: '5',
             eventName: 'Workshop "GỐM TIÊN"',
-            backgroundEvent: 'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
+            backgroundEvent:
+                'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
             tickets: [{ price: 250000 }],
             startDate: '2025-05-10',
         },
@@ -82,7 +87,8 @@ function Search(props) {
             id: '6',
             _id: '6',
             eventName: 'Workshop "VẼ TRANH"',
-            backgroundEvent: 'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
+            backgroundEvent:
+                'https://scontent.fhan20-1.fna.fbcdn.net/v/t1.6435-9/184970261_181060250552248_1110713495327264304_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=bd9a62&_nc_ohc=KIjsfDl8R04Q7kNvwEvNhdp&_nc_oc=AdlgAJCMEy-lV0k1tezQVt8J2cl2gMO_ozmIAcmtlLe-jh_xay6IlapFh7qZhfyTRIE&_nc_zt=23&_nc_ht=scontent.fhan20-1.fna&_nc_gid=siKdpnhSe-HYVvGy-C3aow&oh=00_AfGN5x22Dp1NU2Z8fmyAavmRwUjZ6PnJ2Fb0VY36MDwIFA&oe=6832F0A1',
             tickets: [{ price: 180000 }],
             startDate: '2025-05-15',
         },
@@ -91,11 +97,24 @@ function Search(props) {
     const handleSearch = () => {
         navigate(`search?q=${searchText}`);
         setIsModalVisible(false);
-    }
+    };
 
     const handleUpdateScore = (id) => {
         console.log('Update score for:', id);
         // Thực hiện logic cập nhật điểm gợi ý nếu cần
+    };
+
+    const handleSearchByCategory = (category) => {
+        if (category === 'Nhạc sống') {
+            navigate('/search?category=music');
+        } else if (category === 'Sân khấu & Nghệ thuật') {
+            navigate('/search?category=theatersandart');
+        } else if (category === 'Thể Thao') {
+            navigate('/search?category=sport');
+        } else if (category === 'Khác') {
+            navigate('/search?category=others');
+        }
+        setIsModalVisible(false);
     };
 
     return (
@@ -139,10 +158,21 @@ function Search(props) {
                     <div className={cx('categories')}>
                         <h4>Khám phá theo Thể loại</h4>
                         <div className={cx('categories-list')}>
-                            <div className={cx('category')}>Nhạc sống</div>
-                            <div className={cx('category')}>Sân khấu & Nghệ thuật</div>
-                            <div className={cx('category')}>Thể thao</div>
-                            <div className={cx('category')}>Khác</div>
+                            <div className={cx('category')} onClick={() => handleSearchByCategory('Nhạc sống')}>
+                                Nhạc sống
+                            </div>
+                            <div
+                                className={cx('category')}
+                                onClick={() => handleSearchByCategory('Sân khấu & Nghệ thuật')}
+                            >
+                                Sân khấu & Nghệ thuật
+                            </div>
+                            <div className={cx('category')} onClick={() => handleSearchByCategory('Thể Thao')}>
+                                Thể thao
+                            </div>
+                            <div className={cx('category')} onClick={() => handleSearchByCategory('Khác')}>
+                                Khác
+                            </div>
                         </div>
                     </div>
                     <div className={cx('recommendation')}>
@@ -154,7 +184,7 @@ function Search(props) {
                                     item={item}
                                     index={index}
                                     handleUpdateScore={handleUpdateScore}
-                                    size={"small"}
+                                    size={'small'}
                                 />
                             ))}
                         </div>

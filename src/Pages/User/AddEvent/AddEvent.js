@@ -195,9 +195,11 @@ function AddEvent(props) {
                     toast.success('Lưu thông tin sự kiện thành công');
                     setNewEventId(res.DT._id);
                     navigate(`/organizer/create-event/${res.DT._id}`);
+                    console.log(active);
                     if (active < 4) {
                         setActive(active + 1);
                     }
+                    console.log(active);
                 } else {
                     toast.error('Lưu thông tin sự kiện thất bại');
                 }
